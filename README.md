@@ -10,3 +10,10 @@
      c:\Users\joshl\OneDrive\Desktop\ARC Thesis\utils\visualisation.py:94: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all axes decorations.
      ```
    - **Status:** This is a known issue when using `tight_layout` with a layout that requires more space than available. A potential fix could be adjusting subplot margins or using manual layout management.
+
+### Change Log
+
+## Added (17/04/2025):
+- **JSON Evaluated Data Storing**: Implemented functionality to store evaluated data in JSON format, enabling persistent storage of processed results.
+- **Progress Bar**: Integrated a progress bar to visualize task completion during long-running processes.
+- **Solomonoff Score Visualization**: Developed a bar chart to visualize Solomonoff scores for rule categories, improving data presentation and analysis.

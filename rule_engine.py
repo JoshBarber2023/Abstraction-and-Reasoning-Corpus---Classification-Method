@@ -1,3 +1,4 @@
+from tqdm import tqdm
 import numpy as np
 from pathlib import Path
 from rules import ALL_RULES
@@ -8,25 +9,71 @@ from utils.visualisation import plot_grids, display_rule_results, plot_solomonof
 import json
 
 class RuleEngine:
-    def __init__(self, data_folder):
+    def __init__(self, data_folder, output_folder):
         self.data_folder = Path(data_folder)
+        self.output_folder = Path(output_folder)  # New folder for processed data
         self.task_data = {}
+        self.category_scores = {}  # New dictionary to store scores
 
-    def run(self):
+    def run(self, save_results=True):
+        # Ensure output folder exists
+        self.output_folder.mkdir(parents=True, exist_ok=True)
+
+        # Delete evaluated_scores.json if it exists in output_folder
+        scores_path = self.output_folder / "evaluated_scores.json"
+        if scores_path.exists():
+            scores_path.unlink()
+            print(f"🗑️ Deleted existing {scores_path.name}")
+
         tasks = list(self.data_folder.glob("*.json"))
-        for task_path in tasks:
+        total_tasks = len(tasks)
+
+        all_results = {}
+
+        # Wrap the task loop with tqdm for progress tracking
+        for idx, task_path in tqdm(enumerate(tasks), total=total_tasks, desc="Processing tasks", unit="task"):
             with open(task_path) as f:
                 task = json.load(f)
 
-            self.task_data[task_path.name] = task
+            task_name = task_path.name
+            self.task_data[task_name] = task
 
-            #print(f"\n=== Evaluating Task: {task_path.name} ===")
+            category_scores = {}
             for category in CATEGORIES:
                 category_rules = ALL_RULES.get(category, [])
                 score = self.evaluate_category(task, category, category_rules)
-                #print(f"Solomonoff Score [{category}]: {score:.4e}")
+                category_scores[category] = score
+
+            # Store scores and best category
+            best_category = max(category_scores, key=category_scores.get)
+            task['predicted_scores'] = category_scores
+            task['predicted_categories'] = [best_category] * len(task["train"])  # Same prediction for all pairs
+
+            # Save updated task JSON to the output folder
+            if save_results:
+                output_path = self.output_folder / f"{task_path.stem}_evaluated.json"
+                with open(output_path, "w") as out_f:
+                    json.dump(task, out_f, indent=2)
+
+            all_results[task_name] = {
+                "predicted_category": best_category,
+                "scores": category_scores
+            }
+
+        print("Evaluation complete. Results saved.")
+
+        # Save the evaluated scores in the output folder
+        if save_results:
+            with open(scores_path, "w") as f:
+                json.dump(all_results, f, indent=2)
+            print(f"\n✅ Scores saved to: {scores_path.resolve()}")
 
     def evaluate_category(self, task, category, rules):
+        # Debugging: Check if the 'train' key exists in the task
+        if "train" not in task:
+            print(f"❌ Missing 'train' key in task: {task}")
+            return 0.0  # Return a default score if 'train' is missing
+
         total_score = 0.0
         for rule_func, prior in rules:
             complexity = rule_complexity(rule_func)
@@ -36,16 +83,10 @@ class RuleEngine:
                 passed_results.append(rule_func(inp, out))
             rule_score = calculate_solomonoff_score(passed_results, prior, complexity)
             total_score += rule_score
-            #print(f"- {rule_func.__name__}: passed={all(passed_results)}, complexity={complexity}, prior={prior:.2f}, passed_per_pair={passed_results}")
         return total_score
-    
-    def View(self, task_name=None):
-        """
-        Visualizes the grids and rule evaluations for a specific task.
 
-        Parameters:
-            task_name (str or None): Filename of the task to view. If None, view the first task.
-        """
+
+    def View(self, task_name=None):
         if not self.task_data:
             print("No tasks loaded. Run the engine first.")
             return
@@ -53,23 +94,34 @@ class RuleEngine:
         if task_name is None:
             task_name = list(self.task_data.keys())[0]
 
-        task = self.task_data.get(task_name)
+        # Try loading evaluated version first from the output folder
+        evaluated_path = self.output_folder / task_name.replace(".json", "_evaluated.json")
+        if evaluated_path.exists():
+            with open(evaluated_path) as f:
+                task = json.load(f)
+        else:
+            task = self.task_data.get(task_name)
+
         if task is None:
             print(f"Task '{task_name}' not found.")
             return
 
+        # Try to load scores from the output folder
+        try:
+            scores_path = self.output_folder / "evaluated_scores.json"
+            with open(scores_path, "r") as f:
+                self.category_scores = json.load(f)
+        except FileNotFoundError:
+            print("Evaluated scores file not found. Please run the engine first.")
+            return
+
         print(f"\n--- Visualizing Task: {task_name} ---")
 
-        # Show all train input/output pairs
         pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
-        
-        # Default to an empty list if 'predicted_categories' is not available
         predicted_categories = task.get("predicted_categories", [])
 
-        # Pass predicted_categories to the compare_multiple_pairs function
         compare_multiple_pairs(pairs, task_id=task_name, predicted_categories=predicted_categories)
 
-        # Show rule results for first train pair for each category
         for category in CATEGORIES:
             rules = ALL_RULES.get(category, [])
             if not rules:
@@ -80,12 +132,10 @@ class RuleEngine:
             results = [func(inp, out) for func, _ in rules]
             display_rule_results(results, rule_names)
 
-        # Show Solomonoff scores for this task
-        score_dict = {}
-        for category in CATEGORIES:
-            rules = ALL_RULES.get(category, [])
-            score = self.evaluate_category(task, category, rules)
-            score_dict[category] = score
+        # Plot from loaded score
+        score_dict = self.category_scores.get(task_name, {})
+        if not score_dict:
+            print("No score data found for this task.")
+            return
+
         plot_solomonoff_scores(score_dict)
-
-
