@@ -47,7 +47,6 @@ def check_ring_filling(inp, out):
     
     return np.any(filled_area) 
 
-
 COMMONSENSE_RULES = [
     (check_gravity_down, 1),
     (check_containment_change, 1),

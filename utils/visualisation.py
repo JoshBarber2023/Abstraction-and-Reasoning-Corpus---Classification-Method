@@ -28,23 +28,6 @@ def visualise_pair_with_prediction(inp, out, predicted_category, pair_idx, cmap=
 
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
-    plt.show()
-
-
-def plot_grids(inp, out, title="Input vs Output", cmap="tab20", show=True):
-    """
-    Displays input and output grids using visualise_pair_with_prediction.
-
-    Parameters:
-        inp (ndarray): 2D NumPy array for input grid.
-        out (ndarray): 2D NumPy array for output grid.
-        title (str): Plot title (not used directly here).
-        cmap (str): Colormap to use.
-        show (bool): Whether to display the plot.
-    """
-    visualise_pair_with_prediction(inp, out, "N/A", pair_idx=0, cmap=cmap)
-    if show:
-        plt.show()
 
 
 def display_rule_results(rule_results, rule_names, pair_idx=None):
@@ -84,15 +67,12 @@ def plot_solomonoff_scores(score_dict):
     bars = plt.bar(categories, scores, color='mediumslateblue')
     plt.ylabel('Solomonoff Score')
     plt.title('Rule Category Complexity (Solomonoff Scores)')
-    plt.xticks(rotation=30, ha='right')
+    plt.xticks(rotation=10, ha='right')
     
     # Annotate each bar with its score
     for bar, score in zip(bars, scores):
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.05, f'{score:.2e}', ha='center', va='bottom')
-    
-    plt.tight_layout()
-    plt.show()
 
 def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicted_categories=None):
     """
@@ -130,4 +110,3 @@ def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicte
     fig.suptitle(f"Task {task_id} - Input/Output Examples", fontsize=16)
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
-    plt.show()
