@@ -19,7 +19,7 @@ def check_ring_filling(inp, out):
     # You can define the shape detection criteria based on your input data
     shape_mask = inp != 0  # Assume non-zero values in inp define a shape
     
-    # Step 2: Initialize a grid to store filled areas
+    # Step 2: Initialise a grid to store filled areas
     filled_area = np.zeros_like(inp)
     
     # Step 3: Iterate through the grid to compare corresponding regions in inp and out

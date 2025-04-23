@@ -84,7 +84,7 @@ class RuleEngine:
             rule_score = calculate_solomonoff_score(passed_results, prior, complexity)
             total_score += rule_score
 
-        # Normalize score by number of rules (if any)
+        # Normalise score by number of rules (if any)
         if len(rules) > 0:
             total_score /= len(rules)
 
@@ -95,7 +95,7 @@ class RuleEngine:
             print("No tasks loaded. Run the engine first.")
             return
 
-        # If task_name is provided, only visualize that task, else loop through all tasks
+        # If task_name is provided, only visualise that task, else loop through all tasks
         if task_name:
             task_names = [task_name]
         else:
@@ -103,7 +103,7 @@ class RuleEngine:
 
         # Try loading evaluated version first from the output folder
         for task_name in task_names:
-            print(f"\n--- Visualizing Task: {task_name} ---")
+            print(f"\n--- Visualising Task: {task_name} ---")
 
             # Try to load the task from the evaluated folder
             evaluated_path = self.output_folder / task_name.replace(".json", "_evaluated.json")
@@ -129,10 +129,10 @@ class RuleEngine:
             pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
             predicted_categories = task.get("predicted_categories", [])
 
-            # Visualize pairs for this task
+            # Visualise pairs for this task
             compare_multiple_pairs(pairs, task_id=task_name, predicted_categories=predicted_categories)
 
-            # Visualize rule results for each category
+            # Visualise rule results for each category
             for category in CATEGORIES:
                 rules = ALL_RULES.get(category, [])
                 if not rules:
