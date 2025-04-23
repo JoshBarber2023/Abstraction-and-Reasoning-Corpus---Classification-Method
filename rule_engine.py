@@ -84,10 +84,9 @@ class RuleEngine:
             rule_score = calculate_solomonoff_score(passed_results, prior, complexity)
             total_score += rule_score
 
-        # TODO:
         # Normalize score by number of rules (if any)
-        #if len(rules) > 0:
-        #    total_score /= len(rules)
+        if len(rules) > 0:
+            total_score /= len(rules)
 
         return total_score
 
