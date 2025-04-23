@@ -7,6 +7,12 @@
      When evaluating the rules within the different ARC input-output pairs, the rules assess the ENTIRE grid, when in reality they should focus on the 'object of interest' and evaulate from there.
      ```
 
+2. **README changes:**
+   - **Issue:** 
+     ```
+     README should describe process for running the code, and an explanation of the code and the theories behind it.
+     ```
+
 
 ### Change Log
 
