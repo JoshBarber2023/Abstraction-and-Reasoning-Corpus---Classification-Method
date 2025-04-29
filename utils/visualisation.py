@@ -43,9 +43,14 @@ def display_rule_results(rule_results, rule_names, pair_idx=None):
     print(header)
     print("-" * len(header))
     for rule, passed in zip(rule_names, rule_results):
-        status = "✅" if passed else "❌"
+        # Ensure we check if passed is an array or single value
+        if isinstance(passed, np.ndarray):  # If passed is an array, evaluate if any element is True
+            status = "✅" if passed.any() else "❌"
+        else:  # If passed is a single boolean value
+            status = "✅" if passed else "❌"
         print(f"{rule:30s}: {status}")
     print()
+
 
 
 def plot_solomonoff_scores(score_dict):

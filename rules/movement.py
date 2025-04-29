@@ -1,27 +1,16 @@
+from dsl import shift, centerofmass, rot90, rot180, rot270
 import numpy as np
-from scipy.ndimage import label
 
-def check_translation(inp, out):
-    """
-    Checks if the grid has been translated, meaning the position of elements shifted 
-    without resizing or rotation. The grid shape remains the same, but the positions of the pixels 
-    have changed.
-    """
-    return inp.shape == out.shape and not np.array_equal(inp, out)
+def check_translation(inp, out, inp_objs=None, out_objs=None):
+    if inp_objs is None or out_objs is None:
+        return inp != out and len(inp) == len(out)
+    return any(centerofmass(o1) != centerofmass(o2) for o1, o2 in zip(sorted(inp_objs), sorted(out_objs)))
 
-def check_rotation(inp, out, angle=90):
-    """
-    Checks if the grid has been rotated by a specified angle (e.g., 90, 180, 270 degrees).
-    The output grid will be compared against a rotated version of the input.
-    """
-    if angle == 90:
-        return np.array_equal(np.rot90(inp), out)
-    elif angle == 180:
-        return np.array_equal(np.rot90(np.rot90(inp)), out)
-    elif angle == 270:
-        return np.array_equal(np.rot90(np.rot90(np.rot90(inp))), out)
-    else:
-        raise ValueError("Only 90, 180, and 270 degree rotations are supported.")
+def check_rotation(inp, out, inp_objs=None, out_objs=None):
+    # Use np.array_equal to compare arrays element-wise
+    return (np.array_equal(out, rot90(inp)) or 
+            np.array_equal(out, rot180(inp)) or 
+            np.array_equal(out, rot270(inp)))
 
 MOVEMENT_RULES = [
     (check_translation, 1),

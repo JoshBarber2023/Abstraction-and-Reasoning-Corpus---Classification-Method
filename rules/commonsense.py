@@ -1,51 +1,29 @@
 import numpy as np
+from dsl import lowermost, backdrop
 
-def check_gravity_down(inp, out):
-    """
-    Checks if the sum of pixel values has increased, which could suggest gravity-like 
-    forces causing elements to accumulate towards the bottom (e.g., falling objects).
-    """
-    return inp.sum() < out.sum()
+def check_gravity_down(inp, out, inp_objs=None, out_objs=None):
+    if inp_objs is None or out_objs is None:
+        return inp.sum() < out.sum()
+    return all(lowermost(obj_out) >= lowermost(obj_in) for obj_in, obj_out in zip(sorted(inp_objs), sorted(out_objs)))
 
-def check_containment_change(inp, out):
-    """
-    Verifies if the content inside the grid has changed while keeping the shape the same,
-    which may indicate an interaction with the environment (e.g., an object being contained).
-    """
-    return inp.shape == out.shape and np.any(inp != out)
+def check_containment_change(inp, out, inp_objs=None, out_objs=None):
+    if inp_objs is None or out_objs is None:
+        return inp.shape == out.shape and np.any(inp != out)
 
-def check_ring_filling(inp, out):
-    # Step 1: Identify the shapes in inp (non-zero regions, for example)
-    # You can define the shape detection criteria based on your input data
-    shape_mask = inp != 0  # Assume non-zero values in inp define a shape
-    
-    # Step 2: Initialise a grid to store filled areas
-    filled_area = np.zeros_like(inp)
-    
-    # Step 3: Iterate through the grid to compare corresponding regions in inp and out
-    # For each point in inp that defines a shape, check the corresponding region in out
-    for row in range(inp.shape[0]):
-        for col in range(inp.shape[1]):
-            if shape_mask[row, col]:  # If this cell is part of a shape in inp
-                # Define a region in out to check for filling
-                # You can adjust the size of the region if necessary (example: 3x3 region around the point)
-                region_size = 3
-                half_region = region_size // 2
-                
-                # Ensure the region does not go out of bounds
-                row_start = max(row - half_region, 0)
-                row_end = min(row + half_region + 1, out.shape[0])
-                col_start = max(col - half_region, 0)
-                col_end = min(col + half_region + 1, out.shape[1])
-                
-                # Extract the corresponding region in out
-                region_out = out[row_start:row_end, col_start:col_end]
-                
-                # Step 4: Check if there are any non-zero values in this region (indicating a fill)
-                if np.any(region_out != 0):  # Fill is detected if non-zero values are present
-                    filled_area[row, col] = 1  # Mark the position as filled
-    
-    return np.any(filled_area) 
+    # Safely handle empty object sets
+    inp_objs = sorted(inp_objs) if inp_objs else []
+    out_objs = sorted(out_objs) if out_objs else []
+
+    return any(obj_in != obj_out for obj_in, obj_out in zip(inp_objs, out_objs))
+
+def check_ring_filling(inp, out, inp_objs=None, out_objs=None):
+    if inp_objs is None or out_objs is None:
+        return np.any((inp == 0) & (out != 0))
+    for obj_in in inp_objs:
+        area = backdrop(obj_in)
+        if any(out[i][j] != 0 for i, j in area if inp[i][j] == 0):
+            return True
+    return False
 
 COMMONSENSE_RULES = [
     (check_gravity_down, 1),
