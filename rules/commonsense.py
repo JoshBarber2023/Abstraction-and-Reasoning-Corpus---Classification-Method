@@ -1,28 +1,25 @@
 import numpy as np
-from dsl import lowermost, backdrop
+from dsl import lowermost, backdrop, toindices
 
 def check_gravity_down(inp, out, inp_objs=None, out_objs=None):
-    if inp_objs is None or out_objs is None:
-        return inp.sum() < out.sum()
-    return all(lowermost(obj_out) >= lowermost(obj_in) for obj_in, obj_out in zip(sorted(inp_objs), sorted(out_objs)))
+    if not inp_objs or not out_objs or len(inp_objs) != len(out_objs):
+        return np.array(inp).sum() < np.array(out).sum()
+    return any(lowermost(out_obj) > lowermost(in_obj)
+               for in_obj, out_obj in zip(sorted(inp_objs), sorted(out_objs)))
 
 def check_containment_change(inp, out, inp_objs=None, out_objs=None):
-    if inp_objs is None or out_objs is None:
-        return inp.shape == out.shape and np.any(inp != out)
-
-    # Safely handle empty object sets
-    inp_objs = sorted(inp_objs) if inp_objs else []
-    out_objs = sorted(out_objs) if out_objs else []
-
-    return any(obj_in != obj_out for obj_in, obj_out in zip(inp_objs, out_objs))
+    if not inp_objs or not out_objs:
+        return np.any(inp != out)
+    return any(toindices(in_obj) != toindices(out_obj)
+               for in_obj, out_obj in zip(sorted(inp_objs), sorted(out_objs)))
 
 def check_ring_filling(inp, out, inp_objs=None, out_objs=None):
-    if inp_objs is None or out_objs is None:
+    if not inp_objs:
         return np.any((inp == 0) & (out != 0))
     for obj_in in inp_objs:
-        area = backdrop(obj_in)
-        if any(out[i][j] != 0 for i, j in area if inp[i][j] == 0):
-            return True
+        for i, j in backdrop(obj_in):
+            if inp[i][j] == 0 and out[i][j] != 0:
+                return True
     return False
 
 COMMONSENSE_RULES = [

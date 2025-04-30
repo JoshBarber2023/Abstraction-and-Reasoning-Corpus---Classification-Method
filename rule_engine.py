@@ -169,26 +169,28 @@ class RuleEngine:
         train_pairs = task.get("train", [])
 
         for idx, pair in enumerate(train_pairs):
-            grid = tuple(tuple(row) for row in pair["input"])
-            objs = objects(grid=grid, univalued=True, diagonal=False, without_bg=True)
+            for mode in ["input", "output"]:
+                grid = tuple(tuple(row) for row in pair[mode])
+                objs = objects(grid=grid, univalued=True, diagonal=False, without_bg=True)
 
-            fig, ax = plt.subplots()
-            ax.imshow(grid, cmap="tab20", interpolation="none")
+                fig, ax = plt.subplots()
+                ax.imshow(grid, cmap="tab20", interpolation="none")
 
-            for obj in objs:
-                indices = [loc for _, loc in obj]
-                rows, cols = zip(*indices)
-                min_row, max_row = min(rows), max(rows)
-                min_col, max_col = min(cols), max(cols)
-                rect = patches.Rectangle(
-                    (min_col - 0.5, min_row - 0.5),
-                    max_col - min_col + 1,
-                    max_row - min_row + 1,
-                    linewidth=2,
-                    edgecolor='red',
-                    facecolor='none'
-                )
-                ax.add_patch(rect)
+                for obj in objs:
+                    indices = [loc for _, loc in obj]
+                    rows, cols = zip(*indices)
+                    min_row, max_row = min(rows), max(rows)
+                    min_col, max_col = min(cols), max(cols)
+                    rect = patches.Rectangle(
+                        (min_col - 0.5, min_row - 0.5),
+                        max_col - min_col + 1,
+                        max_row - min_row + 1,
+                        linewidth=2,
+                        edgecolor='red',
+                        facecolor='none'
+                    )
+                    ax.add_patch(rect)
 
-            ax.set_title(f"Task: {task_name} | Train Pair #{idx}")
-            plt.axis("off")
+                ax.set_title(f"Task: {task_name} | Pair #{idx} | {mode.capitalize()}")
+                plt.axis("off")
+

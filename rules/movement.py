@@ -1,16 +1,32 @@
-from dsl import shift, centerofmass, rot90, rot180, rot270
 import numpy as np
+from dsl import normalize, rot90, rot180, rot270, toobject, shape, crop, centerofmass
+
 
 def check_translation(inp, out, inp_objs=None, out_objs=None):
-    if inp_objs is None or out_objs is None:
-        return inp != out and len(inp) == len(out)
-    return any(centerofmass(o1) != centerofmass(o2) for o1, o2 in zip(sorted(inp_objs), sorted(out_objs)))
+    if not inp_objs or not out_objs or len(inp_objs) != len(out_objs):
+        return not np.array_equal(inp, out) and np.array(inp).shape == np.array(out).shape
+    return any(centerofmass(in_obj) != centerofmass(out_obj)
+               for in_obj, out_obj in zip(sorted(inp_objs), sorted(out_objs)))
+
 
 def check_rotation(inp, out, inp_objs=None, out_objs=None):
-    # Use np.array_equal to compare arrays element-wise
-    return (np.array_equal(out, rot90(inp)) or 
-            np.array_equal(out, rot180(inp)) or 
-            np.array_equal(out, rot270(inp)))
+    if not inp_objs or not out_objs:
+        return False
+
+    norm_out_objs = [normalize(obj) for obj in out_objs]
+
+    for in_obj in inp_objs:
+        norm_in_obj = normalize(in_obj)
+        in_grid = crop(inp, *shape(norm_in_obj))
+        candidates = [
+            toobject(normalize(rot90(in_grid)), out),
+            toobject(normalize(rot180(in_grid)), out),
+            toobject(normalize(rot270(in_grid)), out),
+        ]
+        for rotated in candidates:
+            if normalize(rotated) in norm_out_objs:
+                return True
+    return False
 
 MOVEMENT_RULES = [
     (check_translation, 1),
