@@ -2,18 +2,27 @@ import numpy as np
 from dsl import lowermost, backdrop, toindices
 
 def check_gravity_down(inp, out, inp_objs=None, out_objs=None):
+    """
+    Check if objects have moved downward (e.g. due to gravity).
+    """
     if not inp_objs or not out_objs or len(inp_objs) != len(out_objs):
         return np.array(inp).sum() < np.array(out).sum()
     return any(lowermost(out_obj) > lowermost(in_obj)
                for in_obj, out_obj in zip(sorted(inp_objs), sorted(out_objs)))
 
 def check_containment_change(inp, out, inp_objs=None, out_objs=None):
+    """
+    Check if containment or spatial position of objects has changed.
+    """
     if not inp_objs or not out_objs:
         return np.any(inp != out)
     return any(toindices(in_obj) != toindices(out_obj)
                for in_obj, out_obj in zip(sorted(inp_objs), sorted(out_objs)))
 
 def check_ring_filling(inp, out, inp_objs=None, out_objs=None):
+    """
+    Check if background areas inside or around objects have been filled.
+    """
     inp = np.array(inp)
     out = np.array(out)
 
@@ -29,7 +38,9 @@ def check_ring_filling(inp, out, inp_objs=None, out_objs=None):
     return False
 
 def check_intuitive_completion(inp, out, inp_objs=None, out_objs=None):
-    """Output completes a partial pattern seen in input."""
+    """
+    Check if the output completes a partial pattern seen in the input.
+    """
     inp = np.array(inp)
     out = np.array(out)
 

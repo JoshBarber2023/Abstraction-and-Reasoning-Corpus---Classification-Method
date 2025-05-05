@@ -97,8 +97,8 @@ class RuleEngine:
             total_score += rule_score
 
         # If more than 50% of rules failed, drastically reduce the score
-        if failed_rule_count > total_rules / 2:
-            total_score *= 0.01  # Heavily penalize if half or more of the rules fail
+        #if failed_rule_count > total_rules / 2:
+        #    total_score *= 0.01  # Heavily penalize if half or more of the rules fail
 
         if len(rules) > 0:
             total_score /= len(rules)

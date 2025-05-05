@@ -1,5 +1,5 @@
 import numpy as np
-from dsl import normalize, rot90, rot180, rot270, centerofmass
+from dsl import *
 
 def check_translation(inp, out, inp_objs=None, out_objs=None):
     if not inp_objs or not out_objs or len(inp_objs) != len(out_objs):
@@ -18,50 +18,48 @@ def check_slide_to_edge(inp, out, inp_objs=None, out_objs=None):
     if not inp_objs or not out_objs:
         return False
     for obj_out in out_objs:
-        # Ensure out is a NumPy array before accessing .shape, or use len(out) if it's a tuple
         if isinstance(out, np.ndarray):
             max_dim = out.shape[0]
         else:
             max_dim = len(out)
-        
         if min(centerofmass(obj_out)) != 0 and max(centerofmass(obj_out)) != max_dim - 1:
             return False
     return True
 
-def check_rotation(inp, out, inp_objs=None, out_objs=None):
-    """Check if any object or the whole grid has been rotated."""
-    inp = np.array(inp)
-    out = np.array(out)
+def check_downscale(inp, out, inp_objs=None, out_objs=None):
+    """Check if the grid was downscaled by uniform factor."""
+    in_height, in_width = len(inp), len(inp[0])
+    out_height, out_width = len(out), len(out[0])
 
-    # First, check if the entire grid was rotated
-    if (np.array_equal(rot90(inp), out) or
-        np.array_equal(rot180(inp), out) or
-        np.array_equal(rot270(inp), out)):
-        return True
-
-    # Then check for rotation at the object level
-    if not inp_objs or not out_objs:
+    if in_height % out_height != 0 or in_width % out_width != 0:
         return False
 
-    # Normalize objects before comparing to make sure origin/position doesn't interfere
-    def all_rotations(obj):
-        return [normalize(obj),
-                normalize(rot90(obj)),
-                normalize(rot180(obj)),
-                normalize(rot270(obj))]
+    factor_h = in_height // out_height
+    factor_w = in_width // out_width
 
-    # Check if any input object matches any output object under any rotation
-    for in_obj in inp_objs:
-        for out_obj in out_objs:
-            norm_out = normalize(out_obj)
-            if any(np.array_equal(rot, norm_out) for rot in all_rotations(in_obj)):
-                return True
+    for i in range(out_height):
+        for j in range(out_width):
+            if inp[i * factor_h][j * factor_w] != out[i][j]:
+                return False
+    return True
 
-    return False
+def check_move_backtrack(inp, out, inp_objs=None, out_objs=None):
+    """Check if all objects moved with a consistent offset."""
+    if not inp_objs or not out_objs or len(inp_objs) != len(out_objs):
+        return False
+
+    offsets = []
+    for in_obj, out_obj in zip(inp_objs, out_objs):
+        in_c = centerofmass(in_obj)
+        out_c = centerofmass(out_obj)
+        offsets.append((out_c[0] - in_c[0], out_c[1] - in_c[1]))
+
+    return all(offset == offsets[0] for offset in offsets)
 
 MOVEMENT_RULES = [
     (check_translation, 1),
-    (check_rotation, 1),
     (check_object_swapping, 1),
-    (check_slide_to_edge, 0.9),
+    (check_slide_to_edge, 1),
+    (check_downscale, 1),
+    (check_move_backtrack, 1),
 ]
