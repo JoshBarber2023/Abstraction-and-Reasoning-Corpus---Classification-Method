@@ -905,13 +905,18 @@ def centerofmass(
     return tuple(map(lambda x: sum(x) // len(patch), zip(*toindices(patch))))
 
 
-def palette(
-    element: Element
-) -> IntegerSet:
+def palette(element: Element) -> IntegerSet:
     """ colors occurring in object or grid """
     if isinstance(element, tuple):
+        # If element is a tuple, flatten it
         return frozenset({v for r in element for v in r})
-    return frozenset({v for v, _ in element})
+    
+    # If element is not a tuple, handle as a list of tuples
+    return frozenset({
+        v for item in element 
+        if isinstance(item, tuple) and len(item) == 2  # Ensure item is a tuple with exactly two elements
+        for v, _ in [item]  # Unpack the tuple safely
+    })
 
 
 def numcolors(

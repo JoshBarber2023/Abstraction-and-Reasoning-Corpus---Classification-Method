@@ -70,6 +70,9 @@ class RuleEngine:
             return 0.0
 
         total_score = 0.0
+        failed_rule_count = 0  # Counter for failed rules
+        total_rules = len(rules)
+
         for rule_func, prior in rules:
             complexity = rule_complexity(rule_func)
             passed_results = []
@@ -84,17 +87,24 @@ class RuleEngine:
                 try:
                     passed = rule_func(inp_grid, out_grid, inp_objs, out_objs)
                 except TypeError:
-                    # fallback to old rule signature
                     passed = rule_func(np.array(inp_grid), np.array(out_grid))
+                
                 passed_results.append(passed)
+                if not passed:
+                    failed_rule_count += 1
 
             rule_score = calculate_solomonoff_score(passed_results, prior, complexity)
             total_score += rule_score
+
+        # If more than 50% of rules failed, drastically reduce the score
+        if failed_rule_count > total_rules / 2:
+            total_score *= 0.01  # Heavily penalize if half or more of the rules fail
 
         if len(rules) > 0:
             total_score /= len(rules)
 
         return total_score
+
 
     def View(self, task_name=None):
         if not self.task_data:

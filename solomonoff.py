@@ -4,5 +4,5 @@ def calculate_solomonoff_score(passed_list, prior, complexity):
         if passed:
             score *= prior / complexity
         else:
-            score *= 0.01  # Penalise for failing
+            score *= 0.1  # Penalise for failing
     return score
