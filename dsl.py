@@ -565,7 +565,7 @@ def mostcolor(
     """ most common color """
     values = [v for r in element for v in r] if isinstance(element, tuple) else [v for v, _ in element]
     return max(set(values), key=values.count)
-    
+
 
 def leastcolor(
     element: Element

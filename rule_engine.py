@@ -47,6 +47,7 @@ class RuleEngine:
             task['predicted_scores'] = category_scores
             task['predicted_categories'] = [best_category] * len(task["train"])
 
+            # Save the task results
             if save_results:
                 output_path = self.output_folder / f"{task_path.stem}_evaluated.json"
                 with open(output_path, "w") as out_f:
@@ -73,48 +74,69 @@ class RuleEngine:
         failed_rule_count = 0  # Counter for failed rules
         total_rules = len(rules)
 
+        # Adding keys to store passed and failed rules for each pair in the task
+        passed_rules_per_pair = []
+        failed_rules_per_pair = []
+
         for rule_func, prior in rules:
             complexity = rule_complexity(rule_func)
             passed_results = []
+            failed_results = []
 
             for pair in task["train"]:
                 inp_grid = tuple(tuple(row) for row in pair["input"])
                 out_grid = tuple(tuple(row) for row in pair["output"])
 
-                inp_objs = objects(grid=inp_grid, univalued=True, diagonal=False, without_bg=True)
-                out_objs = objects(grid=out_grid, univalued=True, diagonal=False, without_bg=True)
+                inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, False, True)
+                out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, False, True)
 
                 try:
                     passed = rule_func(inp_grid, out_grid, inp_objs, out_objs)
                 except TypeError:
                     passed = rule_func(np.array(inp_grid), np.array(out_grid))
-                
+
                 passed_results.append(passed)
-                if not passed:
-                    failed_rule_count += 1
+
+                # Track the passed and failed rules for the input-output pair
+                if passed:
+                    if "passed_rules" not in pair:
+                        pair["passed_rules"] = []
+                    pair["passed_rules"].append(rule_func.__name__)
+                else:
+                    if "failed_rules" not in pair:
+                        pair["failed_rules"] = []
+                    pair["failed_rules"].append(rule_func.__name__)
+
+                if passed:
+                    passed_rules_per_pair.append(rule_func.__name__)
+                else:
+                    failed_rules_per_pair.append(rule_func.__name__)
 
             rule_score = calculate_solomonoff_score(passed_results, prior, complexity)
             total_score += rule_score
 
-        # If more than 50% of rules failed, drastically reduce the score
-        #if failed_rule_count > total_rules / 2:
-        #    total_score *= 0.01  # Heavily penalize if half or more of the rules fail
-
         if len(rules) > 0:
             total_score /= len(rules)
 
-        return total_score
 
+        return total_score
 
     def View(self, task_name=None):
         if not self.task_data:
             print("No tasks loaded. Run the engine first.")
             return
 
-        if task_name:
+        task_names = list(self.task_data.keys())
+
+        # Handle integer index input
+        if isinstance(task_name, int):
+            if 0 <= task_name < len(task_names):
+                task_names = [task_names[task_name]]
+            else:
+                print(f"Invalid index: {task_name}. Must be between 0 and {len(task_names)-1}.")
+                return
+        elif isinstance(task_name, str):
             task_names = [task_name]
-        else:
-            task_names = list(self.task_data.keys())
 
         for task_name in task_names:
             print(f"\n--- Visualising Task: {task_name} ---")
@@ -154,8 +176,8 @@ class RuleEngine:
                 results = []
                 for func, _ in rules:
                     try:
-                        inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, False, True)
-                        out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, False, True)
+                        inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, True, True)
+                        out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, True, True)
                         results.append(func(inp, out, inp_objs, out_objs))
                     except TypeError:
                         results.append(func(inp, out))
@@ -170,6 +192,7 @@ class RuleEngine:
             self.plot_task_objects(task_name)
             plt.show()
 
+
     def plot_task_objects(self, task_name):
         if task_name not in self.task_data:
             print(f"Task '{task_name}' not found in loaded data.")
@@ -181,8 +204,7 @@ class RuleEngine:
         for idx, pair in enumerate(train_pairs):
             for mode in ["input", "output"]:
                 grid = tuple(tuple(row) for row in pair[mode])
-                objs = objects(grid=grid, univalued=True, diagonal=False, without_bg=True)
-
+                objs = objects(grid=grid, univalued=True, diagonal=True, without_bg=True)
                 fig, ax = plt.subplots()
                 ax.imshow(grid, cmap="tab20", interpolation="none")
 
