@@ -71,12 +71,13 @@ Rules that involve **explicit object detection and manipulation**
      README should describe process for running the code, and an explanation of the code and the theories behind it.
      ```
 
-2. **Object Visualisation Not Ideal**
+1. **3 different input and output objects variables created in the engine:**
    - **Issue:** 
      ```
-     Currently it plots a rectangle around the object, but that adds the background into the object. It would be nicer if the red outline just contained the object.
+     Honestly a bit stupid, but I create three different input and output objects for visualising.. rule assessment etc. Fix that.
      ```
 
+    
 
 ## Change Log
 
@@ -96,3 +97,6 @@ Rules that involve **explicit object detection and manipulation**
 - **Formal Defintiion of Rules**: Added a formal definition of rules into the GitHub.
 - **Added heavy penalisation for excessive rule failures**: In cases where the categories are over 50% incorrect, I've added a second layer of penalities to really enforce CORRECT rules.
 - **Started planning for rule implementation**: I have added some rules however I am not happy with them at all. My next goal is to go through the DSLs 'solved arc problems' file and for each 'step' in a solution, I will add a rule detecting that step. I am going to start from scratch and do that.
+
+## Added (10/05/2025):
+- **Rule Rework**: Started from scratch with the rules and slowly built them through fundamental ideas of what could happen in a puzzle. I've minimised the amount of rules which could be 'too broad' and kept them to the ideas that a child would fundamentally have... "I've seen something move..." or "I can see something being arrange from smallest to biggest.." or "I can see the object getting smaller or larger."
