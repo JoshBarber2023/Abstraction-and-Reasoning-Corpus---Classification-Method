@@ -5,7 +5,7 @@ from rules import ALL_RULES
 from solomonoff import calculate_solomonoff_score
 from categories import CATEGORIES
 from utils.complexity import rule_complexity
-from utils.visualisation import display_rule_results, plot_solomonoff_scores, compare_multiple_pairs
+from utils.visualisation import *
 import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -43,8 +43,17 @@ class RuleEngine:
                 score = self.evaluate_category(task, category, category_rules)
                 category_scores[category] = score
 
-            best_category = max(category_scores, key=category_scores.get)
-            task['predicted_scores'] = category_scores
+            # Apply Softmax normalization to the category scores
+            scores = np.array(list(category_scores.values()))
+            normalized_scores = softmax(scores)
+
+            # Update the scores dictionary with normalized values
+            normalized_category_scores = {
+                category: normalized_scores[idx] for idx, category in enumerate(CATEGORIES)
+            }
+
+            best_category = max(normalized_category_scores, key=normalized_category_scores.get)
+            task['predicted_scores'] = normalized_category_scores
             task['predicted_categories'] = [best_category] * len(task["train"])
 
             # Save the task results
@@ -55,7 +64,7 @@ class RuleEngine:
 
             all_results[task_name] = {
                 "predicted_category": best_category,
-                "scores": category_scores
+                "scores": normalized_category_scores
             }
 
         print("Evaluation complete. Results saved.")
@@ -66,60 +75,37 @@ class RuleEngine:
             print(f"\n✅ Scores saved to: {scores_path.resolve()}")
 
     def evaluate_category(self, task, category, rules):
-        if "train" not in task:
-            print(f"❌ Missing 'train' key in task: {task}")
+        if "train" not in task or not task["train"]:
+            print(f"❌ Missing or empty 'train' in task: {task}")
             return 0.0
 
-        total_score = 0.0
-        failed_rule_count = 0  # Counter for failed rules
-        total_rules = len(rules)
+        first_pair = task["train"][0]
+        inp_grid = np.array(first_pair["input"])
+        out_grid = np.array(first_pair["output"])
 
-        # Adding keys to store passed and failed rules for each pair in the task
-        passed_rules_per_pair = []
-        failed_rules_per_pair = []
+        inp_objs = objects(tuple(tuple(row) for row in first_pair["input"]), True, True, True)
+        out_objs = objects(tuple(tuple(row) for row in first_pair["output"]), True, True, True)
+
+        total_score = 0.0
 
         for rule_func, prior in rules:
-            complexity = rule_complexity(rule_func)
-            passed_results = []
-            failed_results = []
+            try:
+                passed = rule_func(inp_grid, out_grid, inp_objs, out_objs)
+            except TypeError:
+                passed = rule_func(inp_grid, out_grid)
 
-            for pair in task["train"]:
-                inp_grid = tuple(tuple(row) for row in pair["input"])
-                out_grid = tuple(tuple(row) for row in pair["output"])
-
-                inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, False, True)
-                out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, False, True)
-
-                try:
-                    passed = rule_func(inp_grid, out_grid, inp_objs, out_objs)
-                except TypeError:
-                    passed = rule_func(np.array(inp_grid), np.array(out_grid))
-
-                passed_results.append(passed)
-
-                # Track the passed and failed rules for the input-output pair
-                if passed:
-                    if "passed_rules" not in pair:
-                        pair["passed_rules"] = []
-                    pair["passed_rules"].append(rule_func.__name__)
-                else:
-                    if "failed_rules" not in pair:
-                        pair["failed_rules"] = []
-                    pair["failed_rules"].append(rule_func.__name__)
-
-                if passed:
-                    passed_rules_per_pair.append(rule_func.__name__)
-                else:
-                    failed_rules_per_pair.append(rule_func.__name__)
-
-            rule_score = calculate_solomonoff_score(passed_results, prior, complexity)
-            total_score += rule_score
+            if passed:
+                complexity = rule_complexity(rule_func)
+                score = calculate_solomonoff_score([True], prior, complexity)
+                total_score += score
 
         if len(rules) > 0:
             total_score /= len(rules)
 
-
         return total_score
+
+
+
 
     def View(self, task_name=None):
         if not self.task_data:

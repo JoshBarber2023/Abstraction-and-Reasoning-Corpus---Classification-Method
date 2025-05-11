@@ -77,7 +77,7 @@ def plot_solomonoff_scores(score_dict):
     # Annotate each bar with its score
     for bar, score in zip(bars, scores):
         yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.05, f'{score:.2e}', ha='center', va='bottom')
+        plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.001, f'{score:.3f}', ha='center', va='bottom')
 
 def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicted_categories=None):
     """
@@ -115,3 +115,7 @@ def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicte
     fig.suptitle(f"Task {task_id} - Input/Output Examples", fontsize=16)
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
+
+def softmax(x):
+    e_x = np.exp(x - np.max(x))  # Subtract max to avoid overflow
+    return e_x / e_x.sum(axis=0, keepdims=True)
