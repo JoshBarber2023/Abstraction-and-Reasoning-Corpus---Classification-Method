@@ -100,3 +100,6 @@ Rules that involve **explicit object detection and manipulation**
 
 ## Added (10/05/2025):
 - **Rule Rework**: Started from scratch with the rules and slowly built them through fundamental ideas of what could happen in a puzzle. I've minimised the amount of rules which could be 'too broad' and kept them to the ideas that a child would fundamentally have... "I've seen something move..." or "I can see something being arrange from smallest to biggest.." or "I can see the object getting smaller or larger."
+
+## Added (10/05/2025):
+- **Rule Rework**: Added new rules and verified each rule working in each implementation.
