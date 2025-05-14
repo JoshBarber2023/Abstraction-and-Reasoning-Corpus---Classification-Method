@@ -1,5 +1,6 @@
 import numpy as np
 from collections import Counter
+from utils.rule_helpers import *
 
 def object_shape_duplicated_in_output_only(inp, out, inp_objs=None, out_objs=None):
     """
@@ -8,6 +9,10 @@ def object_shape_duplicated_in_output_only(inp, out, inp_objs=None, out_objs=Non
     """
 
     if inp_objs is None or out_objs is None:
+        return False
+
+    # Early exit if number of objects hasn't changed
+    if len(inp_objs) == len(out_objs):
         return False
 
     def get_shape(obj):
@@ -33,7 +38,24 @@ def object_shape_duplicated_in_output_only(inp, out, inp_objs=None, out_objs=Non
     return False
 
 
+def check_replication_pattern(inp, out, inp_objs=None, out_objs=None):
+    """
+    Checks if the input object has been replicated in the output grid.
+    Returns True only if the pattern is clearly repeated.
+    """
+    pattern = extract_non_empty_block(inp)
+    if not pattern:
+        return False
+
+    repeat_count = count_pattern_repeats(out, pattern)
+    
+    # Accept if pattern occurs at least twice
+    if repeat_count >= 2:
+        return True
+
+    return False
 
 NUMBER_RULES = [
-    (object_shape_duplicated_in_output_only, 1)
+    (object_shape_duplicated_in_output_only, 1),
+    (check_replication_pattern, 1),
 ]
