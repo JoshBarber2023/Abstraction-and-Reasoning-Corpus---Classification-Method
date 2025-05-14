@@ -99,9 +99,6 @@ class RuleEngine:
                 score = calculate_solomonoff_score([True], prior, complexity)
                 total_score += score
 
-        if len(rules) > 0:
-            total_score /= len(rules)
-
         return total_score
 
 
