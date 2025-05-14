@@ -2,13 +2,17 @@ import numpy as np
 from dsl import *
 from utils.rule_helpers import *
 from rules.commonsense import *
+from rules.geometry import *
 
 def objects_get_larger(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
         return False
     
+    if object_removed_but_gap_remains(inp, out, inp_objs, out_objs):
+        return False
+    
     if shape_to_color_relationship(inp, out, inp_objs, out_objs): 
-        return  False
+        return False
 
     # Convert each object to a set of locations for comparison
     in_obj_sizes = [len({loc for _, loc in in_obj}) for in_obj in inp_objs]
@@ -25,9 +29,12 @@ def objects_get_larger(inp, out, inp_objs=None, out_objs=None):
 def objects_get_smaller(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
         return False
+        
+    if object_removed_but_gap_remains(inp, out, inp_objs, out_objs):
+        return False
     
     if shape_to_color_relationship(inp, out, inp_objs, out_objs): 
-        return  False
+        return False
 
     # Convert each object to a set of locations for comparison
     in_obj_sizes = [len({loc for _, loc in in_obj}) for in_obj in inp_objs]
@@ -44,6 +51,10 @@ def objects_get_smaller(inp, out, inp_objs=None, out_objs=None):
 def neighbour_object_disappears(inp, out, inp_objs=None, out_objs=None):
     from rules.colour import all_objects_change_colour  # Moved here to avoid circular import
     if inp_objs is None or out_objs is None:
+        return False
+    
+    # Early exit if number of objects hasn't changed
+    if len(inp_objs) == len(out_objs):
         return False
     
     if all_objects_change_colour(inp, out, inp_objs, out_objs) or shape_to_color_relationship(inp, out, inp_objs, out_objs):
@@ -67,6 +78,10 @@ def neighbour_object_appears(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
         return False
     
+    # Early exit if number of objects hasn't changed
+    if len(inp_objs) == len(out_objs):
+        return False
+    
     if all_objects_change_colour(inp, out, inp_objs, out_objs) or shape_to_color_relationship(inp, out, inp_objs, out_objs):
         return False
 
@@ -80,6 +95,36 @@ def neighbour_object_appears(inp, out, inp_objs=None, out_objs=None):
                 continue
             if objects_are_neighbours(added, other):
                 return True  # Found a neighbour pair where one appears
+
+    return False
+
+def check_object_duplication(inp, out, inp_objs=None, out_objs=None):
+    """
+    Check if an input object has been copied directly over to the output grid
+    and repeated by some ratio or relationship.
+
+    Parameters:
+    - inp (Grid): The input grid.
+    - out (Grid): The output grid.
+    - inp_objs (Objects, optional): The input objects (discrete pixel groups) to check.
+    - out_objs (Objects, optional): The output objects (discrete pixel groups) to check.
+    
+    Returns:
+    - Boolean: True if duplication or repetition of the input object is detected in the output, False otherwise.
+    """
+    # If input objects are not provided, use inp_objs as a fallback
+    inp_objs = inp_objs or {frozenset(cell) for cell in inp}
+
+    # If output objects are not provided, use out_objs as a fallback
+    out_objs = out_objs or {frozenset(cell) for cell in out}
+
+    # Check if the input object is duplicated in the output grid
+    for obj in inp_objs:
+        if obj in out_objs:
+            # Check the ratio or repeated instances of the input object
+            repeated_count = sum(1 for o in out_objs if o == obj)
+            if repeated_count > 1:
+                return True
 
     return False
 

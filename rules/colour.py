@@ -32,28 +32,36 @@ def all_objects_change_colour(inp, out, inp_objs=None, out_objs=None) -> bool:
 def mimic_colour_scheme(inp, out, inp_objs=None, out_objs=None):
     """
     This function checks if the output objects have mimicked the colour scheme of the input objects.
-    It does so by comparing the colours of the input and output objects and ensuring they match.
+    It does so by comparing the colours of the input and output objects and ensuring they match,
+    but only if more than two distinct colours exist in the grid.
     """
 
-    # If input and output objects are not provided, use inp_objs and out_objs
+    # If input and output objects are not provided, fall back to raw grids (unlikely but safe)
     inp_objs = inp_objs if inp_objs is not None else inp
     out_objs = out_objs if out_objs is not None else out
 
-    # Check if the number of objects is the same in both input and output
+    # Flatten input and output grids to count distinct colours
+    input_colours = set(cell for row in inp for cell in row)
+    output_colours = set(cell for row in out for cell in row)
+
+    # Combined colour palette from input and output
+    total_colours = input_colours | output_colours
+
+    # If there are 3 or fewer colours, skip this rule
+    if len(total_colours) <= 3:
+        return False
+
+    # Check if the number of objects is the same
     if len(inp_objs) != len(out_objs):
         return False
 
-    # For each pair of input and output objects, check if their colour matches
+    # Check if each object’s primary colour is preserved
     for inp_obj, out_obj in zip(inp_objs, out_objs):
-        # Extract the first element of the input and output object (colour value)
         inp_col = next(iter(inp_obj))[0]
         out_col = next(iter(out_obj))[0]
-
-        # If the colours do not match, return False
         if inp_col != out_col:
             return False
 
-    # If all objects' colours match, return True
     return True
 
 def partial_internal_colour_change(inp, out, inp_objs=None, out_objs=None):

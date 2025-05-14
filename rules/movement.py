@@ -2,7 +2,7 @@ import numpy as np
 from dsl import *
 from rules.object import objects_get_larger, objects_get_smaller
 from utils.rule_helpers import *
-from rules.geometry import *
+from rules.object import *
 
 
 
@@ -14,14 +14,17 @@ def check_object_moved(inp, out, inp_objs=None, out_objs=None):
     if not inp_objs or not out_objs:
         return False
     
-    if object_has_rotated(inp, out, inp_objs, out_objs) == True:
+    if object_has_rotated(inp, out, inp_objs, out_objs):
         return False
     
-    if neighbour_object_disappears(inp, out, inp_objs, out_objs) == True:
+    if neighbour_object_disappears(inp, out, inp_objs, out_objs):
         return False
     
     if shape_to_color_relationship(inp, out, inp_objs, out_objs): 
         return  False
+    
+    if objects_get_smaller(inp, out, inp_objs, out_objs) or objects_get_larger(inp, out, inp_objs, out_objs):
+        return False
 
     # Compute centroids for all objects
     inp_centroids = [get_centroid(obj) for obj in inp_objs]
@@ -41,7 +44,7 @@ def check_object_moved(inp, out, inp_objs=None, out_objs=None):
     return False
 
 def movement_foreground_background_shift(inp, out, inp_objs=None, out_objs=None) -> bool:
-    def object_to_index_map(objs: Objects) -> dict:
+    def object_to_index_map(objs):
         """Returns a mapping from each cell to its owning object."""
         mapping = {}
         for obj in objs:
@@ -51,27 +54,26 @@ def movement_foreground_background_shift(inp, out, inp_objs=None, out_objs=None)
 
     if inp_objs is None or out_objs is None:
         return False
-    
+
+    # Skip if it's just a growth/shrink operation
     if objects_get_larger(inp, out, inp_objs, out_objs) or objects_get_smaller(inp, out, inp_objs, out_objs):
         return False
 
     inp_map = object_to_index_map(inp_objs)
     out_map = object_to_index_map(out_objs)
 
-    # Check for overlap shifts: cells that change ownership
-    overlap_shift_detected = False
+    # Focus only on overlapping cells — those shared by both input and output
+    overlapping_positions = set(inp_map.keys()) & set(out_map.keys())
 
-    all_positions = set(inp_map.keys()) | set(out_map.keys())
-    for pos in all_positions:
-        inp_obj = inp_map.get(pos, None)
-        out_obj = out_map.get(pos, None)
+    for pos in overlapping_positions:
+        inp_obj = inp_map[pos]
+        out_obj = out_map[pos]
+        if inp_obj != out_obj:
+            # True foreground/background reassignment
+            return True
 
-        if inp_obj and out_obj and inp_obj != out_obj:
-            # Object ownership of this cell changed, indicating possible visual stacking change
-            overlap_shift_detected = True
-            break
+    return False
 
-    return overlap_shift_detected
 
 MOVEMENT_RULES = [
     (check_object_moved, 1),

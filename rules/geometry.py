@@ -1,7 +1,6 @@
 import numpy as np
 from dsl import *
 from utils.rule_helpers import *
-from rules.object import *
 
 def objects_stretch_to_edges(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
@@ -32,9 +31,6 @@ def object_has_rotated(inp, out, inp_objs=None, out_objs=None):
     if not inp_objs or not out_objs:
         return False
 
-    if objects_get_larger(inp, out, inp_objs, out_objs) or objects_get_smaller(inp, out, inp_objs, out_objs) or shape_to_color_relationship(inp, out, inp_objs, out_objs):
-        return False
-
     inp_grids = [to_grid(obj) for obj in inp_objs]
     out_grids = [to_grid(obj) for obj in out_objs]
 
@@ -59,27 +55,82 @@ def object_has_rotated(inp, out, inp_objs=None, out_objs=None):
 
     return False
 
-def is_completely_surrounded(inp, out, inp_objs=None, out_objs=None): 
-    # Ensure input objects and output objects are provided
+def is_completely_surrounded(inp, out, inp_objs=None, out_objs=None):
     if not out_objs or not inp_objs:
         return False
 
-    for out_obj in out_objs:
-        for inp_obj in inp_objs:
-            # Check if an object completely surrounds another by verifying the boundary points
-            surrounded = True
-            for cell in inp_obj:
-                # Check if each cell in the input object is within the boundaries of the output object
-                if cell not in out_obj:
-                    surrounded = False
+    # Define directions: up, down, left, right (4-connectivity)
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    for inp_obj in inp_objs:
+        # For each input object, we need to check all its edge cells
+        all_sides_covered = True
+        for cell in inp_obj:
+            x, y = cell
+            for dx, dy in directions:
+                neighbor = (x + dx, y + dy)
+                # If neighbor is not in inp_obj and is also not in any out_obj, it's not surrounded
+                if neighbor not in inp_obj and not any(neighbor in out_obj for out_obj in out_objs):
+                    all_sides_covered = False
                     break
-            if surrounded:
+            if not all_sides_covered:
+                break
+
+        if all_sides_covered:
+            return True  # At least one input object is fully surrounded
+
+    return False
+
+def object_removed_but_gap_remains(inp, out, inp_objs=None, out_objs=None):
+    if inp_objs is None or out_objs is None:
+        return False
+
+    # Create a set of all output cells
+    out_cells = set()
+    for obj in out_objs:
+        out_cells.update(obj)
+
+    for obj in inp_objs:
+        # Check if object is completely gone from output
+        if all(cell not in out_cells for cell in obj):
+            # Check if the same shape is left as empty in the output
+            shape_cells = {(r, c) for (val, (r, c)) in obj}
+            values_at_positions = [out[r][c] for (r, c) in shape_cells]
+
+            # If all those values are 0 or a background colour (assumed 0), then it's a "gap"
+            if all(v == 0 for v in values_at_positions):
                 return True
 
     return False
 
+def check_surrounded_cell_disappearance(inp, out, inp_objs=None, out_objs=None):
+    # Iterate through all cells in the input objects
+    for obj in inp_objs:
+        for cell in obj:
+            # Get the position of the cell and check if it's surrounded by other cells in the input grid
+            x, y = cell[1]
+            
+            # Check the 8 neighboring positions (all directions) around the cell
+            neighbors = [
+                (x-1, y-1), (x, y-1), (x+1, y-1),
+                (x-1, y),               (x+1, y),
+                (x-1, y+1), (x, y+1), (x+1, y+1)
+            ]
+            
+            # Check if the neighboring cells are all part of the input object
+            surrounded = all((neighbor in inp for neighbor in neighbors))
+            
+            if surrounded:
+                # Check if the cell no longer exists in the output grid
+                if cell not in out:
+                    return True  # The cell disappeared as expected
+                
+    return False  # No disappearance detected
+
+
 GEOMETRY_RULES = [
     (objects_stretch_to_edges, 1),
     (object_has_rotated, 1),
-    (is_completely_surrounded, 1)
+    (is_completely_surrounded, 1),
+    (object_removed_but_gap_remains, 1),
 ]
