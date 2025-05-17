@@ -5,24 +5,19 @@ from utils.rule_helpers import *
 
 def check_filled_relationship(inp, out, inp_objs=None, out_objs=None):
     """
-    Checks if, when there are more output objects than input objects, any new output object
-    has appeared inside the bounds of an input object (excluding recolouring or unchanged objects).
-    The new output object must be explicitly inside an input object (it cannot be snaking around).
+    Check if background inside/around objects was filled or cleared.
     """
-    if inp_objs is None or out_objs is None:
-        return False
+    inp = np.array(inp)
+    out = np.array(out)
 
-    # Rule only applies if the number of output objects is greater than the number of input objects
-    if len(out_objs) <= len(inp_objs):
-        return False
+    if not inp_objs:
+        return np.any(inp != out)
 
-    # Check each output object against each input object
-    for output in out_objs:
-        for input_obj in inp_objs:
-            # Ensure the output object is fully inside the input object
-            if all(cell in input_obj for cell in output):
-                # Check if the output object is completely contained within the input object (no "snaking")
-                if all(any(cell in input_obj for cell in output)):
+    out_h, out_w = out.shape
+    for obj_in in inp_objs:
+        for i, j in backdrop(obj_in):
+            if 0 <= i < out_h and 0 <= j < out_w:
+                if inp[i][j] != out[i][j]:
                     return True
     return False
 

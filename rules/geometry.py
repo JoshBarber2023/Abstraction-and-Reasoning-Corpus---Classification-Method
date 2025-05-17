@@ -1,6 +1,7 @@
 import numpy as np
 from dsl import *
 from utils.rule_helpers import *
+from rules.commonsense import *
 
 def objects_stretch_to_edges(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
@@ -29,6 +30,9 @@ def object_has_rotated(inp, out, inp_objs=None, out_objs=None):
     from itertools import product
 
     if not inp_objs or not out_objs:
+        return False
+    
+    if check_filled_relationship(inp, out, inp_objs, out_objs):
         return False
 
     inp_grids = [to_grid(obj) for obj in inp_objs]

@@ -201,3 +201,39 @@ def count_pattern_repeats(grid, pattern):
 
 def objects_overlap(obj1: frozenset, obj2: frozenset) -> bool:
     return not obj1.isdisjoint(obj2)
+
+def get_bounding_box(obj):
+    """Returns the bounding box of a list of (x, y) cells"""
+    xs = [x for x, y in obj]
+    ys = [y for x, y in obj]
+    return min(xs), min(ys), max(xs), max(ys)
+
+def match_objects_by_overlap(inp_objs, out_objs):
+    """
+    Attempts to match each input object with an output object based on location overlap.
+    Returns a list of (in_obj, out_obj) pairs.
+    """
+    matches = []
+    used_out = set()
+
+    for in_obj in inp_objs:
+        in_locs = {loc for _, loc in in_obj}
+        best_match = None
+        best_overlap = 0
+
+        for i, out_obj in enumerate(out_objs):
+            if i in used_out:
+                continue
+
+            out_locs = {loc for _, loc in out_obj}
+            overlap = len(in_locs & out_locs)
+
+            if overlap > best_overlap:
+                best_overlap = overlap
+                best_match = (in_obj, out_obj, i)
+
+        if best_match:
+            matches.append((best_match[0], best_match[1]))
+            used_out.add(best_match[2])
+
+    return matches
