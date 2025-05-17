@@ -74,8 +74,52 @@ def movement_foreground_background_shift(inp, out, inp_objs=None, out_objs=None)
 
     return False
 
+def objects_fall_downward(inp, out, inp_objs=None, out_objs=None):
+    """
+    Checks if all objects have moved downward in the grid (gravity rule).
+    """
+    if not inp_objs or not out_objs:
+        return False
+
+    # Early out if objects are rotating or changing size
+    if object_has_rotated(inp, out, inp_objs, out_objs):
+        return False
+    if objects_get_larger(inp, out, inp_objs, out_objs) or objects_get_smaller(inp, out, inp_objs, out_objs):
+        return False
+
+    # Match input objects to output objects based on centroid proximity
+    inp_centroids = [get_centroid(obj) for obj in inp_objs]
+    out_centroids = [get_centroid(obj) for obj in out_objs]
+
+    matched = [False] * len(out_objs)
+
+    for inp_idx, inp_c in enumerate(inp_centroids):
+        best_match = None
+        min_dist = float('inf')
+        best_idx = None
+
+        for out_idx, out_c in enumerate(out_centroids):
+            if matched[out_idx]:
+                continue
+            dist = ((inp_c[0] - out_c[0]) ** 2 + (inp_c[1] - out_c[1]) ** 2) ** 0.5
+            if dist < min_dist:
+                min_dist = dist
+                best_match = out_c
+                best_idx = out_idx
+
+        if best_match is None:
+            return False  # Couldn't find a match
+
+        matched[best_idx] = True
+
+        # Gravity should pull objects downward (i.e., y should increase)
+        if best_match[0] < inp_c[0]:  # Row coordinate decreased = moved up
+            return False
+
+    return True
 
 MOVEMENT_RULES = [
     (check_object_moved, 1),
-    (movement_foreground_background_shift, 1)
+    (movement_foreground_background_shift, 1),
+    (objects_fall_downward, 1)
 ]

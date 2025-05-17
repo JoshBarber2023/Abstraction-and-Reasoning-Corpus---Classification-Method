@@ -204,6 +204,79 @@ def outputs_do_not_overlap_inputs(inp, out, inp_objs=None, out_objs=None) -> boo
 
     return True
 
+def check_tetris_relationship(inp, out, inp_objs=None, out_objs=None):
+    """
+    Check if the output shows a Tetris-like relationship from input:
+    - A full row was removed (cleared),
+    - Or an object moved downward and merged with others forming a larger object.
+
+    Args:
+        inp (2D array): Input grid.
+        out (2D array): Output grid.
+        inp_objs (list of sets): Input objects (sets of coordinate tuples).
+        out_objs (list of sets): Output objects.
+
+    Returns:
+        bool: True if Tetris-like transformation detected, False otherwise.
+    """
+    inp = np.array(inp)
+    out = np.array(out)
+    rows, cols = inp.shape
+
+    # 1. Check for any fully cleared row in output
+    for r in range(rows):
+        if np.all(out[r] == 0) and not np.all(inp[r] == 0):
+            # Found a cleared row compared to input
+            # Now check if rows above shifted down
+            # We expect rows above cleared row to be shifted down by one
+            # Compare row r-1 in input with row r in output, etc.
+            shift_valid = True
+            for rr in range(r):
+                if rr == 0:
+                    continue
+                if not np.array_equal(inp[rr-1], out[rr]):
+                    shift_valid = False
+                    break
+            if shift_valid:
+                return True
+
+    if inp_objs is None or out_objs is None:
+        return False
+
+    # 2. Check if objects moved downward and merged into bigger objects
+    for out_obj in out_objs:
+        # Find input objects that overlap or are directly above out_obj
+        candidate_in_objs = []
+        out_min_x = min(x for x, y in out_obj)
+        out_max_x = max(x for x, y in out_obj)
+        out_min_y = min(y for x, y in out_obj)
+        out_max_y = max(y for x, y in out_obj)
+
+        for in_obj in inp_objs:
+            # Check if in_obj is vertically above out_obj with some downward shift
+            in_min_x = min(x for x, y in in_obj)
+            in_max_x = max(x for x, y in in_obj)
+            in_min_y = min(y for x, y in in_obj)
+            in_max_y = max(y for x, y in in_obj)
+
+            # Rough heuristic: in_obj below out_obj horizontally (overlapping Y range)
+            horizontal_overlap = (in_max_y >= out_min_y) and (in_min_y <= out_max_y)
+
+            # Check if input object is above output object (smaller x)
+            if horizontal_overlap and in_max_x < out_min_x:
+                # Check if shifted downwards (e.g., out_min_x - in_max_x is > 0)
+                vertical_shift = out_min_x - in_max_x
+                if vertical_shift > 0:
+                    candidate_in_objs.append(in_obj)
+
+        # If multiple input objects combined to make out_obj (area-wise)
+        combined_area = sum(len(obj) for obj in candidate_in_objs)
+        if combined_area < len(out_obj):
+            # Output object bigger than combined input objects above it
+            # This suggests merging and downward movement
+            return True
+
+    return False
 
 
 COMMONSENSE_RULES = [
@@ -214,4 +287,5 @@ COMMONSENSE_RULES = [
     (combined_objects_form_common_shape, 1),
     (check_checkerboard_pattern, 1),
     (outputs_do_not_overlap_inputs, 1),
+    (check_tetris_relationship, 1)
 ]
