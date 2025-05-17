@@ -106,3 +106,7 @@ Rules that involve **explicit object detection and manipulation**
 
 ## Added (12/05/2025):
 - **Rule Rework**: Added new rules and verified each rule working in each implementation.
+
+## Added (12/05/2025):
+- **Rule Rework**: Adjusted and verified each rule working in unit tests.
+- **Evaluation Tests**: Made function to manually categorise evaluation set, then ran the solver on to compare how successful it was.
