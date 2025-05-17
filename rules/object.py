@@ -7,44 +7,36 @@ from rules.geometry import *
 def objects_get_larger(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
         return False
-    
+
     if object_removed_but_gap_remains(inp, out, inp_objs, out_objs):
         return False
-    
+
     if shape_to_color_relationship(inp, out, inp_objs, out_objs): 
         return False
 
-    # Convert each object to a set of locations for comparison
-    in_obj_sizes = [len({loc for _, loc in in_obj}) for in_obj in inp_objs]
-    out_obj_sizes = [len({loc for _, loc in out_obj}) for out_obj in out_objs]
+    matches = match_objects_by_overlap(inp_objs, out_objs)
 
-    # Check if any output object is larger than any input object
-    for out_size in out_obj_sizes:
-        for in_size in in_obj_sizes:
-            if out_size > in_size:
-                return True
+    for in_obj, out_obj in matches:
+        if len(out_obj) > len(in_obj):
+            return True
 
     return False
 
 def objects_get_smaller(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
         return False
-        
+
     if object_removed_but_gap_remains(inp, out, inp_objs, out_objs):
         return False
-    
+
     if shape_to_color_relationship(inp, out, inp_objs, out_objs): 
         return False
 
-    # Convert each object to a set of locations for comparison
-    in_obj_sizes = [len({loc for _, loc in in_obj}) for in_obj in inp_objs]
-    out_obj_sizes = [len({loc for _, loc in out_obj}) for out_obj in out_objs]
+    matches = match_objects_by_overlap(inp_objs, out_objs)
 
-    # Check if any output object is smaller than any input object
-    for out_size in out_obj_sizes:
-        for in_size in in_obj_sizes:
-            if out_size < in_size:
-                return True
+    for in_obj, out_obj in matches:
+        if len(out_obj) < len(in_obj):
+            return True
 
     return False
 
