@@ -131,10 +131,59 @@ def check_surrounded_cell_disappearance(inp, out, inp_objs=None, out_objs=None):
                 
     return False  # No disappearance detected
 
+def grid_has_rotated(inp, out, inp_objs=None, out_objs=None):
+    def rotate_90(grid):
+        return [list(row) for row in zip(*grid[::-1])]
+
+    def all_rotations(grid):
+        rot_90 = rotate_90(grid)
+        rot_180 = rotate_90(rot_90)
+        rot_270 = rotate_90(rot_180)
+        return [rot_90, rot_180, rot_270]
+
+    # Ensure dimensions are compatible for rotation
+    if len(inp) != len(out[0]) or len(inp[0]) != len(out):
+        return False
+
+    for rotated in all_rotations(inp):
+        if np.array_equal(rotated, out):
+            return True
+
+    return False
+
+def object_has_mirrored(inp, out, inp_objs=None, out_objs=None):
+    if not inp_objs or not out_objs:
+        return False
+
+    inp_grids = [to_grid(obj) for obj in inp_objs]
+    out_grids = [to_grid(obj) for obj in out_objs]
+
+    def all_mirrors(grid):
+        # Generates all mirrored versions of a grid
+        vertical = [row[::-1] for row in grid]
+        horizontal = grid[::-1]
+        diagonal_main = [list(row) for row in zip(*grid)]  # transpose
+        diagonal_anti = [list(row[::-1]) for row in zip(*grid[::-1])]  # flip then transpose
+        return [vertical, horizontal, diagonal_main, diagonal_anti]
+
+    for inp_grid in inp_grids:
+        matched = False
+        for out_grid in out_grids:
+            if any(np.array_equal(mirror, out_grid) for mirror in all_mirrors(inp_grid)):
+                matched = True
+                break
+        if not matched:
+            return False
+
+    return True
+
+
 
 GEOMETRY_RULES = [
     (objects_stretch_to_edges, 1),
     (object_has_rotated, 1),
     (is_completely_surrounded, 1),
     (object_removed_but_gap_remains, 1),
+    (grid_has_rotated, 1),
+    (object_has_mirrored, 1),
 ]

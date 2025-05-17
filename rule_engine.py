@@ -11,6 +11,10 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from dsl import *
 
+def softmax(x):
+    e_x = np.exp(x - np.max(x))
+    return e_x / e_x.sum()
+
 class RuleEngine:
     def __init__(self, data_folder, output_folder):
         self.data_folder = Path(data_folder)
@@ -18,8 +22,67 @@ class RuleEngine:
         self.task_data = {}
         self.category_scores = {}
 
+    def manual_categorize(self):
+        import matplotlib.pyplot as plt
+
+        self.output_folder.mkdir(parents=True, exist_ok=True)
+        manual_path = self.output_folder / "manual_categorization.json"
+
+        tasks = list(self.data_folder.glob("*.json"))
+        manual_results = {}
+
+        print("\nManual Categorization Mode")
+        print("Categories:")
+        for i, cat in enumerate(CATEGORIES):
+            print(f"{i}: {cat}")
+
+        plt.ion()  # Turn on interactive mode
+
+        for idx, task_path in enumerate(tasks):
+            task_name = task_path.name
+            with open(task_path) as f:
+                task = json.load(f)
+
+            pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
+
+            # Visualize the task
+            fig = compare_multiple_pairs(pairs, task_id=task_name)
+            plt.pause(0.001)  # Show non-blocking plot
+
+            # Prompt for input
+            while True:
+                try:
+                    inp = input(f"\nTask {idx+1}/{len(tasks)}: {task_name}\nEnter category number (or 's' to skip): ").strip()
+                    if inp.lower() == 's':
+                        print(f"⏭️ Skipped {task_name}")
+                        break
+                    elif inp.isdigit() and 0 <= int(inp) < len(CATEGORIES):
+                        manual_results[task_name] = CATEGORIES[int(inp)]
+                        print(f"✔️ Saved: {task_name} → {CATEGORIES[int(inp)]}")
+                        break
+                    else:
+                        print(f"Invalid input. Please enter a number between 0 and {len(CATEGORIES)-1}, or 's' to skip.")
+                except KeyboardInterrupt:
+                    print("\nExiting manual categorization.")
+                    plt.close("all")
+                    return
+
+            plt.close("all")  # Close after each entry
+
+        with open(manual_path, "w") as f:
+            json.dump(manual_results, f, indent=2)
+
+        print(f"\n✅ Manual categorization saved to: {manual_path}")
+
+
     def run(self, save_results=True):
         self.output_folder.mkdir(parents=True, exist_ok=True)
+
+        manual_path = self.output_folder / "manual_categorization.json"
+        manual_results = {}
+        if manual_path.exists():
+            with open(manual_path) as f:
+                manual_results = json.load(f)
 
         scores_path = self.output_folder / "evaluated_scores.json"
         if scores_path.exists():
@@ -29,6 +92,9 @@ class RuleEngine:
         tasks = list(self.data_folder.glob("*.json"))
         total_tasks = len(tasks)
         all_results = {}
+
+        correct_count = 0
+        correct_tasks = []  # <- New line to store correct task names
 
         for idx, task_path in tqdm(enumerate(tasks), total=total_tasks, desc="Processing tasks", unit="task"):
             with open(task_path) as f:
@@ -43,11 +109,9 @@ class RuleEngine:
                 score = self.evaluate_category(task, category, category_rules)
                 category_scores[category] = score
 
-            # Apply Softmax normalization to the category scores
             scores = np.array(list(category_scores.values()))
             normalized_scores = softmax(scores)
 
-            # Update the scores dictionary with normalized values
             normalized_category_scores = {
                 category: normalized_scores[idx] for idx, category in enumerate(CATEGORIES)
             }
@@ -56,7 +120,6 @@ class RuleEngine:
             task['predicted_scores'] = normalized_category_scores
             task['predicted_categories'] = [best_category] * len(task["train"])
 
-            # Save the task results
             if save_results:
                 output_path = self.output_folder / f"{task_path.stem}_evaluated.json"
                 with open(output_path, "w") as out_f:
@@ -67,12 +130,38 @@ class RuleEngine:
                 "scores": normalized_category_scores
             }
 
+            # Compare with manual if available
+            if manual_results:
+                manual_cat = manual_results.get(task_name)
+                if manual_cat == best_category:
+                    correct_count += 1
+                    correct_tasks.append((idx, task_name))  # <- Track task number and name
+                    #print(f"✅ Correctly matched [#{idx}] {task_name} → {best_category}")
+
         print("Evaluation complete. Results saved.")
 
         if save_results:
             with open(scores_path, "w") as f:
                 json.dump(all_results, f, indent=2)
             print(f"\n✅ Scores saved to: {scores_path.resolve()}")
+
+        if manual_results:
+            accuracy = correct_count / len(manual_results) * 100
+            print(f"\n🤖 AI vs 👤 Human categorization accuracy: {accuracy:.2f}% ({correct_count}/{len(manual_results)})")
+            print("\nCorrectly matched tasks:")
+            for idx, task in correct_tasks:
+                print(f" - [#{idx}] {task}")
+
+        print("Evaluation complete. Results saved.")
+
+        if save_results:
+            with open(scores_path, "w") as f:
+                json.dump(all_results, f, indent=2)
+            print(f"\n✅ Scores saved to: {scores_path.resolve()}")
+
+        if manual_results:
+            accuracy = correct_count / len(manual_results) * 100
+            print(f"\n🤖 AI vs 👤 Human categorization accuracy: {accuracy:.2f}% ({correct_count}/{len(manual_results)})")
 
     def evaluate_category(self, task, category, rules):
         if "train" not in task or not task["train"]:
@@ -100,9 +189,6 @@ class RuleEngine:
                 total_score += score
 
         return total_score
-
-
-
 
     def View(self, task_name=None):
         if not self.task_data:
@@ -175,7 +261,6 @@ class RuleEngine:
             self.plot_task_objects(task_name)
             plt.show()
 
-
     def plot_task_objects(self, task_name):
         if task_name not in self.task_data:
             print(f"Task '{task_name}' not found in loaded data.")
@@ -208,4 +293,3 @@ class RuleEngine:
 
                 ax.set_title(f"Task: {task_name} | Pair #{idx} | {mode.capitalize()}")
                 plt.axis("off")
-
