@@ -16,4 +16,4 @@ if __name__ == "__main__":
 
     #engine.View("example_task.json")  # Replace with actual filename
 
-    #engine.View()  # To visualise the first task
+    engine.View()  # To visualise the first task

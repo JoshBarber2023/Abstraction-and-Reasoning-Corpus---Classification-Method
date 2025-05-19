@@ -79,7 +79,7 @@ def plot_solomonoff_scores(score_dict):
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.001, f'{score:.3f}', ha='center', va='bottom')
 
-def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicted_categories=None):
+def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20",  predicted_categories=None, expected_category=None):
     """
     Visualizes multiple (input, output) grid pairs with optional predictions.
 
@@ -108,9 +108,15 @@ def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicte
         ax_out.axis('off')
 
         if predicted_categories:
-            ax_pred.text(0.5, 0.5, f"Pred: {predicted_categories[idx]}", 
-                         ha='center', va='center', color='black', fontsize=12)
+            pred_text = f"Pred: {predicted_categories[idx]}"
+            if expected_category:
+                pred_text += f"\nExpected: {expected_category}"
+            ax_pred.text(0.5, 0.5, pred_text, 
+                        ha='center', va='center', color='black', fontsize=12)
+
         ax_pred.axis('off')
+
+
 
     fig.suptitle(f"Task {task_id} - Input/Output Examples", fontsize=16)
     plt.tight_layout()

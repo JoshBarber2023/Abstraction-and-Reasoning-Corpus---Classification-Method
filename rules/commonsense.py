@@ -204,77 +204,74 @@ def outputs_do_not_overlap_inputs(inp, out, inp_objs=None, out_objs=None) -> boo
 
     return True
 
-def check_tetris_relationship(inp, out, inp_objs=None, out_objs=None):
+def check_tetris_relationship(inp, out, inp_objs: Objects = None, out_objs: Objects = None) -> bool:
     """
-    Check if the output shows a Tetris-like relationship from input:
-    - A full row was removed (cleared),
-    - Or an object moved downward and merged with others forming a larger object.
+    Detects Tetris-like behavior between inp_objs and out_objs, but ONLY if
+    there are objects on the bottom row in the output.
+
+    Tetris-like behavior includes:
+    - Rows cleared (some row from input is missing in output),
+    - Object moved down (same shape, lower x),
+    - Gravity applied (object shifted to lowest possible position).
 
     Args:
-        inp (2D array): Input grid.
-        out (2D array): Output grid.
-        inp_objs (list of sets): Input objects (sets of coordinate tuples).
-        out_objs (list of sets): Output objects.
+        inp, out: Ignored (retained for compatibility).
+        inp_objs (Objects): Input objects (frozensets of (val, (x, y))).
+        out_objs (Objects): Output objects.
 
     Returns:
-        bool: True if Tetris-like transformation detected, False otherwise.
+        bool: True if Tetris-like transformation is detected AND object touches bottom row.
     """
-    inp = np.array(inp)
-    out = np.array(out)
-    rows, cols = inp.shape
-
-    # 1. Check for any fully cleared row in output
-    for r in range(rows):
-        if np.all(out[r] == 0) and not np.all(inp[r] == 0):
-            # Found a cleared row compared to input
-            # Now check if rows above shifted down
-            # We expect rows above cleared row to be shifted down by one
-            # Compare row r-1 in input with row r in output, etc.
-            shift_valid = True
-            for rr in range(r):
-                if rr == 0:
-                    continue
-                if not np.array_equal(inp[rr-1], out[rr]):
-                    shift_valid = False
-                    break
-            if shift_valid:
-                return True
-
-    if inp_objs is None or out_objs is None:
+    if inp_objs is None or out_objs is None or not out_objs:
         return False
 
-    # 2. Check if objects moved downward and merged into bigger objects
-    for out_obj in out_objs:
-        # Find input objects that overlap or are directly above out_obj
-        candidate_in_objs = []
-        out_min_x = min(x for x, y in out_obj)
-        out_max_x = max(x for x, y in out_obj)
-        out_min_y = min(y for x, y in out_obj)
-        out_max_y = max(y for x, y in out_obj)
+    def extract_coords(obj: Object):
+        return {(x, y) for _, (x, y) in obj}
 
-        for in_obj in inp_objs:
-            # Check if in_obj is vertically above out_obj with some downward shift
-            in_min_x = min(x for x, y in in_obj)
-            in_max_x = max(x for x, y in in_obj)
-            in_min_y = min(y for x, y in in_obj)
-            in_max_y = max(y for x, y in in_obj)
+    def get_rows(objs: Objects):
+        return {x for obj in objs for _, (x, _) in obj}
 
-            # Rough heuristic: in_obj below out_obj horizontally (overlapping Y range)
-            horizontal_overlap = (in_max_y >= out_min_y) and (in_min_y <= out_max_y)
+    def normalize(obj_coords):
+        """ Normalize shape to top-left origin """
+        min_x = min(x for x, y in obj_coords)
+        min_y = min(y for x, y in obj_coords)
+        return {(x - min_x, y - min_y) for x, y in obj_coords}
 
-            # Check if input object is above output object (smaller x)
-            if horizontal_overlap and in_max_x < out_min_x:
-                # Check if shifted downwards (e.g., out_min_x - in_max_x is > 0)
-                vertical_shift = out_min_x - in_max_x
-                if vertical_shift > 0:
-                    candidate_in_objs.append(in_obj)
+    # Determine bottom-most y-coordinate in output (max row index)
+    out_max_y = max(y for obj in out_objs for _, (_, y) in obj)
 
-        # If multiple input objects combined to make out_obj (area-wise)
-        combined_area = sum(len(obj) for obj in candidate_in_objs)
-        if combined_area < len(out_obj):
-            # Output object bigger than combined input objects above it
-            # This suggests merging and downward movement
-            return True
+    # Require at least one object cell on bottom row in output
+    if any(y == out_max_y for obj in out_objs for _, (_, y) in obj):
+        return False
+
+
+    # 1. Check for row clearance
+    inp_rows = get_rows(inp_objs)
+    out_rows = get_rows(out_objs)
+    cleared_rows = inp_rows - out_rows
+    if cleared_rows:
+        return True
+
+    # 2. Check for downward movement (same shape, lower in output)
+    out_coords_sets = [extract_coords(o) for o in out_objs]
+    in_coords_sets = [extract_coords(o) for o in inp_objs]
+
+    for in_obj in in_coords_sets:
+        in_shape = normalize(in_obj)
+        in_min_x = min(x for x, y in in_obj)
+
+        for out_obj in out_coords_sets:
+            out_shape = normalize(out_obj)
+            out_min_x = min(x for x, y in out_obj)
+
+            if in_shape == out_shape and out_min_x > in_min_x:
+                return True  # Same shape moved down
+
+    # 3. Gravity: check if objects have sunk fully (i.e. no floating blocks)
+    for out_obj in out_coords_sets:
+        below_cells = {(x + 1, y) for x, y in out_obj}
+        if all((x, y) not in out_obj for (x, y) in below_cells):
+            return True  # Object rests on solid ground
 
     return False
 

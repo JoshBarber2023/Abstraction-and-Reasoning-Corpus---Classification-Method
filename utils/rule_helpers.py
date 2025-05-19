@@ -208,6 +208,16 @@ def get_bounding_box(obj):
     ys = [y for x, y in obj]
     return min(xs), min(ys), max(xs), max(ys)
 
+def get_bounding_box_area(obj):
+    # obj: list of (color, location) tuples; location assumed to be (x, y)
+    locations = [loc for _, loc in obj]
+    if not locations:
+        return 0
+    xs, ys = zip(*locations)
+    width = max(xs) - min(xs) + 1
+    height = max(ys) - min(ys) + 1
+    return width * height
+
 def match_objects_by_overlap(inp_objs, out_objs):
     """
     Attempts to match each input object with an output object based on location overlap.

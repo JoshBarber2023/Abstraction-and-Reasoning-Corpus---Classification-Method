@@ -384,17 +384,18 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 6.0780775322071e-11,
-    "CommonSense": 0.9998941580470218,
-    "Geometry": 9.992195191259532e-08,
-    "Movement": 0.00010574184868434077,
-    "Number": 6.0780775322071e-11,
-    "Object": 6.0780775322071e-11
+    "Colour": 2.6945287184692183e-07,
+    "CommonSense": 0.5307822573693142,
+    "Geometry": 0.0004429732388362932,
+    "Movement": 0.4687739610332342,
+    "Number": 2.6945287184692183e-07,
+    "Object": 2.6945287184692183e-07
   },
   "predicted_categories": [
     "CommonSense",
     "CommonSense",
     "CommonSense",
     "CommonSense"
-  ]
+  ],
+  "expected_category": "Movement"
 }
