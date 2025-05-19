@@ -26,7 +26,7 @@ class RuleEngine:
         import matplotlib.pyplot as plt
 
         self.output_folder.mkdir(parents=True, exist_ok=True)
-        manual_path = self.output_folder / "manual_categorization.json"
+        manual_path = Path("manual_categorization.json")
 
         tasks = list(self.data_folder.glob("*.json"))
         manual_results = {}
@@ -78,7 +78,7 @@ class RuleEngine:
     def run(self, save_results=True):
         self.output_folder.mkdir(parents=True, exist_ok=True)
 
-        manual_path = self.output_folder / "manual_categorization.json"
+        manual_path = Path("manual_categorization.json")
         manual_results = {}
         if manual_path.exists():
             with open(manual_path) as f:
@@ -119,16 +119,21 @@ class RuleEngine:
             best_category = max(normalized_category_scores, key=normalized_category_scores.get)
             task['predicted_scores'] = normalized_category_scores
             task['predicted_categories'] = [best_category] * len(task["train"])
+            if manual_results and task_name in manual_results:
+                task['expected_category'] = manual_results[task_name]
 
             if save_results:
                 output_path = self.output_folder / f"{task_path.stem}_evaluated.json"
                 with open(output_path, "w") as out_f:
                     json.dump(task, out_f, indent=2)
 
+            expected_category = manual_results.get(task_name) if manual_results else None
             all_results[task_name] = {
                 "predicted_category": best_category,
+                "expected_category": expected_category,
                 "scores": normalized_category_scores
             }
+
 
             # Compare with manual if available
             if manual_results:
@@ -231,8 +236,13 @@ class RuleEngine:
 
             pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
             predicted_categories = task.get("predicted_categories", [])
-
-            compare_multiple_pairs(pairs, task_id=task_name, predicted_categories=predicted_categories)
+            expected_category = task.get("expected_category", None)
+            compare_multiple_pairs(
+                pairs, 
+                task_id=task_name, 
+                predicted_categories=predicted_categories,
+                expected_category=expected_category
+            )
 
             for category in CATEGORIES:
                 rules = ALL_RULES.get(category, [])

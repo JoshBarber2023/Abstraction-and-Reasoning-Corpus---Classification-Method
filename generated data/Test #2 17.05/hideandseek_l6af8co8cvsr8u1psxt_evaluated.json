@@ -396,5 +396,6 @@
     "Geometry",
     "Geometry",
     "Geometry"
-  ]
+  ],
+  "expected_category": "Movement"
 }
