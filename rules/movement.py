@@ -1,8 +1,23 @@
+# ================================
+# NATURAL LANGUAGE DESCRIPTIONS
+# ================================
+NL_RULES = [
+    "Objects are translated spatially without changing shape or colour.",
+    "Movement of objects is coordinated with consistent translation vectors.",
+    "Objects may be shifted by fixed amounts or along detected paths.",
+    "Objects changing size, shape, or rotating are excluded from simple movement checks.",
+    "Foreground and background may be reassigned during object movement, involving complex overlaps.",
+    "Gravity-like movements involve consistent downward shifts of objects without rotation or size change."
+]
+
+# ==================================
+# SIMPLE FUNDAMENTAL MOVEMENT CHECKS
+# ==================================
+
 import numpy as np
 from dsl import *
-from rules.object import objects_get_larger, objects_get_smaller
 from utils.rule_helpers import *
-from rules.object import *
+from rules.Object import *
 
 
 

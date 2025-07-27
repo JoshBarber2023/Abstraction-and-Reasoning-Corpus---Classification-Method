@@ -1,7 +1,27 @@
+# ================================
+# NATURAL LANGUAGE DESCRIPTIONS
+# ================================
+NL_RULES = [
+    "Spatial transformations applied to objects such as rotation, reflection, or repositioning.",
+    "Object shapes are preserved, but their orientation or location may change.",
+    "Transformations rely on geometric properties of detected objects, not just pixel grids.",
+    "Objects stretching from interior to edges represent shape expansion requiring spatial edge reasoning.",
+    "Object removals leaving empty gaps require shape and position comparison with the output background.",
+    "Complete surrounding of an object involves checking 4-directional neighbors for coverage by output objects.",
+    "Detection of surrounded cell disappearance involves 8-directional neighborhood and pixel-level disappearance.",
+    "Mirroring can include vertical, horizontal, and diagonal flips, which are spatially complex checks.",
+    "Grid-level rotations require compatible dimension checks and pixel-wise equality after rotation.",
+    "Object rotation detection involves matching against all 90° rotations but excluding symmetric or single-pixel objects."
+]
+
+# ==================================
+# SIMPLE FUNDAMENTAL GEOMETRY CHECKS
+# ==================================
+
 import numpy as np
 from dsl import *
 from utils.rule_helpers import *
-from rules.commonsense import *
+from rules.CommonSense import *
 
 def objects_stretch_to_edges(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
@@ -63,27 +83,33 @@ def is_completely_surrounded(inp, out, inp_objs=None, out_objs=None):
     if not out_objs or not inp_objs:
         return False
 
-    # Define directions: up, down, left, right (4-connectivity)
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
     for inp_obj in inp_objs:
-        # For each input object, we need to check all its edge cells
+        inp_positions = get_positions(inp_obj)
+        # For out_objs, collect all positions for quick membership
+        out_positions_all = set()
+        for out_obj in out_objs:
+            out_positions_all.update(get_positions(out_obj))
+
         all_sides_covered = True
         for cell in inp_obj:
-            x, y = cell
+            inner = next(iter(cell))
+            _, (x, y) = inner
             for dx, dy in directions:
                 neighbor = (x + dx, y + dy)
-                # If neighbor is not in inp_obj and is also not in any out_obj, it's not surrounded
-                if neighbor not in inp_obj and not any(neighbor in out_obj for out_obj in out_objs):
+                # Check neighbor membership in positions, not in frozensets!
+                if neighbor not in inp_positions and neighbor not in out_positions_all:
                     all_sides_covered = False
                     break
             if not all_sides_covered:
                 break
 
         if all_sides_covered:
-            return True  # At least one input object is fully surrounded
+            return True
 
     return False
+
 
 def object_removed_but_gap_remains(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:

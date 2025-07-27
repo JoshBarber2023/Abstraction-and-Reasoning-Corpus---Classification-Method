@@ -1,6 +1,34 @@
 from dsl import * 
 import numpy as np
 import math
+from collections import namedtuple
+
+# Define a simple object to hold properties
+ObjectProps = namedtuple('ObjectProps', ['pixels', 'centroid', 'size'])
+
+def compute_object_props(obj_pixels):
+    coords = []
+    for px in obj_pixels:
+        row = px[0]
+        col_data = px[1]
+        # If col_data is a tuple with two identical values, just take one
+        if isinstance(col_data, tuple):
+            col = col_data[0]
+        else:
+            col = col_data
+        coords.append((row, col))
+
+    pixels = np.array(coords)
+    centroid = np.mean(pixels, axis=0)
+    size = len(pixels)
+    return ObjectProps(pixels=obj_pixels, centroid=centroid, size=size)
+
+def convert_objs(raw_objs):
+    """
+    Convert list of frozensets into list of ObjectProps.
+    """
+    return [compute_object_props(obj) for obj in raw_objs]
+
 
 def normalise_object(obj):
     """Translate object cells so the top-left cell is at (0, 0)."""
@@ -227,7 +255,7 @@ def match_objects_by_overlap(inp_objs, out_objs):
     used_out = set()
 
     for in_obj in inp_objs:
-        in_locs = {loc for _, loc in in_obj}
+        in_locs = {loc for _, loc in in_obj.pixels}
         best_match = None
         best_overlap = 0
 
@@ -235,7 +263,7 @@ def match_objects_by_overlap(inp_objs, out_objs):
             if i in used_out:
                 continue
 
-            out_locs = {loc for _, loc in out_obj}
+            out_locs = {loc for _, loc in out_obj.pixels}
             overlap = len(in_locs & out_locs)
 
             if overlap > best_overlap:
@@ -247,3 +275,15 @@ def match_objects_by_overlap(inp_objs, out_objs):
             used_out.add(best_match[2])
 
     return matches
+
+def get_positions(obj):
+    """
+    Given obj = set of frozensets, each frozenset has one (color, (x,y)) tuple,
+    returns set of (x,y) positions in the obj.
+    """
+    positions = set()
+    for cell in obj:
+        inner = next(iter(cell))  # get (color, (x,y))
+        _, pos = inner
+        positions.add(pos)
+    return positions

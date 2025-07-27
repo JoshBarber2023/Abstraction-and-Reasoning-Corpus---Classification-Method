@@ -1,0 +1,261 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          1,
+          1,
+          1
+        ],
+        [
+          4,
+          4,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          1
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          0,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          6
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          7,
+          0
+        ],
+        [
+          7,
+          8,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          8,
+          7,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          7,
+          0
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.9982620183702193,
+    "CommonSense": 5.2035547797410945e-06,
+    "Geometry": 5.2035547797410945e-06,
+    "Movement": 5.2035547797410945e-06,
+    "Number": 0.0017171674106621058,
+    "Object": 5.2035547797410945e-06
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour"
+  ],
+  "gpt_nl_rule_eval": {
+    "The transformation involves only changes to colours; object shapes and positions are preserved.": true,
+    "All colour regions are retained \u2014 no merging, splitting, or reshaping of coloured areas.": false,
+    "The output colours are a direct mapping or swap of the input palette, with no new colours introduced.": true,
+    "Rules depend on the count or numerical properties of objects or colours.": true,
+    "Output quantity or size relates arithmetically to input values (e.g., doubling, halving).": true,
+    "Numerical constraints control replication or deletion of objects or rows/columns.": false,
+    "The rule is not directly observable but inferred from contextual logic or pattern completion.": true,
+    "The output fills in or completes a pattern that appears partially in the input.": true,
+    "The transformation reflects a likely or intuitive extension of the input scenario, even without strict geometric or colour rules.": true,
+    "Spatial transformations applied to objects such as rotation, reflection, or repositioning.": true,
+    "Object shapes are preserved, but their orientation or location may change.": true,
+    "Transformations rely on geometric properties of detected objects, not just pixel grids.": true
+  },
+  "expected_category": "Movement"
+}

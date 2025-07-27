@@ -1,3 +1,17 @@
+# ================================
+# NATURAL LANGUAGE DESCRIPTIONS
+# ================================
+NL_RULES = [
+    "The transformation involves only changes to colours; object shapes and positions are preserved.",
+    "All colour regions are retained — no merging, splitting, or reshaping of coloured areas.",
+    "The output colours are a direct mapping or swap of the input palette, with no new colours introduced.",
+    "Partial internal colour changes occur only when smaller objects appear adjacent to existing ones without changing object shapes or positions."
+]
+
+# ==================================
+# SIMPLE FUNDAMENTAL COLOUR CHECKS
+# ==================================
+
 from dsl import *
 import numpy as np
 
@@ -35,10 +49,9 @@ def mimic_colour_scheme(inp, out, inp_objs=None, out_objs=None):
     It does so by comparing the colours of the input and output objects and ensuring they match,
     but only if more than two distinct colours exist in the grid.
     """
-
-    # If input and output objects are not provided, fall back to raw grids (unlikely but safe)
-    inp_objs = inp_objs if inp_objs is not None else inp
-    out_objs = out_objs if out_objs is not None else out
+    if inp_objs is None or out_objs is None:
+        # Can't proceed without objects information
+        return False
 
     # Flatten input and output grids to count distinct colours
     input_colours = set(cell for row in inp for cell in row)
@@ -65,7 +78,7 @@ def mimic_colour_scheme(inp, out, inp_objs=None, out_objs=None):
     return True
 
 def partial_internal_colour_change(inp, out, inp_objs=None, out_objs=None):
-    from rules.object import objects_get_smaller, neighbour_object_appears
+    from rules.Object import objects_get_smaller, neighbour_object_appears
     
     if inp_objs is None or out_objs is None:
         return False

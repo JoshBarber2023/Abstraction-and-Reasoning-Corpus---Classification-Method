@@ -1,3 +1,16 @@
+# ================================
+# NATURAL LANGUAGE DESCRIPTIONS
+# ================================
+NL_RULES = [
+    "Rules depend on the count or numerical properties of objects or colours.",
+    "Output quantity or size relates arithmetically to input values (e.g., doubling, halving).",
+    "Numerical constraints control replication or deletion of objects or rows/columns."
+]
+
+# ==================================
+# SIMPLE FUNDAMENTAL NUMBER CHECKS
+# ==================================
+
 import numpy as np
 from collections import Counter
 from utils.rule_helpers import *

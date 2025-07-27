@@ -1,8 +1,20 @@
+# ================================
+# NATURAL LANGUAGE DESCRIPTIONS
+# ================================
+NL_RULES = [
+    "Objects may be split, merged, duplicated, or morphed in the output.",
+    "Object count may change due to splitting or merging operations.",
+    "Objects can change shape but remain identifiable as discrete entities."
+]
+
+# ==================================
+# SIMPLE FUNDAMENTAL OBJECT CHECKS
+# ==================================
 import numpy as np
 from dsl import *
 from utils.rule_helpers import *
-from rules.commonsense import *
-from rules.geometry import *
+from rules.CommonSense import *
+from rules.Geometry import *
 
 def objects_get_larger(inp, out, inp_objs=None, out_objs=None):
     if inp_objs is None or out_objs is None:
@@ -41,7 +53,7 @@ def objects_get_smaller(inp, out, inp_objs=None, out_objs=None):
     return False
 
 def neighbour_object_disappears(inp, out, inp_objs=None, out_objs=None):
-    from rules.colour import all_objects_change_colour  # Moved here to avoid circular import
+    from rules.Colour import all_objects_change_colour  # Moved here to avoid circular import
     if inp_objs is None or out_objs is None:
         return False
     
@@ -66,7 +78,7 @@ def neighbour_object_disappears(inp, out, inp_objs=None, out_objs=None):
     return False
 
 def neighbour_object_appears(inp, out, inp_objs=None, out_objs=None):
-    from rules.colour import all_objects_change_colour  # Moved here to avoid circular import
+    from rules.Colour import all_objects_change_colour  # Moved here to avoid circular import
     if inp_objs is None or out_objs is None:
         return False
     

@@ -1,0 +1,338 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          3,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          3,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          3,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "output": [
+        [
+          5,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          5,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          5,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          5,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          5,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          5,
+          0
+        ],
+        [
+          6,
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          6,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          6,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          6,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          6
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          2,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          2,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          2,
+          0
+        ],
+        [
+          7,
+          0,
+          0,
+          0,
+          2
+        ]
+      ],
+      "output": [
+        [
+          7,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          7,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          7,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          7
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          4,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          4,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          4,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          4
+        ]
+      ],
+      "output": [
+        [
+          1,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          1,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          0,
+          1,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.999980570233042,
+    "CommonSense": 7.554418686864829e-09,
+    "Geometry": 8.219118107303923e-06,
+    "Movement": 8.702590073430631e-06,
+    "Number": 2.492949939930589e-06,
+    "Object": 7.554418686864829e-09
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "gpt_nl_rule_eval": {
+    "The transformation involves only changes to colours; object shapes and positions are preserved.": true,
+    "All colour regions are retained \u2014 no merging, splitting, or reshaping of coloured areas.": true,
+    "The output colours are a direct mapping or swap of the input palette, with no new colours introduced.": true,
+    "Objects are translated spatially without changing shape or colour.": true,
+    "Movement of objects is coordinated with consistent translation vectors.": true,
+    "Objects may be shifted by fixed amounts or along detected paths.": true,
+    "Spatial transformations applied to objects such as rotation, reflection, or repositioning.": true,
+    "Object shapes are preserved, but their orientation or location may change.": true,
+    "Transformations rely on geometric properties of detected objects, not just pixel grids.": true,
+    "Rules depend on the count or numerical properties of objects or colours.": true,
+    "Output quantity or size relates arithmetically to input values (e.g., doubling, halving).": false,
+    "Numerical constraints control replication or deletion of objects or rows/columns.": false
+  },
+  "expected_category": "Colour"
+}

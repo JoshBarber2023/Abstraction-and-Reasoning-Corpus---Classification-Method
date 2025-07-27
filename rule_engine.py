@@ -6,10 +6,18 @@ from solomonoff import calculate_solomonoff_score
 from categories import CATEGORIES
 from utils.complexity import rule_complexity
 from utils.visualisation import *
+from utils.rule_helpers import convert_objs
 import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from dsl import *
+import importlib
+import os
+
+# Import new OpenAI client
+from openai import OpenAI
+
+client = OpenAI()
 
 def softmax(x):
     e_x = np.exp(x - np.max(x))
@@ -21,6 +29,9 @@ class RuleEngine:
         self.output_folder = Path(output_folder)
         self.task_data = {}
         self.category_scores = {}
+
+        # Initialize OpenAI client once
+        self.client = OpenAI()
 
     def manual_categorize(self):
         import matplotlib.pyplot as plt
@@ -74,6 +85,88 @@ class RuleEngine:
 
         print(f"\n✅ Manual categorization saved to: {manual_path}")
 
+    def evaluate_nl_rules_with_gpt(self, task_name, categories):
+        task = self.task_data.get(task_name)
+        if not task:
+            print(f"Task '{task_name}' not loaded.")
+            return {}
+
+        pair = task["train"][0]
+        inp_grid = pair["input"]
+        out_grid = pair["output"]
+
+        def grid_to_str(grid):
+            return "\n".join(" ".join(str(cell) for cell in row) for row in grid)
+
+        input_str = grid_to_str(inp_grid)
+        output_str = grid_to_str(out_grid)
+
+        results = {}
+
+        for category in categories:
+            try:
+                module = importlib.import_module(f"rules.{category}")
+                prompts = getattr(module, "NL_RULES", [])
+            except Exception as e:
+                print(f"⚠️ Could not load prompts for category '{category}': {e}")
+                continue
+
+            if not prompts:
+                continue
+
+            prompt_block = "\n".join([f"- {p}" for p in prompts])
+            full_prompt = f"""
+You are helping to evaluate transformations between two image grids.
+
+Here is the input grid:
+{input_str}
+
+Here is the output grid:
+{output_str}
+
+For each of the following statements, respond only with "True" or "False" to indicate whether the statement is supported by the transformation. Use one line per statement in the same order.
+
+{prompt_block}
+"""
+
+            try:
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "user", "content": full_prompt}
+                    ]
+                )
+
+                gpt_lines = response.choices[0].message.content.strip().splitlines()
+                for prompt_text, result in zip(prompts, gpt_lines):
+                    truth = result.strip().lower()
+                    results[prompt_text] = truth in ["true", "yes"]
+
+            except Exception as e:
+                print(f"⚠️ GPT evaluation failed for category '{category}': {e}")
+                continue
+
+        return results
+
+    def score_nl_results(self, nl_results, category):
+        """
+        Convert NL rule GPT results for a category into a numeric Solomonoff score sum.
+        This uses calculate_solomonoff_score with fixed prior and complexity per NL rule.
+        """
+        if not nl_results:
+            return 0.0
+
+        total_score = 0.0
+        # Assume a fixed prior and complexity for NL rules — tune as needed
+        nl_prior = 0.1
+        nl_complexity = 1.0
+
+        for rule_text, passed in nl_results.items():
+            # Only score if passed is True
+            if passed:
+                score = calculate_solomonoff_score([True], nl_prior, nl_complexity)
+                total_score += score
+        return total_score
 
     def run(self, save_results=True):
         self.output_folder.mkdir(parents=True, exist_ok=True)
@@ -91,10 +184,12 @@ class RuleEngine:
 
         tasks = list(self.data_folder.glob("*.json"))
         total_tasks = len(tasks)
-        all_results = {}
 
+        print(f"⏳ Starting evaluation on {total_tasks} tasks...")
+
+        all_results = {}
         correct_count = 0
-        correct_tasks = []  # <- New line to store correct task names
+        correct_tasks = []
 
         for idx, task_path in tqdm(enumerate(tasks), total=total_tasks, desc="Processing tasks", unit="task"):
             with open(task_path) as f:
@@ -103,22 +198,61 @@ class RuleEngine:
             task_name = task_path.name
             self.task_data[task_name] = task
 
+            # Step 1: Evaluate all categories using coded rules
             category_scores = {}
             for category in CATEGORIES:
-                category_rules = ALL_RULES.get(category, [])
-                score = self.evaluate_category(task, category, category_rules)
+                rules = ALL_RULES.get(category, [])
+                score = self.evaluate_category(task, category, rules)
                 category_scores[category] = score
 
+            # Normalize coded rule scores
             scores = np.array(list(category_scores.values()))
             normalized_scores = softmax(scores)
-
             normalized_category_scores = {
-                category: normalized_scores[idx] for idx, category in enumerate(CATEGORIES)
+                cat: normalized_scores[i] for i, cat in enumerate(CATEGORIES)
             }
 
-            best_category = max(normalized_category_scores, key=normalized_category_scores.get)
-            task['predicted_scores'] = normalized_category_scores
+            # Step 2: Run GPT NL evaluation on top 3 categories by score
+            sorted_categories = sorted(normalized_category_scores.items(), key=lambda x: x[1], reverse=True)
+            top_categories = [cat for cat, _ in sorted_categories[:3]]
+            gpt_nl_results = self.evaluate_nl_rules_with_gpt(task_name, top_categories)
+
+            # Group NL results by category
+            nl_results_by_category = {cat: {} for cat in top_categories}
+            for category in top_categories:
+                try:
+                    module = importlib.import_module(f"rules.{category}")
+                    prompts = getattr(module, "NL_RULES", [])
+                except Exception:
+                    prompts = []
+
+                # Filter NL results for this category only
+                nl_results_by_category[category] = {
+                    p: gpt_nl_results.get(p, False) for p in prompts
+                }
+
+            # Score NL results per category (using Solomonoff scoring)
+            gpt_nl_scores = {}
+            for category in top_categories:
+                gpt_nl_scores[category] = self.score_nl_results(nl_results_by_category[category], category)
+
+            # Add NL scores to coded scores (only for categories evaluated by GPT)
+            combined_scores = normalized_category_scores.copy()
+            for cat in gpt_nl_scores:
+                combined_scores[cat] += gpt_nl_scores[cat]
+
+            # Renormalize combined scores
+            combined_scores_array = np.array([combined_scores[cat] for cat in CATEGORIES])
+            combined_scores_normalized = softmax(combined_scores_array)
+            combined_scores_final = {cat: combined_scores_normalized[i] for i, cat in enumerate(CATEGORIES)}
+
+            best_category = max(combined_scores_final, key=combined_scores_final.get)
+
+            # Save combined scores and predictions
+            task['predicted_scores'] = combined_scores_final
             task['predicted_categories'] = [best_category] * len(task["train"])
+            task['gpt_nl_rule_eval'] = gpt_nl_results
+
             if manual_results and task_name in manual_results:
                 task['expected_category'] = manual_results[task_name]
 
@@ -131,20 +265,15 @@ class RuleEngine:
             all_results[task_name] = {
                 "predicted_category": best_category,
                 "expected_category": expected_category,
-                "scores": normalized_category_scores
+                "scores": combined_scores_final,
+                "gpt_nl_rule_eval": gpt_nl_results
             }
 
+            if expected_category == best_category:
+                correct_count += 1
+                correct_tasks.append((idx, task_name))
 
-            # Compare with manual if available
-            if manual_results:
-                manual_cat = manual_results.get(task_name)
-                if manual_cat == best_category:
-                    correct_count += 1
-                    correct_tasks.append((idx, task_name))  # <- Track task number and name
-                    #print(f"✅ Correctly matched [#{idx}] {task_name} → {best_category}")
-
-        print("Evaluation complete. Results saved.")
-
+        # Final Save
         if save_results:
             with open(scores_path, "w") as f:
                 json.dump(all_results, f, indent=2)
@@ -157,17 +286,6 @@ class RuleEngine:
             for idx, task in correct_tasks:
                 print(f" - [#{idx}] {task}")
 
-        print("Evaluation complete. Results saved.")
-
-        if save_results:
-            with open(scores_path, "w") as f:
-                json.dump(all_results, f, indent=2)
-            print(f"\n✅ Scores saved to: {scores_path.resolve()}")
-
-        if manual_results:
-            accuracy = correct_count / len(manual_results) * 100
-            print(f"\n🤖 AI vs 👤 Human categorization accuracy: {accuracy:.2f}% ({correct_count}/{len(manual_results)})")
-
     def evaluate_category(self, task, category, rules):
         if "train" not in task or not task["train"]:
             print(f"❌ Missing or empty 'train' in task: {task}")
@@ -177,8 +295,11 @@ class RuleEngine:
         inp_grid = np.array(first_pair["input"])
         out_grid = np.array(first_pair["output"])
 
-        inp_objs = objects(tuple(tuple(row) for row in first_pair["input"]), True, True, True)
-        out_objs = objects(tuple(tuple(row) for row in first_pair["output"]), True, True, True)
+        raw_inp_objs = objects(tuple(tuple(row) for row in first_pair["input"]), True, True, True)
+        raw_out_objs = objects(tuple(tuple(row) for row in first_pair["output"]), True, True, True)
+
+        inp_objs = convert_objs(raw_inp_objs)
+        out_objs = convert_objs(raw_out_objs)
 
         total_score = 0.0
 
@@ -238,8 +359,8 @@ class RuleEngine:
             predicted_categories = task.get("predicted_categories", [])
             expected_category = task.get("expected_category", None)
             compare_multiple_pairs(
-                pairs, 
-                task_id=task_name, 
+                pairs,
+                task_id=task_name,
                 predicted_categories=predicted_categories,
                 expected_category=expected_category
             )
@@ -255,8 +376,11 @@ class RuleEngine:
                 results = []
                 for func, _ in rules:
                     try:
-                        inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, True, True)
-                        out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, True, True)
+                        raw_inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, True, True)
+                        raw_out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, True, True)
+
+                        inp_objs = convert_objs(raw_inp_objs)
+                        out_objs = convert_objs(raw_out_objs)
                         results.append(func(inp, out, inp_objs, out_objs))
                     except TypeError:
                         results.append(func(inp, out))
@@ -303,3 +427,13 @@ class RuleEngine:
 
                 ax.set_title(f"Task: {task_name} | Pair #{idx} | {mode.capitalize()}")
                 plt.axis("off")
+
+    def load_tasks(self):
+        # Load *_evaluated.json but store keys as original task names (without _evaluated)
+        tasks = list(self.output_folder.glob("*_evaluated.json"))
+        for task_path in tasks:
+            with open(task_path) as f:
+                task = json.load(f)
+            original_name = task_path.name.replace("_evaluated.json", ".json")
+            self.task_data[original_name] = task
+        print(f"Loaded {len(tasks)} evaluated tasks into engine.")

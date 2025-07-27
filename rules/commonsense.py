@@ -1,3 +1,21 @@
+# ================================
+# NATURAL LANGUAGE DESCRIPTIONS
+# ================================
+NL_RULES = [
+    "The rule is not directly observable but inferred from contextual logic or pattern completion.",
+    "The output fills in or completes a pattern that appears partially in the input.",
+    "The transformation reflects a likely or intuitive extension of the input scenario, even without strict geometric or colour rules.",
+    "Partial fills or clearing of background around objects indicate a non-trivial spatial or logical transformation.",
+    "Shape-to-colour relationships involve abstract patterning where colour changes depend on shape identity but may not be easily computable.",
+    "Combined objects forming common geometric shapes requires higher-level spatial reasoning beyond simple pixel checks.",
+    "Tetris-like behaviors (gravity, row clearance, downward shifts) are complex and inferred from multi-step spatial changes.",
+    "Overlap constraints between input and output objects involve detailed set operations that may be context dependent."
+]
+
+# ==================================
+# SIMPLE FUNDAMENTAL COMMONSENSE CHECKS
+# ==================================
+
 import numpy as np
 from dsl import *
 import math
@@ -110,7 +128,7 @@ def shape_to_color_relationship(inp, out, inp_objs=None, out_objs=None):
     :return: True if the relationship matches the described behavior, False otherwise.
     """
 
-    from rules.geometry import objects_stretch_to_edges
+    from rules.Geometry import objects_stretch_to_edges
 
     if objects_stretch_to_edges(inp, out, inp_objs, out_objs):
         return False
