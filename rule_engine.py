@@ -349,6 +349,39 @@ class RuleEngine:
                 print(f"Task '{task_name}' not found.")
                 continue
 
+            # --- Show Natural Language Rules Passed grouped by category ---
+            nl_results = task.get("gpt_nl_rule_eval", {})
+            if nl_results:
+                print("\n🧠 Natural Language Rules Passed:")
+
+                # Build a mapping from rule to category
+                rule_to_category = {}
+                for category in CATEGORIES:
+                    try:
+                        module = importlib.import_module(f"rules.{category}")
+                        category_rules = getattr(module, "NL_RULES", [])
+                    except Exception as e:
+                        print(f"⚠️ Could not import NL_RULES for category '{category}': {e}")
+                        category_rules = []
+                    for rule in category_rules:
+                        if rule not in rule_to_category:
+                            rule_to_category[rule] = category
+
+                # Now when printing:
+                category_to_passed_rules = {cat: [] for cat in CATEGORIES}
+                for rule, passed in nl_results.items():
+                    if passed:
+                        cat = rule_to_category.get(rule)
+                        if cat:
+                            category_to_passed_rules[cat].append(rule)
+
+                for category, passed_rules in category_to_passed_rules.items():
+                    if passed_rules:
+                        print(f"\n📁 Category: {category}")
+                        for i, rule_text in enumerate(passed_rules, 1):
+                            print(f"   {i}. {rule_text}")
+
+
             try:
                 scores_path = self.output_folder / "evaluated_scores.json"
                 with open(scores_path, "r") as f:
@@ -380,24 +413,11 @@ class RuleEngine:
                     try:
                         raw_inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, True, True)
                         raw_out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, True, True)
-
-                    
                         results.append(func(inp, out, raw_inp_objs, raw_out_objs))
                     except TypeError:
                         results.append(func(inp, out))
-                # --- New: Show Natural Language Rules That Passed ---
-                nl_results = task.get("nl_rule_results", {})
-                if nl_results:
-                    print("\n🧠 Natural Language Rules Passed:")
-                    for category, rule_descriptions in nl_results.items():
-                        if rule_descriptions:
-                            print(f"\n📁 Category: {category}")
-                            for i, desc in enumerate(rule_descriptions, 1):
-                                print(f"   {i}. {desc}")
 
                 display_rule_results(results, rule_names)
-
-
 
             score_dict = self.category_scores.get(task_name, {})
             if not score_dict:
@@ -407,6 +427,7 @@ class RuleEngine:
             plot_solomonoff_scores(score_dict)
             self.plot_task_objects(task_name)
             plt.show()
+
 
     def plot_task_objects(self, task_name):
         if task_name not in self.task_data:

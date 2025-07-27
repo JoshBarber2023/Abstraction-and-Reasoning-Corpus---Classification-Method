@@ -1,17 +1,18 @@
 # ================================
 # NATURAL LANGUAGE DESCRIPTIONS
+# Highly specific, geometry-only
 # ================================
 NL_RULES = [
-    "Spatial transformations applied to objects such as rotation, reflection, or repositioning.",
-    "Object shapes are preserved, but their orientation or location may change.",
-    "Transformations rely on geometric properties of detected objects, not just pixel grids.",
-    "Objects stretching from interior to edges represent shape expansion requiring spatial edge reasoning.",
-    "Object removals leaving empty gaps require shape and position comparison with the output background.",
-    "Complete surrounding of an object involves checking 4-directional neighbors for coverage by output objects.",
-    "Detection of surrounded cell disappearance involves 8-directional neighborhood and pixel-level disappearance.",
-    "Mirroring can include vertical, horizontal, and diagonal flips, which are spatially complex checks.",
-    "Grid-level rotations require compatible dimension checks and pixel-wise equality after rotation.",
-    "Object rotation detection involves matching against all 90° rotations but excluding symmetric or single-pixel objects."
+    "The task involves rotating full objects by exactly 90°, 180°, or 270°, without changing their shape, size, or colour.",
+    "The input and output differ by a horizontal flip of all non-background objects while retaining their shape and position in the grid.",
+    "The objects are translated (moved) without deformation, preserving their pixel layout and orientation.",
+    "The task involves identifying symmetrical objects and reflecting them across a defined vertical or horizontal axis.",
+    "Output shows objects scaled (stretched or compressed) along one or both axes while preserving internal structure.",
+    "The position of objects relative to grid edges changes, but their size and shape remain constant.",
+    "The transformation involves rotating the entire grid while maintaining absolute positions of colours within objects.",
+    "Each object's orientation changes, but their relative positions in the grid are preserved (e.g., rotated-in-place).",
+    "The output grid shows objects flipped diagonally, requiring identification of diagonal symmetry.",
+    "One or more objects are removed based on their spatial configuration, such as being surrounded on 4 sides by other objects."
 ]
 
 # ==================================

@@ -1,14 +1,20 @@
 # ================================
 # NATURAL LANGUAGE DESCRIPTIONS
+# Movement-focused transformations
 # ================================
 NL_RULES = [
-    "Objects are translated spatially without changing shape or colour.",
-    "Movement of objects is coordinated with consistent translation vectors.",
-    "Objects may be shifted by fixed amounts or along detected paths.",
-    "Objects changing size, shape, or rotating are excluded from simple movement checks.",
-    "Foreground and background may be reassigned during object movement, involving complex overlaps.",
-    "Gravity-like movements involve consistent downward shifts of objects without rotation or size change."
+    "Objects undergo rigid translation from one position to another without rotation, scaling, or colour change.",
+    "Each object in the input moves with a consistent direction and distance across the grid.",
+    "All instances of a shape follow a uniform movement vector, indicating coordinated translation.",
+    "Movement occurs along rows, columns, or diagonals, but without deformation of object geometry.",
+    "Gravity-like motion is represented as a uniform downward shift of objects, respecting grid boundaries.",
+    "Objects slide into empty spaces, often stopping at walls or other objects, simulating physical constraints.",
+    "The transformation reflects consistent offsetting of pixel clusters based on their original centroid.",
+    "Object motion is detected by comparing centroids between input and output and ensuring shape overlap.",
+    "Foreground objects may occlude or overwrite background as they move, requiring layered reasoning.",
+    "Objects that vanish are considered moved only if identical copies appear elsewhere with no shape change."
 ]
+
 
 # ==================================
 # SIMPLE FUNDAMENTAL MOVEMENT CHECKS

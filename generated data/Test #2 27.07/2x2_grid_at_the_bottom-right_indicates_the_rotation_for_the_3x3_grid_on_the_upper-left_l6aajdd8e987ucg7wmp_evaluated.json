@@ -308,31 +308,39 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.0003735573230721155,
-    "CommonSense": 3.7355743513932393e-07,
-    "Geometry": 0.6141181430282866,
-    "Movement": 3.7355743513932393e-07,
-    "Number": 3.7355743513932393e-07,
-    "Object": 0.3855071789763357
+    "Colour": 0.999999997699998,
+    "CommonSense": 1.0000008977003588e-09,
+    "Geometry": 1.0000008977003588e-09,
+    "Movement": 1.0000009977004501e-10,
+    "Number": 1.0000009977004501e-10,
+    "Object": 1.0000009977004501e-10
   },
   "predicted_categories": [
-    "Geometry",
-    "Geometry",
-    "Geometry"
+    "Colour",
+    "Colour",
+    "Colour"
   ],
   "gpt_nl_rule_eval": {
-    "The rule is not directly observable but inferred from contextual logic or pattern completion.": true,
-    "The output fills in or completes a pattern that appears partially in the input.": true,
-    "The transformation reflects a likely or intuitive extension of the input scenario, even without strict geometric or colour rules.": true,
-    "Partial fills or clearing of background around objects indicate a non-trivial spatial or logical transformation.": false,
-    "Shape-to-colour relationships involve abstract patterning where colour changes depend on shape identity but may not be easily computable.": false,
-    "Combined objects forming common geometric shapes requires higher-level spatial reasoning beyond simple pixel checks.": false,
-    "Tetris-like behaviors (gravity, row clearance, downward shifts) are complex and inferred from multi-step spatial changes.": false,
-    "Overlap constraints between input and output objects involve detailed set operations that may be context dependent.": false,
-    "The transformation involves only changes to colours; object shapes and positions are preserved.": false,
-    "All colour regions are retained \u2014 no merging, splitting, or reshaping of coloured areas.": true,
-    "The output colours are a direct mapping or swap of the input palette, with no new colours introduced.": true,
-    "Partial internal colour changes occur only when smaller objects appear adjacent to existing ones without changing object shapes or positions.": true
+    "Only the colours of pixels change between input and output; all pixel positions remain the same.": true,
+    "Each unique colour in the input has exactly one corresponding output colour (1-to-1 mapping).": true,
+    "Objects retain their shape and position, but their colours change consistently across all instances.": true,
+    "No new objects are added or removed \u2014 only existing colours are swapped or adjusted.": true,
+    "All changes occur at the pixel level, with colour values altered but spatial layout untouched.": true,
+    "The number of non-background pixels remains constant, confirming no geometric transformation.": true,
+    "The transformation can be fully described by a dictionary mapping input colours to output colours.": true,
+    "Every instance of a specific input colour changes to the same output colour globally.": true,
+    "There is no spatial dependency \u2014 the same colour transformation applies regardless of position.": true,
+    "Background colour (most common colour) remains the same in input and output grids.": true,
+    "The correct output requires inferring an action or change not explicitly shown in the input.": false,
+    "The transformation simulates a real-world effect (e.g., gravity, clearing lines) requiring logical prediction.": false,
+    "The output completes a structure that is implied but not fully present in the input.": false,
+    "The task involves deducing object interactions that are not directly encoded in colour or position.": false,
+    "The transformation reflects a change in state that follows a plausible sequence of logical events.": false,
+    "Objects move or change in ways that imply constraints or physical reasoning, not simple grid shifts.": false,
+    "The rule requires understanding intent or goal completion (e.g., filling gaps, continuing a pattern).": false,
+    "The output cannot be generated without extrapolating from partial cues in the input.": true,
+    "The same visual pattern may lead to different outcomes based on context \u2014 logical ambiguity is resolved by inference.": false,
+    "Spatial transformations are not geometric but scenario-based (e.g., block collapsing due to support loss).": false
   },
   "expected_category": "Geometry"
 }

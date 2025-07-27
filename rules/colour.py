@@ -2,11 +2,18 @@
 # NATURAL LANGUAGE DESCRIPTIONS
 # ================================
 NL_RULES = [
-    "The transformation involves only changes to colours; object shapes and positions are preserved.",
-    "All colour regions are retained — no merging, splitting, or reshaping of coloured areas.",
-    "The output colours are a direct mapping or swap of the input palette, with no new colours introduced.",
-    "Partial internal colour changes occur only when smaller objects appear adjacent to existing ones without changing object shapes or positions."
+    "Only the colours of pixels change between input and output; all pixel positions remain the same.",
+    "Each unique colour in the input has exactly one corresponding output colour (1-to-1 mapping).",
+    "Objects retain their shape and position, but their colours change consistently across all instances.",
+    "No new objects are added or removed — only existing colours are swapped or adjusted.",
+    "All changes occur at the pixel level, with colour values altered but spatial layout untouched.",
+    "The number of non-background pixels remains constant, confirming no geometric transformation.",
+    "The transformation can be fully described by a dictionary mapping input colours to output colours.",
+    "Every instance of a specific input colour changes to the same output colour globally.",
+    "There is no spatial dependency — the same colour transformation applies regardless of position.",
+    "Background colour (most common colour) remains the same in input and output grids."
 ]
+
 
 # ==================================
 # SIMPLE FUNDAMENTAL COLOUR CHECKS

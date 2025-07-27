@@ -1,10 +1,18 @@
 # ================================
 # NATURAL LANGUAGE DESCRIPTIONS
+# Number-based transformations
 # ================================
 NL_RULES = [
-    "Rules depend on the count or numerical properties of objects or colours.",
-    "Output quantity or size relates arithmetically to input values (e.g., doubling, halving).",
-    "Numerical constraints control replication or deletion of objects or rows/columns."
+    "Rules depend on the count or numerical properties of objects, pixels, or colours.",
+    "Transformations involve arithmetic relationships between quantities in input and output (e.g., doubling, halving, incrementing).",
+    "The number of objects or features in the output is derived from a numerical function of the input (e.g., total objects * 2).",
+    "Numerical attributes like width, height, pixel count, or object count are critical for determining the output.",
+    "Counting is required to match object quantities or apply size-based constraints to generate the correct result.",
+    "Object or row replication is based on repeating them a fixed number of times or in response to counts of specific colours or shapes.",
+    "Deletions or compressions are governed by numeric thresholds (e.g., 'remove all rows with fewer than 3 objects').",
+    "Numbers may be explicitly encoded in the input (e.g., as line counts, dot quantities, or colour codes) and guide the transformation.",
+    "The final grid layout reflects direct computation or encoding of quantities observed in the input.",
+    "Implicit numerical reasoning may be needed, such as selecting the most frequent count or inferring a rule based on parity (even/odd)."
 ]
 
 # ==================================

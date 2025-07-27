@@ -1,10 +1,20 @@
 # ================================
 # NATURAL LANGUAGE DESCRIPTIONS
+# Object-based transformations
 # ================================
 NL_RULES = [
     "Objects may be split, merged, duplicated, or morphed in the output.",
     "Object count may change due to splitting or merging operations.",
-    "Objects can change shape but remain identifiable as discrete entities."
+    "Objects can change shape but remain identifiable as discrete entities.",
+    "Transformations focus on object-level structure, beyond pixel-wise modifications.",
+    "Discrete objects are detected and manipulated as whole units regardless of internal pixel layout.",
+    "Objects may be replicated, replaced, or restructured in isolation or in groups.",
+    "Merged objects retain features from multiple source objects, sometimes blending shape or colour.",
+    "Splitting involves decomposing larger shapes into smaller sub-objects while preserving key properties.",
+    "Morphed transformations gradually alter an object’s geometry while maintaining recognizability.",
+    "New objects may be synthesized based on properties of existing ones (e.g., shape averaging, border growth).",
+    "Deformations may involve smoothing, hole filling, or contour-based adjustments.",
+    "The rules operate primarily on semantic units (objects) rather than raw spatial positions or colour pixels."
 ]
 
 # ==================================

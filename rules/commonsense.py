@@ -2,14 +2,16 @@
 # NATURAL LANGUAGE DESCRIPTIONS
 # ================================
 NL_RULES = [
-    "The rule is not directly observable but inferred from contextual logic or pattern completion.",
-    "The output fills in or completes a pattern that appears partially in the input.",
-    "The transformation reflects a likely or intuitive extension of the input scenario, even without strict geometric or colour rules.",
-    "Partial fills or clearing of background around objects indicate a non-trivial spatial or logical transformation.",
-    "Shape-to-colour relationships involve abstract patterning where colour changes depend on shape identity but may not be easily computable.",
-    "Combined objects forming common geometric shapes requires higher-level spatial reasoning beyond simple pixel checks.",
-    "Tetris-like behaviors (gravity, row clearance, downward shifts) are complex and inferred from multi-step spatial changes.",
-    "Overlap constraints between input and output objects involve detailed set operations that may be context dependent."
+    "The correct output requires inferring an action or change not explicitly shown in the input.",
+    "The transformation simulates a real-world effect (e.g., gravity, clearing lines) requiring logical prediction.",
+    "The output completes a structure that is implied but not fully present in the input.",
+    "The task involves deducing object interactions that are not directly encoded in colour or position.",
+    "The transformation reflects a change in state that follows a plausible sequence of logical events.",
+    "Objects move or change in ways that imply constraints or physical reasoning, not simple grid shifts.",
+    "The rule requires understanding intent or goal completion (e.g., filling gaps, continuing a pattern).",
+    "The output cannot be generated without extrapolating from partial cues in the input.",
+    "The same visual pattern may lead to different outcomes based on context — logical ambiguity is resolved by inference.",
+    "Spatial transformations are not geometric but scenario-based (e.g., block collapsing due to support loss)."
 ]
 
 # ==================================
