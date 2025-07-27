@@ -6,7 +6,6 @@ from solomonoff import calculate_solomonoff_score
 from categories import CATEGORIES
 from utils.complexity import rule_complexity
 from utils.visualisation import *
-from utils.rule_helpers import convert_objs
 import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -116,18 +115,24 @@ class RuleEngine:
 
             prompt_block = "\n".join([f"- {p}" for p in prompts])
             full_prompt = f"""
-You are helping to evaluate transformations between two image grids.
+            You are evaluating a transformation between two image grids.
 
-Here is the input grid:
-{input_str}
+            Input Grid:
+            {input_str}
 
-Here is the output grid:
-{output_str}
+            Output Grid:
+            {output_str}
 
-For each of the following statements, respond only with "True" or "False" to indicate whether the statement is supported by the transformation. Use one line per statement in the same order.
+            You will be presented with a list of descriptive statements about the transformation.
 
-{prompt_block}
-"""
+            For each statement, respond with either **"True"** or **"False"** — based solely on whether the transformation supports the claim. Respond using one line per statement, in the same order they appear. Do not include any additional text or explanation.
+
+            Make your judgment solely based on the **visual and structural changes** between the grids. Ignore any outside knowledge or assumptions.
+
+            Statements:
+            {prompt_block}
+            """
+
 
             try:
                 response = self.client.chat.completions.create(
@@ -237,14 +242,16 @@ For each of the following statements, respond only with "True" or "False" to ind
                 gpt_nl_scores[category] = self.score_nl_results(nl_results_by_category[category], category)
 
             # Add NL scores to coded scores (only for categories evaluated by GPT)
-            combined_scores = normalized_category_scores.copy()
-            for cat in gpt_nl_scores:
-                combined_scores[cat] += gpt_nl_scores[cat]
+            raw_combined_scores = {}
+            for cat in CATEGORIES:
+                raw_score = category_scores.get(cat, 0.0)
+                gpt_score = gpt_nl_scores.get(cat, 0.0)
+                raw_combined_scores[cat] = raw_score + gpt_score
 
-            # Renormalize combined scores
-            combined_scores_array = np.array([combined_scores[cat] for cat in CATEGORIES])
-            combined_scores_normalized = softmax(combined_scores_array)
-            combined_scores_final = {cat: combined_scores_normalized[i] for i, cat in enumerate(CATEGORIES)}
+            # Final normalization
+            scores_array = np.array([raw_combined_scores[cat] for cat in CATEGORIES])
+            final_scores = softmax(scores_array)
+            combined_scores_final = {cat: final_scores[i] for i, cat in enumerate(CATEGORIES)}
 
             best_category = max(combined_scores_final, key=combined_scores_final.get)
 
@@ -297,17 +304,12 @@ For each of the following statements, respond only with "True" or "False" to ind
 
         raw_inp_objs = objects(tuple(tuple(row) for row in first_pair["input"]), True, True, True)
         raw_out_objs = objects(tuple(tuple(row) for row in first_pair["output"]), True, True, True)
-
-        inp_objs = convert_objs(raw_inp_objs)
-        out_objs = convert_objs(raw_out_objs)
-
         total_score = 0.0
 
         for rule_func, prior in rules:
-            try:
-                passed = rule_func(inp_grid, out_grid, inp_objs, out_objs)
-            except TypeError:
-                passed = rule_func(inp_grid, out_grid)
+
+            passed = rule_func(inp_grid, out_grid, raw_inp_objs, raw_out_objs)
+
 
             if passed:
                 complexity = rule_complexity(rule_func)
@@ -379,12 +381,23 @@ For each of the following statements, respond only with "True" or "False" to ind
                         raw_inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, True, True)
                         raw_out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, True, True)
 
-                        inp_objs = convert_objs(raw_inp_objs)
-                        out_objs = convert_objs(raw_out_objs)
-                        results.append(func(inp, out, inp_objs, out_objs))
+                    
+                        results.append(func(inp, out, raw_inp_objs, raw_out_objs))
                     except TypeError:
                         results.append(func(inp, out))
+                # --- New: Show Natural Language Rules That Passed ---
+                nl_results = task.get("nl_rule_results", {})
+                if nl_results:
+                    print("\n🧠 Natural Language Rules Passed:")
+                    for category, rule_descriptions in nl_results.items():
+                        if rule_descriptions:
+                            print(f"\n📁 Category: {category}")
+                            for i, desc in enumerate(rule_descriptions, 1):
+                                print(f"   {i}. {desc}")
+
                 display_rule_results(results, rule_names)
+
+
 
             score_dict = self.category_scores.get(task_name, {})
             if not score_dict:

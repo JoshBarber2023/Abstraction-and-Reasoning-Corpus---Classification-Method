@@ -1,0 +1,338 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          6,
+          6,
+          6,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          6,
+          6,
+          6,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          9,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          9,
+          0
+        ],
+        [
+          0,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          5,
+          5,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          9,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          9,
+          0
+        ],
+        [
+          0,
+          0,
+          9,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          7,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 1.1215390232250938e-08,
+    "CommonSense": 1.1215387989173213e-06,
+    "Geometry": 1.121539247532909e-10,
+    "Movement": 1.121539247532909e-10,
+    "Number": 1.121539247532909e-10,
+    "Object": 0.9999988669093491
+  },
+  "predicted_categories": [
+    "Object",
+    "Object",
+    "Object"
+  ],
+  "gpt_nl_rule_eval": {
+    "The rule is not directly observable but inferred from contextual logic or pattern completion.": true,
+    "The output fills in or completes a pattern that appears partially in the input.": true,
+    "The transformation reflects a likely or intuitive extension of the input scenario, even without strict geometric or colour rules.": true,
+    "Partial fills or clearing of background around objects indicate a non-trivial spatial or logical transformation.": true,
+    "Shape-to-colour relationships involve abstract patterning where colour changes depend on shape identity but may not be easily computable.": false,
+    "Combined objects forming common geometric shapes requires higher-level spatial reasoning beyond simple pixel checks.": false,
+    "Tetris-like behaviors (gravity, row clearance, downward shifts) are complex and inferred from multi-step spatial changes.": false,
+    "Overlap constraints between input and output objects involve detailed set operations that may be context dependent.": false,
+    "The transformation involves only changes to colours; object shapes and positions are preserved.": false,
+    "All colour regions are retained \u2014 no merging, splitting, or reshaping of coloured areas.": false,
+    "The output colours are a direct mapping or swap of the input palette, with no new colours introduced.": true,
+    "Partial internal colour changes occur only when smaller objects appear adjacent to existing ones without changing object shapes or positions.": true
+  },
+  "expected_category": "Geometry"
+}

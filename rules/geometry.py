@@ -94,11 +94,17 @@ def is_completely_surrounded(inp, out, inp_objs=None, out_objs=None):
 
         all_sides_covered = True
         for cell in inp_obj:
-            inner = next(iter(cell))
-            _, (x, y) = inner
+            # Safely unpack (handle both frozenset({(color, (x,y))}) or direct (color,(x,y)) tuple)
+            if isinstance(cell, frozenset):
+                inner = next(iter(cell))
+                _, (x, y) = inner
+            elif isinstance(cell, tuple) and len(cell) == 2:
+                _, (x, y) = cell
+            else:
+                raise TypeError(f"Unexpected cell structure in is_completely_surrounded: {cell}")
+
             for dx, dy in directions:
                 neighbor = (x + dx, y + dy)
-                # Check neighbor membership in positions, not in frozensets!
                 if neighbor not in inp_positions and neighbor not in out_positions_all:
                     all_sides_covered = False
                     break

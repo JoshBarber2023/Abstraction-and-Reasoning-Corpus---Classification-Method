@@ -43,7 +43,7 @@ def objects_get_smaller(inp, out, inp_objs=None, out_objs=None):
 
     if shape_to_color_relationship(inp, out, inp_objs, out_objs): 
         return False
-
+    
     matches = match_objects_by_overlap(inp_objs, out_objs)
 
     for in_obj, out_obj in matches:
