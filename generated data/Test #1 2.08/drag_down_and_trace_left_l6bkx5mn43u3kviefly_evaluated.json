@@ -1,0 +1,365 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          0,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          5,
+          4,
+          5,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          4,
+          4,
+          5,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          0,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          5,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          4,
+          5
+        ],
+        [
+          4,
+          5,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          5,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          5,
+          5
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          4,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          4,
+          5,
+          4,
+          4,
+          4
+        ],
+        [
+          5,
+          0,
+          4,
+          4,
+          5
+        ],
+        [
+          0,
+          0,
+          4,
+          5,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.004647119646168447,
+    "CommonSense": 0.9913834624382569,
+    "Geometry": 3.227171068069957e-05,
+    "Movement": 0.002420376485770104,
+    "Number": 0.0014844980084430966,
+    "Object": 3.227171068069957e-05
+  },
+  "predicted_categories": [
+    "CommonSense",
+    "CommonSense",
+    "CommonSense"
+  ],
+  "detailed_rule_results": {
+    "Colour": {
+      "All objects change their colour: Every object present in the input grid changes to a different colour in the output grid, while maintaining their original shape and position.": false,
+      "Mimic colour scheme: If there are more than two distinct colours across the combined input and output grids, the primary colour of each object in the input is preserved in the corresponding object in the output, mirroring the overall colour palette.": true,
+      "Partial internal colour change: When an object in the output is a smaller version of an input object and a neighbouring object appears, at least part of the object's internal colouring changes compared to the original.": false
+    },
+    "CommonSense": {
+      "Filled relationship: Checks if the background inside or around objects was filled or cleared between input and output grids.": false,
+      "Column ascending order: Verifies if objects in the output grid are aligned vertically and their values ascend from top to bottom.": true,
+      "Column descending order: Verifies if objects in the output grid are aligned vertically and their values descend from top to bottom.": false,
+      "Shape-to-color relationship: Checks if output object colors change based on their shapes compared to the input while maintaining some pixel overlap.": false,
+      "Combined objects form common shape: Determines if combining non-overlapping input and output objects of the same color forms a common shape like square, rectangle, circle, or triangle.": false,
+      "Checkerboard pattern: Checks if the output grid forms a checkerboard pattern of alternating values.": false,
+      "Outputs do not overlap inputs: Ensures no output object overlaps with any input object in the grid.": true,
+      "Tetris relationship: Detects Tetris-like transformations where rows are cleared, objects move downward, or gravity pulls objects to the bottom row.": false
+    },
+    "Geometry": {
+      "Objects stretch to edges: Detects if any input object not touching the grid edge stretches to touch the edge in the output grid.": false,
+      "Object has rotated: Checks if any input object has rotated (non-symmetric shapes only) to match an output object.": false,
+      "Object is completely surrounded: Determines if any input object is fully surrounded on all four sides (up, down, left, right) by output objects.": false,
+      "Object removed but gap remains: Detects if an input object disappears in the output but leaves a gap of background cells of the same shape.": false,
+      "Grid has rotated: Checks if the entire input grid has been rotated (by 90\u00b0, 180\u00b0, or 270\u00b0) to become the output grid.": false,
+      "Object has mirrored: Detects if input objects have been mirrored (vertically, horizontally, or diagonally) in the output grid.": false
+    },
+    "Movement": {
+      "Object moved: Detects if any object has changed position based on centroid movement, ignoring rotations, resizing, and neighbour disappearance.": false,
+      "Foreground-background shift: Checks if any cells have switched their object membership between input and output, indicating a foreground/background reassignment.": true,
+      "Objects fall downward: Detects if all objects have moved downward in the grid (gravity effect), without rotation or size changes.": false
+    },
+    "Number": {
+      "Duplicate shapes in output: Detects if any object shape appears more than once in the output but only once or zero times in the input.": false,
+      "Replication pattern: Checks if a pattern present in the input grid is clearly repeated multiple times in the output grid.": true
+    },
+    "Object": {
+      "Objects get larger: Detects if any object in the output is larger than its corresponding input object.": false,
+      "Objects get smaller: Detects if any object in the output is smaller than its corresponding input object.": false,
+      "Neighbour object disappears: Detects if an object disappears in the output while one of its neighbours remains in the input.": false,
+      "Neighbour object appears: Detects if a new object appears in the output adjacent to an existing object.": false,
+      "Object duplication: Checks if any input object is directly duplicated and repeated multiple times in the output grid.": false
+    }
+  },
+  "expected_category": "Object"
+}

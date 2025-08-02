@@ -1,0 +1,1790 @@
+{
+  "1_3_5_l6aejqqqc1b47pjr5g4.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.003930030624209165,
+      "CommonSense": 0.8384047892825957,
+      "Geometry": 2.729191863509212e-05,
+      "Movement": 0.1535168120470888,
+      "Number": 0.001255427679717505,
+      "Object": 0.0028656484477538034
+    }
+  },
+  "Biggest_one_attracts_everything_l6acvgoub4310yvwun.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Bouncing_Ball_l6acvhhkgcbt8hvve8b.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "2x2_grid_at_the_bottom-right_indicates_the_rotation_for_the_3x3_grid_on_the_upper-left_l6aajdd8e987ucg7wmp.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "AscendingOrder_l6abjqzwwo7mhobq52.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Bring_the_block_in_corner_to_inside_l6agp0jf2ccngjdegsy.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "3_s_l6bksw4pewbthhupnrn.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "1_3_5th_go_down_2_4th_go_up_l6abuzscmjgg12f0mdc.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.0046077145117370925,
+      "CommonSense": 0.982977051244904,
+      "Geometry": 0.005183677892643554,
+      "Movement": 0.002399852964092564,
+      "Number": 0.0014719102448304234,
+      "Object": 0.003359793141792403
+    }
+  },
+  "after_rain_l6bv83jfqxba4q8hzbg.json": {
+    "predicted_category": "Colour",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.537313230040294,
+      "CommonSense": 0.003731347248412121,
+      "Geometry": 0.003731347248412121,
+      "Movement": 0.2798508337427838,
+      "Number": 0.17164189447168612,
+      "Object": 0.003731347248412121
+    }
+  },
+  "align_based_on_the_arrow_direction_l6afyzc2pjsb51gkdg.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "Centralize_l6aei788udv3muok2ka.json": {
+    "predicted_category": "Movement",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.024092355294048573,
+      "CommonSense": 0.026769279376975458,
+      "Geometry": 0.00016730826379889033,
+      "Movement": 0.9411075722068706,
+      "Number": 0.0076961765945077225,
+      "Object": 0.00016730826379889033
+    }
+  },
+  "Change_the_order_of_sticks_l6afheel22a49dadhpf.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Change_color_of_object_clockwise_l6bk9tti405ajm30vuv.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "chess_pawn_l6bkp4xqvn1t6b1566f.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Change_the_location_l6ag1x3wunxhu3wa01l.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "clock_l6bka8ape8glx94eysi.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "changing_color_if_neighbors_have_same_l6blerss5coxn0ig3ou.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "Change_the_object_order_l69a4gt4sal4b6ihjkc.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "clockwise_rotation_l6acrhm6kqqbr4w69i8.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "clockwise_123_l6aby702l60zwducki.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Colony_Expansion_2_l6d2q1yx5npw0qdrnzn.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.003941217203792224,
+      "CommonSense": 0.8407912546298,
+      "Geometry": 2.736960332739582e-05,
+      "Movement": 0.15395378778583327,
+      "Number": 0.001259001173919668,
+      "Object": 2.736960332739582e-05
+    }
+  },
+  "Color_corners_of_the_rectangle_l6ab1kfb2tyukiwz069.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Color_encoding_updated_l6ae1ybpnzgz9mlmk1.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004632319865356671,
+      "CommonSense": 0.9882261824322207,
+      "Geometry": 3.216893427706443e-05,
+      "Movement": 0.002412668261278637,
+      "Number": 0.0014797702960506278,
+      "Object": 0.0032168902108162334
+    }
+  },
+  "color_the_outer_edge_of_the_object_l6abl0slggq9g7sdkyv.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Color_every_other_tiles_in_the_horizontal_line_l6abe9jmc0chwbqn9c7.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Color_Emcoding_l6aftgp22mlspnm1zxb.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Color_value_and_axis_interpolation_l6aebkm5hclekqmx4rd.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "complete_square_l6bkxufbnufivt96os.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004632319865356671,
+      "CommonSense": 0.9882261824322207,
+      "Geometry": 3.216893427706443e-05,
+      "Movement": 0.002412668261278637,
+      "Number": 0.0014797702960506278,
+      "Object": 0.0032168902108162334
+    }
+  },
+  "connect_the_gray_corners_l6aehnfsp690jeqcyi.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "connect_the_dots_to_make_a_square_l6aescjwslh5v45v3gf.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "count_color_and_sort_to_diagonal_l6ab8gmner8ens13m7u.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "Count_red_and_make_convex_figure_with_same_area_l6ab33e6ctz4a39x67d.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "count_green_and_color_red__l6ae4occ03osbzmznmgi.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "Count_the_number_of_each_color_tiles_and_make_histogram_l6affduwz8b7dyxmvnk.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "copy_3x3_and_see_only_middle_5x5_corrected_l6bl3df6blwyr74lj3d.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "covering_the_shape_l6bl450fal0nr0te2ja.json": {
+    "predicted_category": "Colour",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.537313230040294,
+      "CommonSense": 0.003731347248412121,
+      "Geometry": 0.003731347248412121,
+      "Movement": 0.2798508337427838,
+      "Number": 0.17164189447168612,
+      "Object": 0.003731347248412121
+    }
+  },
+  "define_boundary_l6aeugn2pfna6pvwdt.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Delete_all_except_blocks_in_pinks_view_l6aekdd9ag9d5758ucw.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "complete_the_grid_l6advlyw26bcclp5nx3.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Delete_upper_left_corner_l6agnxc5cev5d7xu89q.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "diagonal_flip_l6ad1nnu454mki54lqa.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Delete_Sorrounded_l6acpnv7madtynx3e4m.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "diagonal_motion_l6afz9x759u8lp4kgq.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Diagonal_expansion__l6abirdahy8nxqq8mrv.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "diagonal_flip_l6abdiipodvgey6tbdf.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "diagonal_symmetry_l6abqjzurzoglalkz39.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Difference_of_red_and_green_l6ac81cwe3xlqnl0vtj.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "drag_down_and_trace_left_l6bkx5mn43u3kviefly.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "edit__flip_based_on_symmetry_part_l6bika2fz201a3w323l.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "edited_every_5_color_in_a_row_and_column_l6bkoau8zekve5ejb2i.json": {
+    "predicted_category": "Geometry",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.20367749019148146,
+      "CommonSense": 0.2263082862257059,
+      "Geometry": 0.22913713522079182,
+      "Movement": 0.10608209933793977,
+      "Number": 0.06506370646239713,
+      "Object": 0.16973128256168382
+    }
+  },
+  "exchange_central_regions_diagonally_l6aezzazwi5alzkuk8n.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "ExpandnContract_l6ab75bv3lho8o820hg.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Filling_Corner_Corrected_l6bhlma1gimq40v7dyb.json": {
+    "predicted_category": "Movement",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.023680316810897734,
+      "CommonSense": 0.026311458913392358,
+      "Geometry": 0.00016444688132329134,
+      "Movement": 0.9250123199245137,
+      "Number": 0.007564553061176994,
+      "Object": 0.017266904408695962
+    }
+  },
+  "filling_in_the_3x3_square_l6acqxcoewbg3zg475p.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Expansion_and_Interpolation_l6acqdnnv8tlnxpx19.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "fill_the_other_side_of_the_border_with_the_other_side_color_l6afhmhecdx8z6m544g.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "Extracting_diagonal_color_l6ab8vmgwv3s18vt7dq.json": {
+    "predicted_category": "Geometry",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.2448979410620468,
+      "CommonSense": 0.2721087798649323,
+      "Geometry": 0.27551013410305003,
+      "Movement": 0.12755109897994765,
+      "Number": 0.0782313633947796,
+      "Object": 0.0017006825952436248
+    }
+  },
+  "Fill_the_black_patches_l6bkr7brzakbyhu3sfc.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "find_single_cells_l6afg6gtkf27jicef4m.json": {
+    "predicted_category": "Geometry",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.19862068000355967,
+      "CommonSense": 0.2206896091381132,
+      "Geometry": 0.24827576062530468,
+      "Movement": 0.10344834221444073,
+      "Number": 0.06344833495819364,
+      "Object": 0.1655172730603882
+    }
+  },
+  "find_the_color_of_the_gray_pixels_l6afriful4bel4379yo.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "find_the_5_and_1_l6ae9ses9zaejs6idai.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "find_the_most_frequent_color_for_every_2x2_l6ad7ge3gc5rtysj7p.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 2.0170116352217634e-05,
+      "CommonSense": 0.9982818995471731,
+      "Geometry": 1.4007045414711937e-07,
+      "Movement": 1.0505276182076825e-05,
+      "Number": 6.443237926878044e-06,
+      "Object": 0.001680841751911562
+    }
+  },
+  "find_the_total_shape_revealed_by_gray_pixels_l6bl8wmnt49h58bhbzm.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "find_the_most_frequent_color_then_color_with_it_l6afx63nce23o4amnx.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "flip_based_on_the_line_l6abfld9pqc1qln7rfa.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Fit_the_object_to_the_gray_area_l6ael6as2vofatntvzb.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "Fire_the_gun_l6adyxlvr2wuudefvqm.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Flip_color_l6ab8jog1gzd12hofpc.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Flip_color_in_a_line_l6aest2y8e97r6rhou4.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "flip_to_the_long_side_l6ac65n6z6qn8i2lsw.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Flip_gray_is_the_axis_l6aebhyhb7kavxvpv69.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "flip_on_the_red_indicator_l6aepsu95pmaz36m2qd.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "Good_axis_l69ctqaoulgvm1zso2.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "FloodFill_l6ab6wvu67ltkeaialw.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "fractal_l6bklbsimu8fpp62p6i.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "going_up_l6acmlt1nkjxwh68ah.json": {
+    "predicted_category": "Movement",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.023699803564870957,
+      "CommonSense": 0.02633311085878719,
+      "Geometry": 0.00016458220619852847,
+      "Movement": 0.9257735212059203,
+      "Number": 0.00757077800257443,
+      "Object": 0.01645820416164869
+    }
+  },
+  "Good_divided_l69o6mo4h8dn43zu6fb.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.004632319865356671,
+      "CommonSense": 0.9882261824322207,
+      "Geometry": 3.216893427706443e-05,
+      "Movement": 0.002412668261278637,
+      "Number": 0.0014797702960506278,
+      "Object": 0.0032168902108162334
+    }
+  },
+  "Good_layer_l69nn5lz6kk4z4szffo.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "hideandseek_l6af8co8cvsr8u1psxt.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Good_maze_l69na9a94pkojo20vdi.json": {
+    "predicted_category": "Movement",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.023680316810897734,
+      "CommonSense": 0.026311458913392358,
+      "Geometry": 0.00016444688132329134,
+      "Movement": 0.9250123199245137,
+      "Number": 0.007564553061176994,
+      "Object": 0.017266904408695962
+    }
+  },
+  "inter_and_outer_blue_square_l6ac6z4bda5su9nopah.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Good_object_inside_l69nwyw75atgbflpm1i.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Gravity_l6ab99rxv8zu9j4t3bl.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Importance_of_social_distance_l6afc1q0dm28z9i6egn.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "If_yellow_vertical_flip_if_green_horizontal_flip_l6ab8cv1mtnt7jenaia.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "light__l6ae21isj0885d2hxfi.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "make_me_smile_l6bl4bdz1cgh6ajfa4yj.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.4079319838277917,
+      "CommonSense": 0.45325768728753224,
+      "Geometry": 0.0028328650781239482,
+      "Movement": 0.0028328650781239482,
+      "Number": 0.13031173365030416,
+      "Object": 0.0028328650781239482
+    }
+  },
+  "Linear_Bar_l6ag6o0l3vuqske3qj7.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "LetsMeetDiagonal_Edited_l6aeg2lz0fi09t4du6kr.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "make_the_rectangle_larger_l6aagjtrvgu9vxwb92d.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Most_Common_color_l6ab0lf3xztbyxsu3p.json": {
+    "predicted_category": "Object",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.013811632106410131,
+      "CommonSense": 0.015346255440613934,
+      "Geometry": 9.591424996639146e-05,
+      "Movement": 0.007193563352306846,
+      "Number": 0.004412053468909412,
+      "Object": 0.9591405813817934
+    }
+  },
+  "Move_and_flip_l6afdidd7eaonbxosey.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "One_Color_Collect_together_l6bkbzu66anwnd6daa.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "One_Color_gravity_2_l6bl4z15y83gmlqgkg.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "One_Color_Multiply_by_two_l6bkmzmkvfs83xelwq8.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "One_Color_Sequence_l6bl12mbpu3ide97bfe.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "One_Color_Simple_Stuff_l6bkg9unb1kgovxkon6.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "LargestBlackArea_l6abwdmst9ilyp2vewc.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "One_Color_Diagonal_Denoising_l6bktxbcgcze41sald4.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "One_Color_Gravity_l6bk9t38ni3lwbapno.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "one_plus_four_l6af5dcogqbhk8pvva.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "OrangeToYellow_l6aasjvev63lnj34jm.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "orange_vs_blue_l6abmp2nf0g7vd1rjki.json": {
+    "predicted_category": "Colour",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.5872483122393573,
+      "CommonSense": 0.005304868478727068,
+      "Geometry": 0.005570111457055218,
+      "Movement": 0.0024866592130602617,
+      "Number": 0.0015251514263038759,
+      "Object": 0.3978648971854964
+    }
+  },
+  "Poke_l6aexsnrtwwjb8ttht.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "parting_cross_l6acqil00ywf88hqnrpm.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.003930030624209165,
+      "CommonSense": 0.8384047892825957,
+      "Geometry": 2.729191863509212e-05,
+      "Movement": 0.1535168120470888,
+      "Number": 0.001255427679717505,
+      "Object": 0.0028656484477538034
+    }
+  },
+  "rainy_day_l6bjze1slxrmz0q8ufb.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Put_another_on_yourselves_l6adr7fndqi61wmtnvj.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "pull_inner_gadget_towards_the_side_with_different_color_l6aeiaci4szwtcqghvt.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "push_to_top-right_by_one_l6aflo0rz66bdej719.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.004629341452290686,
+      "CommonSense": 0.9875907889664292,
+      "Geometry": 3.214825082321096e-05,
+      "Movement": 0.0024111170034030703,
+      "Number": 0.00147881885761103,
+      "Object": 0.0038577854694427536
+    }
+  },
+  "Razer_reflection_l6afnlpp4vzn49nkx93.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "mapping_color_to_shape_l6acypud56b4m1z5409.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Put_away_overlapping_rectangles_l6afs0vwh2o0ztvftrs.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Reflection_l6ab2g1dkofxrxht5h.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "reveal_the_original_gray_pixel_l6blhmgkypxwgqpqsv.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Reflection_l6ae9muckoxf9pejy2k.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "reshape_the_top_left_2x2_to_the_bottom_right_2x2_l6ae262gcpe3lw9b2p.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Rotate_90_degrees_random_maze_l6aaxglsmb3xpn7gqi.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "rolling_l6aefbfyndc6kgu16ai.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "shape_mapping_l6afcchh0wfew0rhswzq.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Simple_Box_Moving_l6aapas5si5cuue2txa.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "Rotate_45_degree_l6bleks8igry3eqt4fn.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "rotating_colors_l6acdi323jol47enccp.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Simple_color_substitution_by_max_object_l6abpx6n1d4ho1vu843.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Simple_Color_Fill__l6af3wjj3htf3r242ir.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Simple_Unique_Box_l6adthlbktjkouruq0j.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Simple_Occlusion_Corrected_l6aem8yo7dxiyb3i5g4.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.0038393951089631265,
+      "CommonSense": 0.9897082847226988,
+      "Geometry": 2.6662504428417256e-05,
+      "Movement": 0.0019996863323665454,
+      "Number": 0.0012264746395288597,
+      "Object": 0.003199496692014041
+    }
+  },
+  "Stretch_the_object_horizontally_l6ah0j8vburw5a914u7.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "Simple_Color_Switch_l6abh4s781pwfrie9vt.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Snake_game_Turn_right_when_you_face_the_wall_stop_when_you_meet_your_tail_l6afvp1kql93zvw6l3b.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004631574902740618,
+      "CommonSense": 0.9880672574046935,
+      "Geometry": 3.216376091811444e-05,
+      "Movement": 0.0024122802596483884,
+      "Number": 0.0014795323216483963,
+      "Object": 0.0033771913503510987
+    }
+  },
+  "stretch_vertically_l6acwqhltn3k0zhgzjo.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.004632319865356671,
+      "CommonSense": 0.9882261824322207,
+      "Geometry": 3.216893427706443e-05,
+      "Movement": 0.002412668261278637,
+      "Number": 0.0014797702960506278,
+      "Object": 0.0032168902108162334
+    }
+  },
+  "Simple_Minima_Finding_l6ab9ddt2pph5409c92.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.4079319838277917,
+      "CommonSense": 0.45325768728753224,
+      "Geometry": 0.0028328650781239482,
+      "Movement": 0.0028328650781239482,
+      "Number": 0.13031173365030416,
+      "Object": 0.0028328650781239482
+    }
+  },
+  "Switch_layer_order_l6agp4tofkv4yw5a3fc.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Tetris_edit_l6ae0g871owxvc1baq3.json": {
+    "predicted_category": "Movement",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.024092355294048573,
+      "CommonSense": 0.026769279376975458,
+      "Geometry": 0.00016730826379889033,
+      "Movement": 0.9411075722068706,
+      "Number": 0.0076961765945077225,
+      "Object": 0.00016730826379889033
+    }
+  },
+  "Switch_the_color_with_neighbor._l6af7q6sgcjwh33zhq6.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Colour",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Tree_grow_l6abtiup7kl5z4wkkx4.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "Tetris_l6ab7fu64lvutswrtbk.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "Tetris_l6ac7y8auxq0oa1x3gh.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "Tetris_l6abebfk7kghwaazybv.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "Toto_Hold_the_line_l6ae5y414m4bvpacfjx.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.004647119646168447,
+      "CommonSense": 0.9913834624382569,
+      "Geometry": 3.227171068069957e-05,
+      "Movement": 0.002420376485770104,
+      "Number": 0.0014844980084430966,
+      "Object": 3.227171068069957e-05
+    }
+  },
+  "TopPoint_l6aei8s9pjo8fioevd.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "Tiling_l6aed6qtpdz0r7firb.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Number",
+    "scores": {
+      "Colour": 0.273764197832601,
+      "CommonSense": 0.30418239336711067,
+      "Geometry": 0.0019011430003683745,
+      "Movement": 0.14258561808841455,
+      "Number": 0.08745253778877785,
+      "Object": 0.1901141099227276
+    }
+  },
+  "wave_propagation_l6afe4he1mhixwh8v9e.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "WhereAreYouFrom_l6aebyjbdw1tt57ykl.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.2637362147228942,
+      "CommonSense": 0.29304019169463064,
+      "Geometry": 0.0018315041284933577,
+      "Movement": 0.1373627066149719,
+      "Number": 0.08424915115608493,
+      "Object": 0.219780231682925
+    }
+  },
+  "WhereToGo_l6abpi9x72c95wdvtgp.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004632319865356671,
+      "CommonSense": 0.9882261824322207,
+      "Geometry": 3.216893427706443e-05,
+      "Movement": 0.002412668261278637,
+      "Number": 0.0014797702960506278,
+      "Object": 0.0032168902108162334
+    }
+  },
+  "xor_l6bk7mn24iz2pdb4lxp.json": {
+    "predicted_category": "Object",
+    "expected_category": "Object",
+    "scores": {
+      "Colour": 0.01142404633984768,
+      "CommonSense": 0.012693382791114666,
+      "Geometry": 0.014280052783998012,
+      "Movement": 0.005950028240850911,
+      "Number": 0.0036493517126997615,
+      "Object": 0.9520031381314888
+    }
+  },
+  "yflip_l699qy8cyl67x9b0h3h.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Movement",
+    "scores": {
+      "Colour": 0.3372364754271921,
+      "CommonSense": 0.3747071349660473,
+      "Geometry": 0.0023419233406091447,
+      "Movement": 0.17564411881259676,
+      "Number": 0.10772842411294556,
+      "Object": 0.0023419233406091447
+    }
+  },
+  "wrap_blue_around_red_l6ae5b5csckyjb7nsj.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.27118638265126144,
+      "CommonSense": 0.30131815473501095,
+      "Geometry": 0.0018832414802753652,
+      "Movement": 0.1412430050883986,
+      "Number": 0.0866290682432954,
+      "Object": 0.19774014780175816
+    }
+  },
+  "which_side_has_more_area_l6bkhow9g5d3u8nwm58.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "CommonSense",
+    "scores": {
+      "Colour": 0.004632319865356671,
+      "CommonSense": 0.9882261824322207,
+      "Geometry": 3.216893427706443e-05,
+      "Movement": 0.002412668261278637,
+      "Number": 0.0014797702960506278,
+      "Object": 0.0032168902108162334
+    }
+  },
+  "Winner_takes_over_the_row_l6bklvocnai9xscz4h.json": {
+    "predicted_category": "CommonSense",
+    "expected_category": "Geometry",
+    "scores": {
+      "Colour": 0.3185840240238311,
+      "CommonSense": 0.35398219227829897,
+      "Geometry": 0.0022123922415612906,
+      "Movement": 0.0022123922415612906,
+      "Number": 0.10176999629762107,
+      "Object": 0.22123900291712623
+    }
+  }
+}

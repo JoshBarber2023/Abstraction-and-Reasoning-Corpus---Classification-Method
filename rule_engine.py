@@ -1,89 +1,110 @@
 from tqdm import tqdm
 import numpy as np
 from pathlib import Path
-from rules import ALL_RULES
-from solomonoff import calculate_solomonoff_score
-from categories import CATEGORIES
-from utils.complexity import rule_complexity
-from utils.visualisation import *
 import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from dsl import *
+from dsl import objects
+from solomonoff import calculate_solomonoff_score
+from rules import ALL_RULES
+from categories import CATEGORIES
+from utils.complexity import rule_complexity  # counts tokens of NL description
+from utils.visualisation import compare_multiple_pairs, display_rule_results, plot_solomonoff_scores
+from openai import OpenAI  # NEW: import OpenAI client
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
 
 def softmax(x):
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
 
 class RuleEngine:
-    def __init__(self, data_folder, output_folder):
+    def __init__(self, data_folder, output_folder, openai_api_key=None):
         self.data_folder = Path(data_folder)
         self.output_folder = Path(output_folder)
         self.task_data = {}
         self.category_scores = {}
+        self.manual_results = self._load_manual_results()
+        self.client = OpenAI(api_key=openai_api_key) if openai_api_key else OpenAI()
 
-    def manual_categorize(self):
-        import matplotlib.pyplot as plt
+    def _load_manual_results(self):
+        path = Path("manual_categorization.json")
+        return json.load(path.open()) if path.exists() else {}
 
-        self.output_folder.mkdir(parents=True, exist_ok=True)
-        manual_path = Path("manual_categorization.json")
+    def query_gpt_batch(self, rule_descriptions, input_grid, output_grid, retries=2, timeout=5):
+        """
+        Batch GPT call: asks GPT to evaluate all hypotheses at once,
+        returns list of booleans corresponding to each rule.
+        """
+        prompt = f"""
+        You are an expert at solving Abstraction and Reasoning Corpus (ARC) tasks.
 
-        tasks = list(self.data_folder.glob("*.json"))
-        manual_results = {}
+        Given the following example:
 
-        print("\nManual Categorization Mode")
-        print("Categories:")
-        for i, cat in enumerate(CATEGORIES):
-            print(f"{i}: {cat}")
+        Input grid:
+        {input_grid}
 
-        plt.ion()  # Turn on interactive mode
+        Output grid:
+        {output_grid}
 
-        for idx, task_path in enumerate(tasks):
-            task_name = task_path.name
-            with open(task_path) as f:
-                task = json.load(f)
+        Evaluate the following hypotheses about the transformation from input to output:
 
-            pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
+        """ + "\n".join(f"{i+1}. {desc}" for i, desc in enumerate(rule_descriptions)) + """
 
-            # Visualize the task
-            fig = compare_multiple_pairs(pairs, task_id=task_name)
-            plt.pause(0.001)  # Show non-blocking plot
+        For each hypothesis, answer ONLY 'True' or 'False' on a separate line, in order.
+        """
 
-            # Prompt for input
-            while True:
-                try:
-                    inp = input(f"\nTask {idx+1}/{len(tasks)}: {task_name}\nEnter category number (or 's' to skip): ").strip()
-                    if inp.lower() == 's':
-                        print(f"⏭️ Skipped {task_name}")
-                        break
-                    elif inp.isdigit() and 0 <= int(inp) < len(CATEGORIES):
-                        manual_results[task_name] = CATEGORIES[int(inp)]
-                        print(f"✔️ Saved: {task_name} → {CATEGORIES[int(inp)]}")
-                        break
-                    else:
-                        print(f"Invalid input. Please enter a number between 0 and {len(CATEGORIES)-1}, or 's' to skip.")
-                except KeyboardInterrupt:
-                    print("\nExiting manual categorization.")
-                    plt.close("all")
-                    return
+        for attempt in range(retries):
+            try:
+                response = self.client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.0,
+                    max_tokens=10 * len(rule_descriptions),
+                    n=1,
+                    stop=None,
+                    timeout=timeout  # if supported by your client
+                )
+                answers = response.choices[0].message.content.strip().splitlines()
+                return [ans.strip().lower().startswith("true") for ans in answers]
+            except Exception as e:
+                print(f"GPT batch query error on attempt {attempt+1}: {e}")
+                if attempt == retries - 1:
+                    return [False] * len(rule_descriptions)
+                time.sleep(1)
 
-            plt.close("all")  # Close after each entry
+    def evaluate_category(self, task, category, rules):
+        if "train" not in task or not task["train"]:
+            print(f"❌ Missing or empty 'train' in task: {task}")
+            return 0.0, {}
 
-        with open(manual_path, "w") as f:
-            json.dump(manual_results, f, indent=2)
+        first_pair = task["train"][0]
+        inp_grid = np.array(first_pair["input"])
+        out_grid = np.array(first_pair["output"])
 
-        print(f"\n✅ Manual categorization saved to: {manual_path}")
+        if not rules:
+            return 0.0, {}
+
+        rule_descriptions = [rule[0] for rule in rules]
+        priors = [rule[1] for rule in rules]
+
+        results = self.query_gpt_batch(rule_descriptions, inp_grid.tolist(), out_grid.tolist())
+
+        total_score = 0.0
+        passed_rules = {}
+
+        for passed, prior, rule_description in zip(results, priors, rule_descriptions):
+            passed_rules[rule_description] = passed
+            if passed:
+                complexity = rule_complexity(rule_description)
+                total_score += calculate_solomonoff_score([True], prior, complexity)
+
+        return total_score, passed_rules
 
 
     def run(self, save_results=True):
         self.output_folder.mkdir(parents=True, exist_ok=True)
-
-        manual_path = Path("manual_categorization.json")
-        manual_results = {}
-        if manual_path.exists():
-            with open(manual_path) as f:
-                manual_results = json.load(f)
-
+        manual_results = self.manual_results
         scores_path = self.output_folder / "evaluated_scores.json"
         if scores_path.exists():
             scores_path.unlink()
@@ -92,11 +113,14 @@ class RuleEngine:
         tasks = list(self.data_folder.glob("*.json"))
         total_tasks = len(tasks)
         all_results = {}
-
         correct_count = 0
-        correct_tasks = []  # <- New line to store correct task names
+        correct_tasks = []
 
-        for idx, task_path in tqdm(enumerate(tasks), total=total_tasks, desc="Processing tasks", unit="task"):
+        def process_task(task_path_idx):
+            idx, task_path = task_path_idx
+            print(f"Start task {idx}: {task_path.name}")
+            start = time.time()
+
             with open(task_path) as f:
                 task = json.load(f)
 
@@ -104,10 +128,12 @@ class RuleEngine:
             self.task_data[task_name] = task
 
             category_scores = {}
+            detailed_results = {}
+
             for category in CATEGORIES:
-                category_rules = ALL_RULES.get(category, [])
-                score = self.evaluate_category(task, category, category_rules)
+                score, passed_rules = self.evaluate_category(task, category, ALL_RULES.get(category, []))
                 category_scores[category] = score
+                detailed_results[category] = passed_rules
 
             scores = np.array(list(category_scores.values()))
             normalized_scores = softmax(scores)
@@ -118,30 +144,40 @@ class RuleEngine:
 
             best_category = max(normalized_category_scores, key=normalized_category_scores.get)
             task['predicted_scores'] = normalized_category_scores
-            task['predicted_categories'] = [best_category] * len(task["train"])
-            if manual_results and task_name in manual_results:
-                task['expected_category'] = manual_results[task_name]
+            task['predicted_categories'] = [best_category] * len(task.get("train", []))
+            task['detailed_rule_results'] = detailed_results   # <--- save here
+
+            if self.manual_results and task_name in self.manual_results:
+                task['expected_category'] = self.manual_results[task_name]
 
             if save_results:
                 output_path = self.output_folder / f"{task_path.stem}_evaluated.json"
                 with open(output_path, "w") as out_f:
                     json.dump(task, out_f, indent=2)
 
-            expected_category = manual_results.get(task_name) if manual_results else None
-            all_results[task_name] = {
-                "predicted_category": best_category,
-                "expected_category": expected_category,
-                "scores": normalized_category_scores
-            }
+            expected_category = self.manual_results.get(task_name) if self.manual_results else None
+            duration = time.time() - start
+            print(f"Finished task {idx}: {task_name} in {duration:.1f}s")
+
+            return (idx, task_name, best_category, expected_category, normalized_category_scores)
 
 
-            # Compare with manual if available
-            if manual_results:
-                manual_cat = manual_results.get(task_name)
-                if manual_cat == best_category:
-                    correct_count += 1
-                    correct_tasks.append((idx, task_name))  # <- Track task number and name
-                    #print(f"✅ Correctly matched [#{idx}] {task_name} → {best_category}")
+        from concurrent.futures import as_completed
+
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            futures = {executor.submit(process_task, item): item for item in enumerate(tasks)}
+            with tqdm(total=len(tasks), desc="Processing tasks") as pbar:
+                for future in as_completed(futures):
+                    idx, task_name, best_cat, expected_cat, norm_scores = future.result()
+                    all_results[task_name] = {
+                        "predicted_category": best_cat,
+                        "expected_category": expected_cat,
+                        "scores": norm_scores
+                    }
+                    if manual_results and expected_cat == best_cat:
+                        correct_count += 1
+                        correct_tasks.append((idx, task_name))
+                    pbar.update(1)
 
         print("Evaluation complete. Results saved.")
 
@@ -154,46 +190,61 @@ class RuleEngine:
             accuracy = correct_count / len(manual_results) * 100
             print(f"\n🤖 AI vs 👤 Human categorization accuracy: {accuracy:.2f}% ({correct_count}/{len(manual_results)})")
             print("\nCorrectly matched tasks:")
-            for idx, task in correct_tasks:
+            for idx, task in sorted(correct_tasks):
                 print(f" - [#{idx}] {task}")
 
-        print("Evaluation complete. Results saved.")
 
-        if save_results:
-            with open(scores_path, "w") as f:
-                json.dump(all_results, f, indent=2)
-            print(f"\n✅ Scores saved to: {scores_path.resolve()}")
+    def manual_categorise(self):
+            import matplotlib.pyplot as plt
 
-        if manual_results:
-            accuracy = correct_count / len(manual_results) * 100
-            print(f"\n🤖 AI vs 👤 Human categorization accuracy: {accuracy:.2f}% ({correct_count}/{len(manual_results)})")
+            self.output_folder.mkdir(parents=True, exist_ok=True)
+            manual_path = Path("manual_categorization.json")
 
-    def evaluate_category(self, task, category, rules):
-        if "train" not in task or not task["train"]:
-            print(f"❌ Missing or empty 'train' in task: {task}")
-            return 0.0
+            tasks = list(self.data_folder.glob("*.json"))
+            manual_results = {}
 
-        first_pair = task["train"][0]
-        inp_grid = np.array(first_pair["input"])
-        out_grid = np.array(first_pair["output"])
+            print("\nManual Categorization Mode")
+            print("Categories:")
+            for i, cat in enumerate(CATEGORIES):
+                print(f"{i}: {cat}")
 
-        inp_objs = objects(tuple(tuple(row) for row in first_pair["input"]), True, True, True)
-        out_objs = objects(tuple(tuple(row) for row in first_pair["output"]), True, True, True)
+            plt.ion()  # Turn on interactive mode
 
-        total_score = 0.0
+            for idx, task_path in enumerate(tasks):
+                task_name = task_path.name
+                with open(task_path) as f:
+                    task = json.load(f)
 
-        for rule_func, prior in rules:
-            try:
-                passed = rule_func(inp_grid, out_grid, inp_objs, out_objs)
-            except TypeError:
-                passed = rule_func(inp_grid, out_grid)
+                pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
 
-            if passed:
-                complexity = rule_complexity(rule_func)
-                score = calculate_solomonoff_score([True], prior, complexity)
-                total_score += score
+                # Visualize the task
+                fig = compare_multiple_pairs(pairs, task_id=task_name)
+                plt.pause(0.001)  # Show non-blocking plot
 
-        return total_score
+                # Prompt for input
+                while True:
+                    try:
+                        inp = input(f"\nTask {idx+1}/{len(tasks)}: {task_name}\nEnter category number (or 's' to skip): ").strip()
+                        if inp.lower() == 's':
+                            print(f"⏭️ Skipped {task_name}")
+                            break
+                        elif inp.isdigit() and 0 <= int(inp) < len(CATEGORIES):
+                            manual_results[task_name] = CATEGORIES[int(inp)]
+                            print(f"✔️ Saved: {task_name} → {CATEGORIES[int(inp)]}")
+                            break
+                        else:
+                            print(f"Invalid input. Please enter a number between 0 and {len(CATEGORIES)-1}, or 's' to skip.")
+                    except KeyboardInterrupt:
+                        print("\nExiting manual categorization.")
+                        plt.close("all")
+                        return
+
+                plt.close("all")  # Close after each entry
+
+            with open(manual_path, "w") as f:
+                json.dump(manual_results, f, indent=2)
+
+            print(f"\n✅ Manual categorization saved to: {manual_path}")
 
     def View(self, task_name=None):
         if not self.task_data:
@@ -237,30 +288,35 @@ class RuleEngine:
             pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
             predicted_categories = task.get("predicted_categories", [])
             expected_category = task.get("expected_category", None)
+
             compare_multiple_pairs(
-                pairs, 
-                task_id=task_name, 
+                pairs,
+                task_id=task_name,
                 predicted_categories=predicted_categories,
                 expected_category=expected_category
             )
 
-            for category in CATEGORIES:
-                rules = ALL_RULES.get(category, [])
-                if not rules:
-                    continue
-                rule_names = [func.__name__ for func, _ in rules]
-                pair = task["train"][0]
-                inp = np.array(pair["input"])
-                out = np.array(pair["output"])
-                results = []
-                for func, _ in rules:
-                    try:
-                        inp_objs = objects(tuple(tuple(row) for row in pair["input"]), True, True, True)
-                        out_objs = objects(tuple(tuple(row) for row in pair["output"]), True, True, True)
-                        results.append(func(inp, out, inp_objs, out_objs))
-                    except TypeError:
-                        results.append(func(inp, out))
-                display_rule_results(results, rule_names)
+            # Print predicted vs expected category
+            pred_cat = predicted_categories[0] if predicted_categories else "N/A"
+            print(f"\nPredicted category: {pred_cat}")
+            print(f"Expected category: {expected_category if expected_category else 'N/A'}")
+
+            # Print all passing rules across all categories
+            detailed_rule_results = task.get("detailed_rule_results", {})
+            if detailed_rule_results:
+                print("\nAll Passing Rules Across All Categories:")
+                found_any = False
+                for category, rules_results in detailed_rule_results.items():
+                    passing_rules = [desc for desc, passed in rules_results.items() if passed]
+                    if passing_rules:
+                        found_any = True
+                        print(f"\nCategory: {category}")
+                        for rule_desc in passing_rules:
+                            print(f" - ✅ {rule_desc}")
+                if not found_any:
+                    print("No passing rules found across any category.")
+            else:
+                print("No detailed rule results found.")
 
             score_dict = self.category_scores.get(task_name, {})
             if not score_dict:
@@ -270,6 +326,8 @@ class RuleEngine:
             plot_solomonoff_scores(score_dict)
             self.plot_task_objects(task_name)
             plt.show()
+
+
 
     def plot_task_objects(self, task_name):
         if task_name not in self.task_data:
