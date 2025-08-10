@@ -14,15 +14,16 @@ from utils.visualisation import compare_multiple_pairs, display_rule_results, pl
 from openai import OpenAI  # NEW: import OpenAI client
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
-
-# Added for rate-limiting and concurrency control
 import threading
 from collections import deque
 import random
+import re
+
 
 def softmax(x):
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
+
 
 class RuleEngine:
     def __init__(
@@ -30,8 +31,8 @@ class RuleEngine:
         data_folder,
         output_folder,
         openai_api_key=None,
-        max_concurrent_requests: int = 4,   # reduce concurrency to avoid bursting
-        rpm_limit: int = 400                # requests per minute limit (configure to your org quota)
+        max_concurrent_requests: int = 4,  # reduce concurrency to avoid bursting
+        rpm_limit: int = 400  # requests per minute limit (configure to your org quota)
     ):
         self.data_folder = Path(data_folder)
         self.output_folder = Path(output_folder)
@@ -84,17 +85,15 @@ class RuleEngine:
 
         Returns: list[bool] corresponding to each rule description.
         """
-        # --- Helper: normalize any grid-like input into tuple-of-tuples of ints ---
         def _normalize_for_dsl(grid):
             arr = np.array(grid, dtype=int)
             return tuple(tuple(int(v) for v in row) for row in arr.tolist())
 
-        # Normalize both grids for DSL use (this is what mostcolor() expects)
+        # Normalize grids for DSL
         try:
             input_grid_dsl = _normalize_for_dsl(input_grid)
             output_grid_dsl = _normalize_for_dsl(output_grid)
         except Exception as e:
-            # If conversion fails, fallback to the raw textual representation in the prompt
             print(f"[Warning] grid normalization failed: {e}")
             try:
                 input_grid_dsl = tuple(tuple(int(v) for v in row) for row in input_grid)
@@ -103,9 +102,7 @@ class RuleEngine:
                 input_grid_dsl = tuple(tuple(row) for row in input_grid)
                 output_grid_dsl = tuple(tuple(row) for row in output_grid)
 
-        # --- Call DSL to get objects ---
-        # DSL signature: objects(grid, univalued, diagonal, without_bg)
-        # Use flags: univalued=True, diagonal=True, without_bg=True (matches plot usage)
+        # Get objects for DSL
         try:
             input_objs = objects(input_grid_dsl, True, True, True)
         except Exception as e:
@@ -118,13 +115,11 @@ class RuleEngine:
             print(f"[Warning] objects() failed on output grid: {e}")
             output_objs = frozenset()
 
-        # --- Pretty-format object sets for the prompt ---
         def format_objects(obj_set):
             if not obj_set:
                 return "None"
             lines = []
             for idx, obj in enumerate(obj_set, start=1):
-                # each obj is a frozenset of (value, (r,c)) pairs
                 colors = sorted({v for v, _ in obj})
                 coords = sorted([loc for _, loc in obj])
                 lines.append(f"Obj {idx}: colors={colors}, size={len(coords)}, coords={coords}")
@@ -133,7 +128,6 @@ class RuleEngine:
         input_obj_str = format_objects(input_objs)
         output_obj_str = format_objects(output_objs)
 
-        # --- Build the prompt ---
         prompt = (
             "You are an expert at solving Abstraction and Reasoning Corpus (ARC) tasks.\n\n"
             "Here is the example you will analyze:\n\n"
@@ -146,7 +140,6 @@ class RuleEngine:
             + "\n\nFor each hypothesis, answer ONLY 'True' or 'False' on a separate line, in order.\n"
         )
 
-        # Acquire concurrent semaphore to limit number of parallel API calls
         acquired = self._concurrent_semaphore.acquire(timeout=30)
         if not acquired:
             print("[Warning] Could not acquire concurrent semaphore; proceeding without it.")
@@ -154,9 +147,7 @@ class RuleEngine:
             attempt = 0
             while attempt < retries:
                 attempt += 1
-                # Wait for a rate slot (enforces RPM limit)
                 self._wait_for_rate_slot()
-
                 try:
                     response = self.client.chat.completions.create(
                         model="gpt-3.5-turbo",
@@ -167,14 +158,10 @@ class RuleEngine:
                         stop=None,
                         timeout=timeout
                     )
-
                     answers = response.choices[0].message.content.strip().splitlines()
-                    # Normalize answers: 'True' -> True else False
                     return [ans.strip().lower().startswith("true") for ans in answers]
-
                 except Exception as e:
                     err_text = str(e).lower()
-                    # Detect rate-limit or transient network errors
                     is_rate = (
                         "rate" in err_text and (
                             "limit" in err_text or
@@ -186,30 +173,23 @@ class RuleEngine:
                     is_transient = isinstance(e, TimeoutError) or "timeout" in err_text or "temporar" in err_text or "503" in err_text
 
                     if is_rate or is_transient:
-                        # exponential backoff with jitter
                         backoff_base = 0.5 * (2 ** (attempt - 1))
                         jitter = random.uniform(0, 0.5)
-                        sleep_time = min(backoff_base + jitter, 60.0)  # cap to 60s
+                        sleep_time = min(backoff_base + jitter, 60.0)
                         print(f"GPT batch query error on attempt {attempt}: {e} -- retrying after {sleep_time:.2f}s")
                         time.sleep(sleep_time)
                         continue
                     else:
-                        # non-retriable error -> warn and return safe defaults
                         print(f"Non-retriable GPT error: {e}")
                         return [False] * len(rule_descriptions)
-
-            # if we exit loop without success:
             print("Exceeded retry attempts for GPT call; returning all-False.")
             return [False] * len(rule_descriptions)
-
         finally:
-            # Always release semaphore if acquired
             try:
                 if acquired:
                     self._concurrent_semaphore.release()
             except Exception:
                 pass
-
 
     def evaluate_category(self, task, category, rules):
         if "train" not in task or not task["train"]:
@@ -226,7 +206,6 @@ class RuleEngine:
         rule_descriptions = [rule[0] for rule in rules]
         priors = [rule[1] for rule in rules]
 
-        # We pass lists/ndarrays; query_gpt_batch will normalize for DSL
         results = self.query_gpt_batch(rule_descriptions, inp_grid.tolist(), out_grid.tolist())
 
         total_score = 0.0
@@ -240,8 +219,197 @@ class RuleEngine:
 
         return total_score, passed_rules
 
+    ####################################################################################
+    # NEW METHOD: Generate GPT hypotheses independently for top categories and evaluate
+    ####################################################################################
+    def generate_and_evaluate_hypotheses_for_categories(self, task, categories, top_n=3, max_hypotheses=5, retries=3):
+        """
+        Given a task and a list of categories, ask GPT to independently generate
+        hypotheses explaining why the task might belong to each category.
 
-    def run(self, save_results=True):
+        Then, evaluate those hypotheses with GPT (True/False), compute
+        Solomonoff scores and rank categories by summed scores.
+
+        Returns:
+            refined_scores: dict(category -> float score)
+            detailed_hypotheses: dict(category -> list of (hypothesis:str, passed:bool, complexity:int, solomonoff_score:float))
+        """
+        if "train" not in task or not task["train"]:
+            print("❌ Missing or empty 'train' in task for hypothesis generation.")
+            return {}, {}
+
+        first_pair = task["train"][0]
+        inp_grid = np.array(first_pair["input"])
+        out_grid = np.array(first_pair["output"])
+
+        def _normalize_for_dsl(grid):
+            arr = np.array(grid, dtype=int)
+            return tuple(tuple(int(v) for v in row) for row in arr.tolist())
+
+        # Normalize grids for DSL objects extraction
+        try:
+            input_grid_dsl = _normalize_for_dsl(inp_grid)
+            output_grid_dsl = _normalize_for_dsl(out_grid)
+        except Exception as e:
+            print(f"[Warning] grid normalization failed during hypothesis generation: {e}")
+            input_grid_dsl = tuple(tuple(int(v) for v in row) for row in inp_grid)
+            output_grid_dsl = tuple(tuple(int(v) for v in row) for row in out_grid)
+
+        # Extract objects for input and output grids
+        try:
+            input_objs = objects(input_grid_dsl, True, True, True)
+        except Exception as e:
+            print(f"[Warning] objects() failed on input grid during hypothesis generation: {e}")
+            input_objs = frozenset()
+
+        try:
+            output_objs = objects(output_grid_dsl, True, True, True)
+        except Exception as e:
+            print(f"[Warning] objects() failed on output grid during hypothesis generation: {e}")
+            output_objs = frozenset()
+
+        def format_objects(obj_set):
+            if not obj_set:
+                return "None"
+            lines = []
+            for idx, obj in enumerate(obj_set, start=1):
+                colors = sorted({v for v, _ in obj})
+                coords = sorted([loc for _, loc in obj])
+                lines.append(f"Obj {idx}: colors={colors}, size={len(coords)}, coords={coords}")
+            return "\n".join(lines)
+
+        input_obj_str = format_objects(input_objs)
+        output_obj_str = format_objects(output_objs)
+
+        # Limit categories to top_n
+        top_categories = categories[:top_n]
+
+        refined_scores = {}
+        detailed_hypotheses = {}
+
+        for category in top_categories:
+            # Get category description text from ALL_RULES if possible
+            rules_for_cat = ALL_RULES.get(category, [])
+            if rules_for_cat:
+                category_description = "\n".join([rule[0] for rule in rules_for_cat])
+            else:
+                category_description = "No detailed description available."
+
+            # Build an explicit *category purpose* or *definition* block for GPT:
+            category_definition_text = (
+                f"This category ({category}) concerns the following key concepts:\n"
+                f"{category_description}\n\n"
+                "When generating hypotheses, you MUST ONLY describe transformations or properties\n"
+                "that fit within this category's scope. Do NOT include hypotheses about other categories.\n"
+                "Each hypothesis MUST explicitly reference the input and output objects listed below.\n"
+                "Avoid vague statements; be precise and base hypotheses on the objects' colors, shapes, sizes, positions, or counts as relevant to this category.\n"
+            )
+
+            prompt = (
+                "You are an expert solver of Abstraction and Reasoning Corpus (ARC) tasks.\n\n"
+                + category_definition_text
+                + "\n"
+                "Here is the example you will analyze:\n\n"
+                f"Input grid:\n{inp_grid.tolist()}\n\n"
+                f"Input objects (excluding background):\n{input_obj_str}\n\n"
+                f"Output grid:\n{out_grid.tolist()}\n\n"
+                f"Output objects (excluding background):\n{output_obj_str}\n\n"
+                f"Generate up to {max_hypotheses} numbered, detailed hypotheses about the transformation from input to output.\n"
+                "Each hypothesis must be relevant to the category definition above.\n"
+                "List hypotheses one per line, numbered.\n"
+                "Do NOT judge their truth yet — only list them.\n"
+            )
+
+            acquired = self._concurrent_semaphore.acquire(timeout=30)
+            if not acquired:
+                print("[Warning] Could not acquire concurrent semaphore; proceeding without it.")
+            hypotheses_text = ""
+            try:
+                attempt = 0
+                while attempt < retries:
+                    attempt += 1
+                    self._wait_for_rate_slot()
+                    try:
+                        response = self.client.chat.completions.create(
+                            model="gpt-3.5-turbo",
+                            messages=[{"role": "user", "content": prompt}],
+                            temperature=0.7,
+                            max_tokens=350,
+                            n=1,
+                            stop=None,
+                            timeout=15
+                        )
+                        hypotheses_text = response.choices[0].message.content.strip()
+                        break
+                    except Exception as e:
+                        err_text = str(e).lower()
+                        is_rate = (
+                            "rate" in err_text and (
+                                "limit" in err_text or
+                                "rate_limit" in err_text or
+                                "rate_limit_exceeded" in err_text or
+                                "requests per min" in err_text
+                            )
+                        )
+                        is_transient = isinstance(e, TimeoutError) or "timeout" in err_text or "temporar" in err_text or "503" in err_text
+
+                        if is_rate or is_transient:
+                            backoff_base = 0.5 * (2 ** (attempt - 1))
+                            jitter = random.uniform(0, 0.5)
+                            sleep_time = min(backoff_base + jitter, 60.0)
+                            print(f"GPT hypothesis generation error on attempt {attempt}: {e} -- retrying after {sleep_time:.2f}s")
+                            time.sleep(sleep_time)
+                            continue
+                        else:
+                            print(f"Non-retriable GPT error during hypothesis generation: {e}")
+                            break
+                if not hypotheses_text:
+                    print(f"No hypotheses generated for category '{category}'")
+                    continue
+            finally:
+                try:
+                    if acquired:
+                        self._concurrent_semaphore.release()
+                except Exception:
+                    pass
+
+            # Parse hypotheses: expect lines starting with number + dot, e.g. "1. Hypothesis text"
+            hypotheses = []
+            for line in hypotheses_text.splitlines():
+                m = re.match(r"^\s*\d+\.\s*(.+)$", line)
+                if m:
+                    hypotheses.append(m.group(1).strip())
+            if not hypotheses:
+                # fallback: treat entire output as single hypothesis
+                hypotheses = [hypotheses_text.strip()]
+
+            # Limit to max_hypotheses
+            hypotheses = hypotheses[:max_hypotheses]
+
+            # Evaluate these hypotheses on the example (True/False)
+            results = self.query_gpt_batch(hypotheses, inp_grid.tolist(), out_grid.tolist())
+
+            # Score hypotheses with Solomonoff
+            category_score = 0.0
+            hypothesis_details = []
+            for hyp, passed in zip(hypotheses, results):
+                complexity = rule_complexity(hyp)
+                score = calculate_solomonoff_score([passed], prior=1.0, complexity=complexity) if passed else 0.0
+                hypothesis_details.append((hyp, passed, complexity, score))
+                if passed:
+                    category_score += score
+
+            refined_scores[category] = category_score
+            detailed_hypotheses[category] = hypothesis_details
+
+        return refined_scores, detailed_hypotheses
+
+
+
+    ####################################################################################
+    # Modified run() method with two-stage category narrowing + refined ranking
+    ####################################################################################
+    def run(self, save_results=True, top_n_categories=3):
         self.output_folder.mkdir(parents=True, exist_ok=True)
         manual_results = self.manual_results
         scores_path = self.output_folder / "evaluated_scores.json"
@@ -266,6 +434,7 @@ class RuleEngine:
             task_name = task_path.name
             self.task_data[task_name] = task
 
+            # === Step 1: Narrow down plausible categories with predefined rules ===
             category_scores = {}
             detailed_results = {}
 
@@ -274,63 +443,66 @@ class RuleEngine:
                 category_scores[category] = score
                 detailed_results[category] = passed_rules
 
-            scores = np.array(list(category_scores.values()))
-            normalized_scores = softmax(scores)
+            # Softmax normalize initial scores
+            scores_arr = np.array(list(category_scores.values()))
+            normalized_scores = softmax(scores_arr)
+            normalized_category_scores = {cat: normalized_scores[i] for i, cat in enumerate(CATEGORIES)}
 
-            normalized_category_scores = {
-                category: normalized_scores[idx] for idx, category in enumerate(CATEGORIES)
-            }
+            # Sort categories by normalized initial score descending
+            sorted_categories = sorted(normalized_category_scores.keys(),
+                                       key=lambda c: normalized_category_scores[c],
+                                       reverse=True)
 
-            best_category = max(normalized_category_scores, key=normalized_category_scores.get)
-            task['predicted_scores'] = normalized_category_scores
-            task['predicted_categories'] = [best_category] * len(task.get("train", []))
-            task['detailed_rule_results'] = detailed_results   # <--- save here
+            # === Step 2: For top N categories, generate & evaluate GPT hypotheses independently ===
+            refined_scores, detailed_hypotheses = self.generate_and_evaluate_hypotheses_for_categories(
+                task, sorted_categories, top_n=top_n_categories)
+
+            # Softmax normalize refined scores
+            if refined_scores:
+                vals = np.array(list(refined_scores.values()))
+                refined_norm = softmax(vals)
+                refined_normalized_scores = {cat: refined_norm[i] for i, cat in enumerate(refined_scores.keys())}
+                # Sort refined categories by score
+                refined_sorted = sorted(refined_normalized_scores.keys(), key=lambda c: refined_normalized_scores[c], reverse=True)
+                best_category = refined_sorted[0]
+            else:
+                refined_normalized_scores = {}
+                best_category = sorted_categories[0] if sorted_categories else None
+
+            # Save to task for output
+            task['predicted_scores_initial'] = normalized_category_scores
+            task['predicted_scores_refined'] = refined_normalized_scores
+            task['predicted_categories_initial'] = [sorted_categories[0]] * len(task.get("train", [])) if sorted_categories else []
+            task['predicted_categories_refined'] = [best_category] * len(task.get("train", [])) if best_category else []
+            task['detailed_rule_results_initial'] = detailed_results
+            task['detailed_hypotheses_refined'] = detailed_hypotheses
 
             if self.manual_results and task_name in self.manual_results:
                 task['expected_category'] = self.manual_results[task_name]
 
             if save_results:
                 output_path = self.output_folder / f"{task_path.stem}_evaluated.json"
-                with open(output_path, "w") as out_f:
-                    json.dump(task, out_f, indent=2)
+                with open(output_path, "w") as outf:
+                    json.dump(task, outf, indent=2)
 
-            expected_category = self.manual_results.get(task_name) if self.manual_results else None
-            duration = time.time() - start
-            print(f"Finished task {idx}: {task_name} in {duration:.1f}s")
+            # Check correctness
+            expected = task.get('expected_category')
+            is_correct = expected == best_category
+            return is_correct, task_name
 
-            return (idx, task_name, best_category, expected_category, normalized_category_scores)
-
-
-        # Use the configured concurrency to avoid too many simultaneous API calls
-        with ThreadPoolExecutor(max_workers=self.max_concurrent_requests) as executor:
-            futures = {executor.submit(process_task, item): item for item in enumerate(tasks)}
-            with tqdm(total=len(tasks), desc="Processing tasks") as pbar:
-                for future in as_completed(futures):
-                    idx, task_name, best_cat, expected_cat, norm_scores = future.result()
-                    all_results[task_name] = {
-                        "predicted_category": best_cat,
-                        "expected_category": expected_cat,
-                        "scores": norm_scores
-                    }
-                    if manual_results and expected_cat == best_cat:
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = [executor.submit(process_task, (i, task)) for i, task in enumerate(tasks, 1)]
+            for future in tqdm(as_completed(futures), total=total_tasks, desc="Processing tasks"):
+                try:
+                    correct, tname = future.result()
+                    if correct:
                         correct_count += 1
-                        correct_tasks.append((idx, task_name))
-                    pbar.update(1)
+                        correct_tasks.append(tname)
+                except Exception as e:
+                    print(f"Task processing error: {e}")
 
-        print("Evaluation complete. Results saved.")
-
-        if save_results:
-            with open(scores_path, "w") as f:
-                json.dump(all_results, f, indent=2)
-            print(f"\n✅ Scores saved to: {scores_path.resolve()}")
-
-        if manual_results:
-            accuracy = correct_count / len(manual_results) * 100
-            print(f"\n🤖 AI vs 👤 Human categorization accuracy: {accuracy:.2f}% ({correct_count}/{len(manual_results)})")
-            print("\nCorrectly matched tasks:")
-            for idx, task in sorted(correct_tasks):
-                print(f" - [#{idx}] {task}")
-
+        print(f"\nSummary: {correct_count} / {total_tasks} tasks correctly categorized (refined step)")
+        return correct_count, total_tasks, correct_tasks
 
     def manual_categorise(self):
         import matplotlib.pyplot as plt
@@ -385,13 +557,16 @@ class RuleEngine:
         print(f"\n✅ Manual categorization saved to: {manual_path}")
 
     def View(self, task_name=None):
+        import matplotlib.pyplot as plt
+        import numpy as np
+        import json
+
         if not self.task_data:
             print("No tasks loaded. Run the engine first.")
             return
 
         task_names = list(self.task_data.keys())
 
-        # Handle integer index input
         if isinstance(task_name, int):
             if 0 <= task_name < len(task_names):
                 task_names = [task_names[task_name]]
@@ -416,54 +591,83 @@ class RuleEngine:
                 continue
 
             try:
-                scores_path = self.output_folder / "evaluated_scores.json"
-                with open(scores_path, "r") as f:
-                    self.category_scores = json.load(f)
-            except FileNotFoundError:
-                print("Evaluated scores file not found. Please run the engine first.")
-                return
+                pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
+            except Exception as e:
+                print(f"Error loading train pairs for task {task_name}: {e}")
+                continue
 
-            pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
-            predicted_categories = task.get("predicted_categories", [])
+            pred_cats_initial = task.get("predicted_categories_initial", [])
+            pred_cats_refined = task.get("predicted_categories_refined", [])
+
+            scores_initial = task.get("predicted_scores_initial", {})
+            scores_refined = task.get("predicted_scores_refined", {})
+
             expected_category = task.get("expected_category", None)
 
             compare_multiple_pairs(
                 pairs,
                 task_id=task_name,
-                predicted_categories=predicted_categories,
+                predicted_categories=pred_cats_refined or pred_cats_initial,
                 expected_category=expected_category
             )
 
-            # Print predicted vs expected category
-            pred_cat = predicted_categories[0] if predicted_categories else "N/A"
-            print(f"\nPredicted category: {pred_cat}")
-            print(f"Expected category: {expected_category if expected_category else 'N/A'}")
+            print(f"\nExpected category: {expected_category if expected_category else 'N/A'}")
+            print(f"Predicted categories initial: {pred_cats_initial if pred_cats_initial else 'N/A'}")
+            print(f"Predicted categories refined: {pred_cats_refined if pred_cats_refined else 'N/A'}")
 
-            # Print all passing rules across all categories
-            detailed_rule_results = task.get("detailed_rule_results", {})
-            if detailed_rule_results:
-                print("\nAll Passing Rules Across All Categories:")
-                found_any = False
-                for category, rules_results in detailed_rule_results.items():
-                    passing_rules = [desc for desc, passed in rules_results.items() if passed]
-                    if passing_rules:
-                        found_any = True
+            # Print predicted scores clearly
+            if scores_initial:
+                print("\nInitial predicted scores:")
+                for cat, score in scores_initial.items():
+                    print(f"  {cat}: {score:.6f}")
+                plot_solomonoff_scores(scores_initial, title=f"{task_name} - Initial Predicted Scores")
+
+            if scores_refined:
+                print("\nRefined predicted scores:")
+                for cat, score in scores_refined.items():
+                    print(f"  {cat}: {score:.6f}")
+                plot_solomonoff_scores(scores_refined, title=f"{task_name} - Refined Predicted Scores")
+
+            # Print detailed hypotheses initial and refined
+            for version in ["initial", "refined"]:
+                detailed_hypotheses = task.get(f"detailed_hypotheses_{version}", {})
+                if detailed_hypotheses:
+                    print(f"\nDetailed Hypotheses ({version}):")
+                    for category, hypotheses in detailed_hypotheses.items():
                         print(f"\nCategory: {category}")
-                        for rule_desc in passing_rules:
-                            print(f" - ✅ {rule_desc}")
-                if not found_any:
-                    print("No passing rules found across any category.")
-            else:
-                print("No detailed rule results found.")
+                        for hypothesis in hypotheses:
+                            desc = hypothesis[0]
+                            passed = hypothesis[1]
+                            idx = hypothesis[2]
+                            score = hypothesis[3]
+                            status = "✅" if passed else "❌"
+                            print(f" - {status} [{idx}] (score={score:.3f}): {desc}")
+                else:
+                    print(f"No detailed hypotheses found for {version}.\n")
 
-            score_dict = self.category_scores.get(task_name, {})
-            if not score_dict:
-                print("No score data found for this task.")
-                continue
+            # Print detailed rule results for initial and refined
+            for version in ["initial", "refined"]:
+                detailed_rules = task.get(f"detailed_rule_results_{version}", {})
+                if detailed_rules:
+                    print(f"\nPassing Rules ({version}):")
+                    found_any = False
+                    for category, rules_results in detailed_rules.items():
+                        passing_rules = [desc for desc, passed in rules_results.items() if passed]
+                        if passing_rules:
+                            found_any = True
+                            print(f"\nCategory: {category}")
+                            for rule_desc in passing_rules:
+                                print(f" - ✅ {rule_desc}")
+                    if not found_any:
+                        print(f"No passing rules found in {version} detailed results.")
+                else:
+                    print(f"No detailed rule results found for {version}.")
 
-            plot_solomonoff_scores(score_dict)
             self.plot_task_objects(task_name)
+
             plt.show()
+
+
 
     def plot_task_objects(self, task_name):
         if task_name not in self.task_data:
@@ -476,8 +680,8 @@ class RuleEngine:
         for idx, pair in enumerate(train_pairs):
             for mode in ["input", "output"]:
                 grid = tuple(tuple(row) for row in pair[mode])
-                # keep original plotting call; it uses the DSL objects function
                 objs = objects(grid=grid, univalued=True, diagonal=True, without_bg=True)
+
                 fig, ax = plt.subplots()
                 ax.imshow(grid, cmap="tab20", interpolation="none")
 
@@ -498,3 +702,51 @@ class RuleEngine:
 
                 ax.set_title(f"Task: {task_name} | Pair #{idx} | {mode.capitalize()}")
                 plt.axis("off")
+                plt.tight_layout()
+                plt.close(fig)  # Close figure after showing or to free memory if showing later
+
+    def load_tasks(self):
+        self.task_data = {}
+        json_files = list(self.data_folder.glob("*.json"))
+        if not json_files:
+            print(f"No JSON task files found in {self.data_folder}")
+            return
+
+        for json_file in json_files:
+            try:
+                with open(json_file, 'r') as f:
+                    data = json.load(f)
+                    self.task_data[json_file.name] = data
+            except Exception as e:
+                print(f"Failed to load {json_file.name}: {e}")
+
+        print(f"Loaded {len(self.task_data)} tasks from {self.data_folder}")
+
+        # Define evaluated folder (change to your actual path)
+        self.evaluated_folder = Path(r"generated data\Test #1 10.08")
+
+        correct_count = 0
+        total_count = 0
+
+        for task_name in self.task_data.keys():
+            evaluated_filename = task_name.replace(".json", "_evaluated.json")
+            evaluated_path = self.evaluated_folder / evaluated_filename
+
+            if evaluated_path.exists():
+                total_count += 1
+                try:
+                    with open(evaluated_path, 'r') as f_eval:
+                        evaluated_task = json.load(f_eval)
+                except Exception as e:
+                    print(f"Failed to load evaluated file {evaluated_filename}: {e}")
+                    continue
+
+                expected = evaluated_task.get("expected_category", None)
+                preds = evaluated_task.get("predicted_categories_refined") or evaluated_task.get("predicted_categories_initial") or []
+
+                if expected and preds and expected in preds:
+                    correct_count += 1
+            else:
+                print(f"Warning: Evaluated file not found for {task_name}")
+
+        print(f"Tasks correct (based on _evaluated files): {correct_count} / {total_count}")

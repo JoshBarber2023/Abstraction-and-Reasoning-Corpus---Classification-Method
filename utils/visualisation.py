@@ -2,17 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def visualise_pair_with_prediction(inp, out, predicted_category, pair_idx, cmap="viridis"):
-    """
-    Visualises a single input-output pair with its predicted category.
-
-    Parameters:
-        inp (ndarray): 2D NumPy array for input grid.
-        out (ndarray): 2D NumPy array for output grid.
-        predicted_category (str): Predicted category label.
-        pair_idx (int): Index of the current pair.
-        cmap (str): Colormap to use.
-    """
-    fig, axs = plt.subplots(3, 1, figsize=(8, 12))  # 3 rows for input, output, prediction
+    fig, axs = plt.subplots(3, 1, figsize=(8, 12))
     
     axs[0].imshow(inp, cmap=cmap)
     axs[0].set_title(f"Input {pair_idx + 1}")
@@ -29,70 +19,58 @@ def visualise_pair_with_prediction(inp, out, predicted_category, pair_idx, cmap=
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
 
-
-def display_rule_results(rule_results, rule_names, pair_idx=None):
+def display_rule_results(rule_results, pair_idx=None):
     """
-    Prints which rules passed or failed for a given input/output pair.
-
-    Parameters:
-        rule_results (List[bool]): List of True/False values for rule success.
-        rule_names (List[str]): Corresponding names of rules.
-        pair_idx (int or None): Index of the input/output pair.
+    rule_results: dict {category: {rule_description: bool, ...}, ...}
     """
-    header = f"Results for pair {pair_idx}" if pair_idx is not None else "Rule Results"
+    header = f"Passing Rules for pair {pair_idx}" if pair_idx is not None else "Passing Rules"
     print(header)
     print("-" * len(header))
-    for rule, passed in zip(rule_names, rule_results):
-        # Ensure we check if passed is an array or single value
-        if isinstance(passed, np.ndarray):  # If passed is an array, evaluate if any element is True
-            status = "✅" if passed.any() else "❌"
-        else:  # If passed is a single boolean value
-            status = "✅" if passed else "❌"
-        print(f"{rule:30s}: {status}")
+    found_any = False
+    for category, rules in rule_results.items():
+        passing_rules = [desc for desc, passed in rules.items() if passed]
+        if passing_rules:
+            found_any = True
+            print(f"\nCategory: {category}")
+            for rule_desc in passing_rules:
+                print(f" - ✅ {rule_desc}")
+    if not found_any:
+        print("No passing rules found.")
     print()
 
-
-
-def plot_solomonoff_scores(score_dict):
+def display_detailed_hypotheses(detailed_hypotheses, version=""):
     """
-    Plots a bar chart of Solomonoff scores per rule category.
-
-    Parameters:
-        score_dict (dict): Keys are category names, values are float scores.
+    detailed_hypotheses: dict {category: list of [desc, bool, ...]}
     """
-    # Extract the 'scores' dictionary
-    scores_dict = score_dict['scores']
-    
-    # Prepare the data for plotting
+    print(f"Detailed hypotheses {version}:")
+    for category, hypotheses in detailed_hypotheses.items():
+        print(f"\nCategory: {category}")
+        for hypothesis in hypotheses:
+            desc, passed = hypothesis[0], hypothesis[1]
+            status = "✅" if passed else "❌"
+            print(f" - {status} {desc}")
+
+def plot_solomonoff_scores(scores_dict, title="Solomonoff Scores"):
+    """
+    scores_dict: {category: score, ...}
+    """
     categories = list(scores_dict.keys())
     scores = [scores_dict[cat] for cat in categories]
-    
-    # Plot the bar chart
+
     plt.figure(figsize=(10, 5))
     bars = plt.bar(categories, scores, color='mediumslateblue')
-    plt.ylabel('Solomonoff Score')
-    plt.title('Rule Category Complexity (Solomonoff Scores)')
+    plt.ylabel('Score')
+    plt.title(title)
     plt.xticks(rotation=10, ha='right')
-    
-    # Annotate each bar with its score
+
     for bar, score in zip(bars, scores):
         yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.001, f'{score:.3f}', ha='center', va='bottom')
+        plt.text(bar.get_x() + bar.get_width()/2, yval + 0.001, f'{score:.3f}', ha='center', va='bottom')
 
-def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20",  predicted_categories=None, expected_category=None):
-    """
-    Visualizes multiple (input, output) grid pairs with optional predictions.
-
-    Parameters:
-        pairs (List[Tuple[np.ndarray, np.ndarray]]): (input, output) pairs.
-        task_id (str): Task ID to display as title.
-        cmap (str): Colormap for imshow.
-        predicted_categories (List[str] or None): Predicted labels per pair.
-    """
+def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20", predicted_categories=None, expected_category=None):
     num_pairs = len(pairs)
     fig, axes = plt.subplots(3, num_pairs, figsize=(6 * num_pairs, 8))
 
-    # Ensure 2D axes even if num_pairs == 1
     if num_pairs == 1:
         axes = np.expand_dims(axes, axis=1)
 
@@ -107,21 +85,19 @@ def compare_multiple_pairs(pairs, task_id="Unknown Task", cmap="tab20",  predict
         ax_out.set_title(f"Pair {idx + 1} - Output")
         ax_out.axis('off')
 
-        if predicted_categories:
-            pred_text = f"Pred: {predicted_categories[idx]}"
+        if predicted_categories and idx < len(predicted_categories):
+            pred_text = f"Predicted: {predicted_categories[idx]}"
             if expected_category:
                 pred_text += f"\nExpected: {expected_category}"
-            ax_pred.text(0.5, 0.5, pred_text, 
-                        ha='center', va='center', color='black', fontsize=12)
+            ax_pred.text(0.5, 0.5, pred_text,
+                         ha='center', va='center', color='black', fontsize=12)
 
         ax_pred.axis('off')
-
-
 
     fig.suptitle(f"Task {task_id} - Input/Output Examples", fontsize=16)
     plt.tight_layout()
     plt.subplots_adjust(top=0.9)
 
 def softmax(x):
-    e_x = np.exp(x - np.max(x))  # Subtract max to avoid overflow
+    e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum(axis=0, keepdims=True)

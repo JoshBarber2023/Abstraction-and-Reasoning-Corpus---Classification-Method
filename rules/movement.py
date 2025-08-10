@@ -1,14 +1,18 @@
 MOVEMENT_RULES_NL = [
     (
-        "Object moved: Detects if any object has changed position based on centroid movement, ignoring rotations, resizing, and neighbour disappearance.",
-        1
-    ),
-    (
-        "Foreground-background shift: Checks if any cells have switched their object membership between input and output, indicating a foreground/background reassignment.",
-        1
-    ),
-    (
-        "Objects fall downward: Detects if all objects have moved downward in the grid (gravity effect), without rotation or size changes.",
-        1
+        "Movement rules describe transformations where objects or pixels are **translated spatially across the grid** without fundamentally altering shape or colour. "
+        "Examples include:\n"
+        "- Shifting every object by a fixed vector (e.g., all objects move right by two cells),\n"
+        "- Moving specific objects to target locations such as the center or grid edges,\n"
+        "- Coordinated motions where objects follow paths or track the movement of other objects.\n"
+        "Detecting movement involves:\n"
+        "- Matching object identities between input and output via overlap, centroid proximity, or feature similarity,\n"
+        "- Calculating displacement vectors for each matched object,\n"
+        "- Identifying consistent offsets across multiple objects or continuous trajectories.\n"
+        "Movement may co-occur with rotations or recolouring, complicating identity tracking, so robust detection applies:\n"
+        "- Cross-correlation,\n"
+        "- Centroid and shape-preserving checks,\n"
+        "- Distinguishing pure translation from combined geometric or colour edits."
+        , 1
     )
 ]

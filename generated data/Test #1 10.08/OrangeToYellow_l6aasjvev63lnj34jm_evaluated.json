@@ -307,59 +307,146 @@
       ]
     }
   ],
-  "predicted_scores": {
-    "Colour": 0.46753249764878424,
-    "CommonSense": 0.5194804698263384,
-    "Geometry": 0.0032467581312193125,
-    "Movement": 0.0032467581312193125,
-    "Number": 0.0032467581312193125,
-    "Object": 0.0032467581312193125
+  "predicted_scores_initial": {
+    "Colour": 0.005128214621958777,
+    "CommonSense": 0.9743589268902063,
+    "Geometry": 0.005128214621958777,
+    "Movement": 0.005128214621958777,
+    "Number": 0.005128214621958777,
+    "Object": 0.005128214621958777
   },
-  "predicted_categories": [
+  "predicted_scores_refined": {
+    "CommonSense": 0.036764714076917455,
+    "Colour": 0.03186275283725009,
+    "Geometry": 0.9313725330858325
+  },
+  "predicted_categories_initial": [
     "CommonSense",
     "CommonSense",
     "CommonSense"
   ],
-  "detailed_rule_results": {
+  "predicted_categories_refined": [
+    "Geometry",
+    "Geometry",
+    "Geometry"
+  ],
+  "detailed_rule_results_initial": {
     "Colour": {
-      "All objects change their colour: Every object present in the input grid changes to a different colour in the output grid, while maintaining their original shape and position.": false,
-      "Mimic colour scheme: If there are more than two distinct colours across the combined input and output grids, the primary colour of each object in the input is preserved in the corresponding object in the output, mirroring the overall colour palette.": true,
-      "Partial internal colour change: When an object in the output is a smaller version of an input object and a neighbouring object appears, at least part of the object's internal colouring changes compared to the original.": false
+      "Colour rules describe **precise, systematic transformations of object colours or palettes** that preserve object shapes, spatial layouts, and boundaries. Typical examples include:\n- Global palette shifts where all occurrences of a specific colour are changed to another (e.g., all red pixels become blue),\n- Conditional recolouring based on object features such as size, position, or pattern (e.g., recolour only small red objects to green),\n- Hue or saturation adjustments applied consistently across objects without altering shape or location.\nColour rules rarely alter object masks; thus, input and output object masks remain closely aligned with minimal shape deformation or positional shifts.\nReliable detection involves:\n- Comparing dominant colours of corresponding objects,\n- Measuring colour histogram shifts,\n- Assessing whether colour mappings are one-to-one or conditionally applied,\n- Detecting minimal entropy or randomness in colour changes.\nAmbiguities arise if objects are partially recoloured, multi-coloured internally, or have slight positional jitter, but true colour rules show consistent, explainable recolouring patterns.": false
     },
     "CommonSense": {
-      "Filled relationship: Checks if the background inside or around objects was filled or cleared between input and output grids.": false,
-      "Column ascending order: Verifies if objects in the output grid are aligned vertically and their values ascend from top to bottom.": false,
-      "Column descending order: Verifies if objects in the output grid are aligned vertically and their values descend from top to bottom.": false,
-      "Shape-to-color relationship: Checks if output object colors change based on their shapes compared to the input while maintaining some pixel overlap.": false,
-      "Combined objects form common shape: Determines if combining non-overlapping input and output objects of the same color forms a common shape like square, rectangle, circle, or triangle.": false,
-      "Checkerboard pattern: Checks if the output grid forms a checkerboard pattern of alternating values.": false,
-      "Outputs do not overlap inputs: Ensures no output object overlaps with any input object in the grid.": true,
-      "Tetris relationship: Detects Tetris-like transformations where rows are cleared, objects move downward, or gravity pulls objects to the bottom row.": false
+      "Commonsense rules involve **intuitive, context-aware completions or repairs** rather than explicit, formal geometric or colour transformations. These rules require the solver to infer plausible patterns based on what \u2018makes sense\u2019 given the input context, such as:\n- Completing broken or interrupted motifs or sequences,\n- Extending patterns logically in time or space,\n- Selecting the element that best fits a perceptual or conceptual pattern,\n- Resolving ambiguities by preferring the simplest, most regular, or least surprising outcome.\nCommonsense solutions are characterized by:\n- Increased symmetry, periodicity, or smoothness,\n- Repairs of discontinuities or irregularities,\n- Minimization of complexity, unexpectedness, or inconsistency,\n- Prioritizing outputs that require minimal edits or align closely with local context.\nBecause multiple solutions may be plausible, commonsense rules often involve scoring candidate outputs by their regularity, simplicity, or harmony with the input\u2019s implicit structure.": true
     },
     "Geometry": {
-      "Objects stretch to edges: Detects if any input object not touching the grid edge stretches to touch the edge in the output grid.": false,
-      "Object has rotated: Checks if any input object has rotated (non-symmetric shapes only) to match an output object.": false,
-      "Object is completely surrounded: Determines if any input object is fully surrounded on all four sides (up, down, left, right) by output objects.": false,
-      "Object removed but gap remains: Detects if an input object disappears in the output but leaves a gap of background cells of the same shape.": false,
-      "Grid has rotated: Checks if the entire input grid has been rotated (by 90\u00b0, 180\u00b0, or 270\u00b0) to become the output grid.": false,
-      "Object has mirrored: Detects if input objects have been mirrored (vertically, horizontally, or diagonally) in the output grid.": false
+      "Geometry rules describe **transformations that alter the spatial form and structural properties of objects** without typically changing their colours. These include operations such as:\n- Reflections (mirroring) across vertical, horizontal, or diagonal axes,\n- Rotations by fixed angles (e.g., 90\u00b0, 180\u00b0),\n- Flips (horizontal or vertical),\n- Scaling or resizing while preserving shape proportions,\n- Constructing bounding enclosures, convex hulls, or scaffolds around shapes.\nKey geometric invariants involved are:\n- Object centroids and their relative positions,\n- Bounding boxes and aspect ratios,\n- Symmetry axes and topological relationships such as adjacency and containment.\nDetection involves verifying whether these invariants or relationships are preserved or systematically transformed via isometries (pure rotation/reflection) or consistent deformation patterns.\nColour semantics are generally preserved, so shape and position transformations dominate this category.": false
     },
     "Movement": {
-      "Object moved: Detects if any object has changed position based on centroid movement, ignoring rotations, resizing, and neighbour disappearance.": false,
-      "Foreground-background shift: Checks if any cells have switched their object membership between input and output, indicating a foreground/background reassignment.": false,
-      "Objects fall downward: Detects if all objects have moved downward in the grid (gravity effect), without rotation or size changes.": false
+      "Movement rules describe transformations where objects or pixels are **translated spatially across the grid** without fundamentally altering shape or colour. Examples include:\n- Shifting every object by a fixed vector (e.g., all objects move right by two cells),\n- Moving specific objects to target locations such as the center or grid edges,\n- Coordinated motions where objects follow paths or track the movement of other objects.\nDetecting movement involves:\n- Matching object identities between input and output via overlap, centroid proximity, or feature similarity,\n- Calculating displacement vectors for each matched object,\n- Identifying consistent offsets across multiple objects or continuous trajectories.\nMovement may co-occur with rotations or recolouring, complicating identity tracking, so robust detection applies:\n- Cross-correlation,\n- Centroid and shape-preserving checks,\n- Distinguishing pure translation from combined geometric or colour edits.": false
     },
     "Number": {
-      "Duplicate shapes in output: Detects if any object shape appears more than once in the output but only once or zero times in the input.": false,
-      "Replication pattern: Checks if a pattern present in the input grid is clearly repeated multiple times in the output grid.": false
+      "Number rules govern transformations that rely on **counts, sizes, or numeric encodings present in the input to determine the output structure or content**. Examples include:\n- Replicating an object a specific number of times (e.g., duplicating a shape N times),\n- Adding or removing rows or columns based on numeric counts,\n- Encoding arithmetic relationships such as doubling, parity checks, or differences between object counts,\n- Using visual numeric encodings like bars, repeated motifs, or digit-like patterns as parameters.\nDetection signals include:\n- Changes in object counts between input and output,\n- Explicit or implicit numeric encodings,\n- Simple arithmetic relations linking input metrics (counts, sizes) to output features.\nAmbiguities can arise when numeric information is encoded implicitly or when visual patterns support multiple numeric interpretations, requiring careful analysis.": false
     },
     "Object": {
-      "Objects get larger: Detects if any object in the output is larger than its corresponding input object.": false,
-      "Objects get smaller: Detects if any object in the output is smaller than its corresponding input object.": false,
-      "Neighbour object disappears: Detects if an object disappears in the output while one of its neighbours remains in the input.": false,
-      "Neighbour object appears: Detects if a new object appears in the output adjacent to an existing object.": false,
-      "Object duplication: Checks if any input object is directly duplicated and repeated multiple times in the output grid.": false
+      "Object rules treat connected pixel groups as **discrete entities** and apply **structural transformations** on these entities. Typical operations include:\n- Splitting a single object into multiple parts,\n- Merging several objects into one unified shape,\n- Resizing or stretching objects,\n- Altering topology such as filling holes, adding protrusions, or changing connectivity,\n- Reassigning object identities or order based on structural changes.\nThese tasks require:\n- Robust connected-component labelling (including diagonal connectivity options),\n- Graph-based analyses capturing adjacency and containment relations,\n- Identity-tracking methods capable of mapping input objects to output objects despite topological changes.\nUnlike pure geometry or movement rules, object rules explicitly modify the **entity structure** by creating, destroying, or morphing objects, not just repositioning or rotating them.": false
     }
+  },
+  "detailed_hypotheses_refined": {
+    "CommonSense": [
+      [
+        "The number 7 is moved from the center of the grid to the top right corner.",
+        false,
+        18,
+        0.0
+      ],
+      [
+        "The number 7 is replaced by the number 1 in the output.",
+        true,
+        15,
+        2.708050051102221
+      ],
+      [
+        "The number 4 is moved to the center of the grid in the output.",
+        false,
+        16,
+        0.0
+      ],
+      [
+        "The number 4 has been replaced by the number 7 in the output.",
+        false,
+        16,
+        0.0
+      ],
+      [
+        "The number 1 in the center has been duplicated and placed in the bottom row of the grid.",
+        false,
+        20,
+        0.0
+      ]
+    ],
+    "Colour": [
+      [
+        "The number 7 has moved one position to the right.",
+        false,
+        12,
+        0.0
+      ],
+      [
+        "The number 4 has been replaced by the number 1.",
+        true,
+        13,
+        2.564949227461545
+      ],
+      [
+        "The number 7 has swapped positions with the number 4.",
+        false,
+        13,
+        0.0
+      ],
+      [
+        "The number 7 has moved down one position.",
+        false,
+        10,
+        0.0
+      ],
+      [
+        "The number 4 has been deleted and replaced by the number 1.",
+        false,
+        15,
+        0.0
+      ]
+    ],
+    "Geometry": [
+      [
+        "The middle number in the input grid is moved to the rightmost column in the output grid.",
+        false,
+        19,
+        0.0
+      ],
+      [
+        "The number 7 in the input grid is moved to the third row in the output grid.",
+        true,
+        19,
+        2.9444387891664587
+      ],
+      [
+        "The number 4 in the input grid is replaced by the number 1 in the output grid.",
+        true,
+        20,
+        2.9957320735540107
+      ],
+      [
+        "The number 7 in the input grid is moved to the fourth column in the output grid.",
+        false,
+        19,
+        0.0
+      ],
+      [
+        "The number 4 in the input grid is moved to the first row in the output grid.",
+        false,
+        19,
+        0.0
+      ]
+    ]
   },
   "expected_category": "Movement"
 }

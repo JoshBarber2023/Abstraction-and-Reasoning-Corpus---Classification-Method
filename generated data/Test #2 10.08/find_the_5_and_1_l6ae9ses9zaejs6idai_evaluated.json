@@ -1,0 +1,530 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          5,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          5,
+          5,
+          0
+        ],
+        [
+          1,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          1,
+          5,
+          5,
+          5,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          1,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          1,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          1,
+          5,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          5,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          1,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          1,
+          5,
+          5,
+          5,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          5,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          1,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          1,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          1,
+          5,
+          2,
+          5
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          5
+        ],
+        [
+          0,
+          0,
+          5,
+          1,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          1,
+          5
+        ],
+        [
+          5,
+          2,
+          5,
+          1,
+          5
+        ]
+      ]
+    }
+  ],
+  "predicted_scores_initial": {
+    "Colour": 0.5233414561944781,
+    "CommonSense": 0.4668305143048311,
+    "Geometry": 0.0024570073751726752,
+    "Movement": 0.0024570073751726752,
+    "Number": 0.0024570073751726752,
+    "Object": 0.0024570073751726752
+  },
+  "predicted_scores_refined": {
+    "Colour": 0.4565837850094245,
+    "CommonSense": 0.5267019828007812,
+    "Geometry": 0.016714232189794332
+  },
+  "predicted_categories_initial": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "predicted_categories_refined": [
+    "CommonSense",
+    "CommonSense",
+    "CommonSense",
+    "CommonSense"
+  ],
+  "detailed_rule_results_initial": {
+    "Colour": {
+      "Colour rules describe **precise, systematic transformations of object colours or palettes** that preserve object shapes, spatial layouts, and boundaries. Typical examples include:\n- Global palette shifts where all occurrences of a specific colour are changed to another (e.g., all red pixels become blue),\n- Conditional recolouring based on object features such as size, position, or pattern (e.g., recolour only small red objects to green),\n- Hue or saturation adjustments applied consistently across objects without altering shape or location.\nColour rules rarely alter object masks; thus, input and output object masks remain closely aligned with minimal shape deformation or positional shifts.\nReliable detection involves:\n- Comparing dominant colours of corresponding objects,\n- Measuring colour histogram shifts,\n- Assessing whether colour mappings are one-to-one or conditionally applied,\n- Detecting minimal entropy or randomness in colour changes.\nAmbiguities arise if objects are partially recoloured, multi-coloured internally, or have slight positional jitter, but true colour rules show consistent, explainable recolouring patterns.": true
+    },
+    "CommonSense": {
+      "Commonsense rules involve **intuitive, context-aware completions or repairs** rather than explicit, formal geometric or colour transformations. These rules require the solver to infer plausible patterns based on what \u2018makes sense\u2019 given the input context, such as:\n- Completing broken or interrupted motifs or sequences,\n- Extending patterns logically in time or space,\n- Selecting the element that best fits a perceptual or conceptual pattern,\n- Resolving ambiguities by preferring the simplest, most regular, or least surprising outcome.\nCommonsense solutions are characterized by:\n- Increased symmetry, periodicity, or smoothness,\n- Repairs of discontinuities or irregularities,\n- Minimization of complexity, unexpectedness, or inconsistency,\n- Prioritizing outputs that require minimal edits or align closely with local context.\nBecause multiple solutions may be plausible, commonsense rules often involve scoring candidate outputs by their regularity, simplicity, or harmony with the input\u2019s implicit structure.": true
+    },
+    "Geometry": {
+      "Geometry rules describe **transformations that alter the spatial form and structural properties of objects** without typically changing their colours. These include operations such as:\n- Reflections (mirroring) across vertical, horizontal, or diagonal axes,\n- Rotations by fixed angles (e.g., 90\u00b0, 180\u00b0),\n- Flips (horizontal or vertical),\n- Scaling or resizing while preserving shape proportions,\n- Constructing bounding enclosures, convex hulls, or scaffolds around shapes.\nKey geometric invariants involved are:\n- Object centroids and their relative positions,\n- Bounding boxes and aspect ratios,\n- Symmetry axes and topological relationships such as adjacency and containment.\nDetection involves verifying whether these invariants or relationships are preserved or systematically transformed via isometries (pure rotation/reflection) or consistent deformation patterns.\nColour semantics are generally preserved, so shape and position transformations dominate this category.": false
+    },
+    "Movement": {
+      "Movement rules describe transformations where objects or pixels are **translated spatially across the grid** without fundamentally altering shape or colour. Examples include:\n- Shifting every object by a fixed vector (e.g., all objects move right by two cells),\n- Moving specific objects to target locations such as the center or grid edges,\n- Coordinated motions where objects follow paths or track the movement of other objects.\nDetecting movement involves:\n- Matching object identities between input and output via overlap, centroid proximity, or feature similarity,\n- Calculating displacement vectors for each matched object,\n- Identifying consistent offsets across multiple objects or continuous trajectories.\nMovement may co-occur with rotations or recolouring, complicating identity tracking, so robust detection applies:\n- Cross-correlation,\n- Centroid and shape-preserving checks,\n- Distinguishing pure translation from combined geometric or colour edits.": false
+    },
+    "Number": {
+      "Number rules govern transformations that rely on **counts, sizes, or numeric encodings present in the input to determine the output structure or content**. Examples include:\n- Replicating an object a specific number of times (e.g., duplicating a shape N times),\n- Adding or removing rows or columns based on numeric counts,\n- Encoding arithmetic relationships such as doubling, parity checks, or differences between object counts,\n- Using visual numeric encodings like bars, repeated motifs, or digit-like patterns as parameters.\nDetection signals include:\n- Changes in object counts between input and output,\n- Explicit or implicit numeric encodings,\n- Simple arithmetic relations linking input metrics (counts, sizes) to output features.\nAmbiguities can arise when numeric information is encoded implicitly or when visual patterns support multiple numeric interpretations, requiring careful analysis.": false
+    },
+    "Object": {
+      "Object rules treat connected pixel groups as **discrete entities** and apply **structural transformations** on these entities. Typical operations include:\n- Splitting a single object into multiple parts,\n- Merging several objects into one unified shape,\n- Resizing or stretching objects,\n- Altering topology such as filling holes, adding protrusions, or changing connectivity,\n- Reassigning object identities or order based on structural changes.\nThese tasks require:\n- Robust connected-component labelling (including diagonal connectivity options),\n- Graph-based analyses capturing adjacency and containment relations,\n- Identity-tracking methods capable of mapping input objects to output objects despite topological changes.\nUnlike pure geometry or movement rules, object rules explicitly modify the **entity structure** by creating, destroying, or morphing objects, not just repositioning or rotating them.": false
+    }
+  },
+  "detailed_hypotheses_refined": {
+    "Colour": [
+      [
+        "Hypothesis: The colour rule applied is a global palette shift, where all occurrences of the colour 5 are changed to 1.",
+        false,
+        28,
+        0.0
+      ],
+      [
+        "Hypothesis: The colour rule involves conditional recolouring based on object features, such as recolouring all connected regions of the same colour.",
+        true,
+        32,
+        3.465735582799778
+      ],
+      [
+        "Hypothesis: The transformation involves a hue adjustment applied consistently across objects, resulting in the change from colour 5 to colour 1.",
+        false,
+        28,
+        0.0
+      ],
+      [
+        "Hypothesis: The colour rule might be based on measuring colour histogram shifts, with a specific mapping from colour 5 to colour 1.",
+        false,
+        29,
+        0.0
+      ],
+      [
+        "Hypothesis: There is a one-to-one colour mapping between the input and output objects, with each object's colour being changed to a specific corresponding colour in the output.",
+        true,
+        35,
+        3.5553477114894747
+      ]
+    ],
+    "CommonSense": [
+      [
+        "The pattern in the input grid is being extended by adding a new element with a different color (1) in the bottom right corner of the grid.",
+        false,
+        30,
+        0.0
+      ],
+      [
+        "The input grid is being transformed by gradually decreasing the size of the colored elements from the top left corner to the bottom right corner.",
+        false,
+        26,
+        0.0
+      ],
+      [
+        "The input grid is being transformed by increasing the size of the colored elements in a progressive manner from left to right and top to bottom.",
+        false,
+        27,
+        0.0
+      ],
+      [
+        "The elements in the input grid are being replaced with a new set of elements that follow a more regular and symmetrical pattern, with a decrease in complexity and irregularities.",
+        true,
+        34,
+        3.526360184616219
+      ],
+      [
+        "The elements in the input grid are being transformed into a new set of elements that exhibit increased symmetry and periodicity, with a preference for simplicity and harmony within the overall structure of the grid.",
+        true,
+        38,
+        3.637585779726458
+      ]
+    ],
+    "Geometry": [
+      [
+        "The objects in the input grid have undergone a vertical reflection across the axis passing through the center of the grid to produce the objects in the output grid.",
+        false,
+        30,
+        0.0
+      ],
+      [
+        "The size of the objects in the input grid has been reduced by one unit along both the x and y axes, resulting in the objects in the output grid.",
+        false,
+        32,
+        0.0
+      ],
+      [
+        "The objects in the input grid have been rotated 90 degrees clockwise around the centroid of the grid to create the objects in the output grid.",
+        false,
+        28,
+        0.0
+      ],
+      [
+        "The bounding box of the objects in the input grid has been expanded by one unit in all directions to form the objects in the output grid.",
+        false,
+        28,
+        0.0
+      ],
+      [
+        "The objects in the input grid have been resized by decreasing the size of the objects in the top row and increasing the size of the objects in the bottom row, resulting in the objects in the output grid.",
+        true,
+        41,
+        3.7135716567043917
+      ]
+    ]
+  },
+  "expected_category": "CommonSense"
+}

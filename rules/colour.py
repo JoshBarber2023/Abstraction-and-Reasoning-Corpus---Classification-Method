@@ -1,21 +1,17 @@
 COLOUR_RULES_NL = [
     (
-        "All objects change their colour: "
-        "Every object present in the input grid changes to a different colour in the output grid, "
-        "while maintaining their original shape and position.",
-        1
-    ),
-    (
-        "Mimic colour scheme: "
-        "If there are more than two distinct colours across the combined input and output grids, "
-        "the primary colour of each object in the input is preserved in the corresponding object in the output, "
-        "mirroring the overall colour palette.",
-        1
-    ),
-    (
-        "Partial internal colour change: "
-        "When an object in the output is a smaller version of an input object and a neighbouring object appears, "
-        "at least part of the object's internal colouring changes compared to the original.",
-        1
+        "Colour rules describe **precise, systematic transformations of object colours or palettes** that preserve object shapes, spatial layouts, and boundaries. "
+        "Typical examples include:\n"
+        "- Global palette shifts where all occurrences of a specific colour are changed to another (e.g., all red pixels become blue),\n"
+        "- Conditional recolouring based on object features such as size, position, or pattern (e.g., recolour only small red objects to green),\n"
+        "- Hue or saturation adjustments applied consistently across objects without altering shape or location.\n"
+        "Colour rules rarely alter object masks; thus, input and output object masks remain closely aligned with minimal shape deformation or positional shifts.\n"
+        "Reliable detection involves:\n"
+        "- Comparing dominant colours of corresponding objects,\n"
+        "- Measuring colour histogram shifts,\n"
+        "- Assessing whether colour mappings are one-to-one or conditionally applied,\n"
+        "- Detecting minimal entropy or randomness in colour changes.\n"
+        "Ambiguities arise if objects are partially recoloured, multi-coloured internally, or have slight positional jitter, but true colour rules show consistent, explainable recolouring patterns."
+        , 1
     )
 ]

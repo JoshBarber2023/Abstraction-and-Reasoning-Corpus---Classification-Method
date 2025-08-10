@@ -1,26 +1,18 @@
 GEOMETRY_RULES_NL = [
     (
-        "Objects stretch to edges: Detects if any input object not touching the grid edge stretches to touch the edge in the output grid.",
-        1
-    ),
-    (
-        "Object has rotated: Checks if any input object has rotated (non-symmetric shapes only) to match an output object.",
-        1
-    ),
-    (
-        "Object is completely surrounded: Determines if any input object is fully surrounded on all four sides (up, down, left, right) by output objects.",
-        1
-    ),
-    (
-        "Object removed but gap remains: Detects if an input object disappears in the output but leaves a gap of background cells of the same shape.",
-        1
-    ),
-    (
-        "Grid has rotated: Checks if the entire input grid has been rotated (by 90°, 180°, or 270°) to become the output grid.",
-        1
-    ),
-    (
-        "Object has mirrored: Detects if input objects have been mirrored (vertically, horizontally, or diagonally) in the output grid.",
-        1
+        "Geometry rules describe **transformations that alter the spatial form and structural properties of objects** without typically changing their colours. "
+        "These include operations such as:\n"
+        "- Reflections (mirroring) across vertical, horizontal, or diagonal axes,\n"
+        "- Rotations by fixed angles (e.g., 90°, 180°),\n"
+        "- Flips (horizontal or vertical),\n"
+        "- Scaling or resizing while preserving shape proportions,\n"
+        "- Constructing bounding enclosures, convex hulls, or scaffolds around shapes.\n"
+        "Key geometric invariants involved are:\n"
+        "- Object centroids and their relative positions,\n"
+        "- Bounding boxes and aspect ratios,\n"
+        "- Symmetry axes and topological relationships such as adjacency and containment.\n"
+        "Detection involves verifying whether these invariants or relationships are preserved or systematically transformed via isometries (pure rotation/reflection) or consistent deformation patterns.\n"
+        "Colour semantics are generally preserved, so shape and position transformations dominate this category."
+        , 1
     )
 ]

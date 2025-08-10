@@ -1,23 +1,17 @@
 OBJECT_RULES_NL = [
     (
-        "Objects get larger: Detects if any object in the output is larger than its corresponding input object.",
-        1
-    ),
-    (
-        "Objects get smaller: Detects if any object in the output is smaller than its corresponding input object.",
-        1
-    ),
-    (
-        "Neighbour object disappears: Detects if an object disappears in the output while one of its neighbours remains in the input.",
-        1
-    ),
-    (
-        "Neighbour object appears: Detects if a new object appears in the output adjacent to an existing object.",
-        1
-    ),
-    (
-        "Object duplication: Checks if any input object is directly duplicated and repeated multiple times in the output grid.",
-        1
+        "Object rules treat connected pixel groups as **discrete entities** and apply **structural transformations** on these entities. "
+        "Typical operations include:\n"
+        "- Splitting a single object into multiple parts,\n"
+        "- Merging several objects into one unified shape,\n"
+        "- Resizing or stretching objects,\n"
+        "- Altering topology such as filling holes, adding protrusions, or changing connectivity,\n"
+        "- Reassigning object identities or order based on structural changes.\n"
+        "These tasks require:\n"
+        "- Robust connected-component labelling (including diagonal connectivity options),\n"
+        "- Graph-based analyses capturing adjacency and containment relations,\n"
+        "- Identity-tracking methods capable of mapping input objects to output objects despite topological changes.\n"
+        "Unlike pure geometry or movement rules, object rules explicitly modify the **entity structure** by creating, destroying, or morphing objects, not just repositioning or rotating them."
+        , 1
     )
 ]
-
