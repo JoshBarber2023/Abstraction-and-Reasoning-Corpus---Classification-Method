@@ -1,3 +1,4 @@
+# rule_engine.py
 from tqdm import tqdm
 import numpy as np
 from pathlib import Path
@@ -14,12 +15,24 @@ from openai import OpenAI  # NEW: import OpenAI client
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
+# Added for rate-limiting and concurrency control
+import threading
+from collections import deque
+import random
+
 def softmax(x):
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
 
 class RuleEngine:
-    def __init__(self, data_folder, output_folder, openai_api_key=None):
+    def __init__(
+        self,
+        data_folder,
+        output_folder,
+        openai_api_key=None,
+        max_concurrent_requests: int = 4,   # reduce concurrency to avoid bursting
+        rpm_limit: int = 400                # requests per minute limit (configure to your org quota)
+    ):
         self.data_folder = Path(data_folder)
         self.output_folder = Path(output_folder)
         self.task_data = {}
@@ -27,51 +40,176 @@ class RuleEngine:
         self.manual_results = self._load_manual_results()
         self.client = OpenAI(api_key=openai_api_key) if openai_api_key else OpenAI()
 
+        # Rate limiting and concurrency controls
+        self.max_concurrent_requests = max_concurrent_requests
+        self.rpm_limit = rpm_limit
+        self._request_lock = threading.Lock()
+        self._recent_call_timestamps = deque()  # stores monotonic() timestamps of recent calls
+        self._concurrent_semaphore = threading.BoundedSemaphore(value=self.max_concurrent_requests)
+
     def _load_manual_results(self):
         path = Path("manual_categorization.json")
         return json.load(path.open()) if path.exists() else {}
 
-    def query_gpt_batch(self, rule_descriptions, input_grid, output_grid, retries=2, timeout=5):
+    def _wait_for_rate_slot(self):
         """
-        Batch GPT call: asks GPT to evaluate all hypotheses at once,
-        returns list of booleans corresponding to each rule.
+        Simple sliding-window RPM rate limiter. Blocks until it's safe to make a request.
         """
-        prompt = f"""
-        You are an expert at solving Abstraction and Reasoning Corpus (ARC) tasks.
+        with self._request_lock:
+            now = time.monotonic()
+            # remove timestamps older than 60 seconds
+            while self._recent_call_timestamps and now - self._recent_call_timestamps[0] > 60.0:
+                self._recent_call_timestamps.popleft()
 
-        Given the following example:
+            if len(self._recent_call_timestamps) < self.rpm_limit:
+                # we can proceed
+                self._recent_call_timestamps.append(now)
+                return
+            else:
+                # compute wait time until oldest timestamp falls outside 60s window
+                earliest = self._recent_call_timestamps[0]
+                sleep_for = 60.0 - (now - earliest) + 0.01
+        # release lock before sleeping
+        time.sleep(sleep_for)
+        # recursive: try again (rarely more than once)
+        return self._wait_for_rate_slot()
 
-        Input grid:
-        {input_grid}
-
-        Output grid:
-        {output_grid}
-
-        Evaluate the following hypotheses about the transformation from input to output:
-
-        """ + "\n".join(f"{i+1}. {desc}" for i, desc in enumerate(rule_descriptions)) + """
-
-        For each hypothesis, answer ONLY 'True' or 'False' on a separate line, in order.
+    def query_gpt_batch(self, rule_descriptions, input_grid, output_grid, retries=5, timeout=10):
         """
+        Batch GPT call with:
+        - grid normalization for dsl.objects()
+        - concurrency/semaphore control to limit simultaneous API calls
+        - per-minute RPM sliding-window limiter
+        - exponential backoff with jitter on rate-limit or transient errors
 
-        for attempt in range(retries):
+        Returns: list[bool] corresponding to each rule description.
+        """
+        # --- Helper: normalize any grid-like input into tuple-of-tuples of ints ---
+        def _normalize_for_dsl(grid):
+            arr = np.array(grid, dtype=int)
+            return tuple(tuple(int(v) for v in row) for row in arr.tolist())
+
+        # Normalize both grids for DSL use (this is what mostcolor() expects)
+        try:
+            input_grid_dsl = _normalize_for_dsl(input_grid)
+            output_grid_dsl = _normalize_for_dsl(output_grid)
+        except Exception as e:
+            # If conversion fails, fallback to the raw textual representation in the prompt
+            print(f"[Warning] grid normalization failed: {e}")
             try:
-                response = self.client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=0.0,
-                    max_tokens=10 * len(rule_descriptions),
-                    n=1,
-                    stop=None,
-                    timeout=timeout  # if supported by your client
-                )
-                answers = response.choices[0].message.content.strip().splitlines()
-                return [ans.strip().lower().startswith("true") for ans in answers]
-            except Exception as e:
-                print(f"GPT batch query error on attempt {attempt+1}: {e}")
-                if attempt == retries - 1:
-                    return [False] * len(rule_descriptions)
-                time.sleep(1)
+                input_grid_dsl = tuple(tuple(int(v) for v in row) for row in input_grid)
+                output_grid_dsl = tuple(tuple(int(v) for v in row) for row in output_grid)
+            except Exception:
+                input_grid_dsl = tuple(tuple(row) for row in input_grid)
+                output_grid_dsl = tuple(tuple(row) for row in output_grid)
+
+        # --- Call DSL to get objects ---
+        # DSL signature: objects(grid, univalued, diagonal, without_bg)
+        # Use flags: univalued=True, diagonal=True, without_bg=True (matches plot usage)
+        try:
+            input_objs = objects(input_grid_dsl, True, True, True)
+        except Exception as e:
+            print(f"[Warning] objects() failed on input grid: {e}")
+            input_objs = frozenset()
+
+        try:
+            output_objs = objects(output_grid_dsl, True, True, True)
+        except Exception as e:
+            print(f"[Warning] objects() failed on output grid: {e}")
+            output_objs = frozenset()
+
+        # --- Pretty-format object sets for the prompt ---
+        def format_objects(obj_set):
+            if not obj_set:
+                return "None"
+            lines = []
+            for idx, obj in enumerate(obj_set, start=1):
+                # each obj is a frozenset of (value, (r,c)) pairs
+                colors = sorted({v for v, _ in obj})
+                coords = sorted([loc for _, loc in obj])
+                lines.append(f"Obj {idx}: colors={colors}, size={len(coords)}, coords={coords}")
+            return "\n".join(lines)
+
+        input_obj_str = format_objects(input_objs)
+        output_obj_str = format_objects(output_objs)
+
+        # --- Build the prompt ---
+        prompt = (
+            "You are an expert at solving Abstraction and Reasoning Corpus (ARC) tasks.\n\n"
+            "Here is the example you will analyze:\n\n"
+            f"Input grid:\n{input_grid}\n\n"
+            f"Input objects (excluding background):\n{input_obj_str}\n\n"
+            f"Output grid:\n{output_grid}\n\n"
+            f"Output objects (excluding background):\n{output_obj_str}\n\n"
+            "Evaluate the following hypotheses about the transformation from input to output:\n\n"
+            + "\n".join(f"{i+1}. {desc}" for i, desc in enumerate(rule_descriptions))
+            + "\n\nFor each hypothesis, answer ONLY 'True' or 'False' on a separate line, in order.\n"
+        )
+
+        # Acquire concurrent semaphore to limit number of parallel API calls
+        acquired = self._concurrent_semaphore.acquire(timeout=30)
+        if not acquired:
+            print("[Warning] Could not acquire concurrent semaphore; proceeding without it.")
+        try:
+            attempt = 0
+            while attempt < retries:
+                attempt += 1
+                # Wait for a rate slot (enforces RPM limit)
+                self._wait_for_rate_slot()
+
+                try:
+                    response = self.client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=0.0,
+                        max_tokens=10 * len(rule_descriptions),
+                        n=1,
+                        stop=None,
+                        timeout=timeout
+                    )
+
+                    answers = response.choices[0].message.content.strip().splitlines()
+                    # Normalize answers: 'True' -> True else False
+                    return [ans.strip().lower().startswith("true") for ans in answers]
+
+                except Exception as e:
+                    err_text = str(e).lower()
+                    # Detect rate-limit or transient network errors
+                    is_rate = (
+                        "rate" in err_text and (
+                            "limit" in err_text or
+                            "rate_limit" in err_text or
+                            "rate_limit_exceeded" in err_text or
+                            "requests per min" in err_text
+                        )
+                    )
+                    is_transient = isinstance(e, TimeoutError) or "timeout" in err_text or "temporar" in err_text or "503" in err_text
+
+                    if is_rate or is_transient:
+                        # exponential backoff with jitter
+                        backoff_base = 0.5 * (2 ** (attempt - 1))
+                        jitter = random.uniform(0, 0.5)
+                        sleep_time = min(backoff_base + jitter, 60.0)  # cap to 60s
+                        print(f"GPT batch query error on attempt {attempt}: {e} -- retrying after {sleep_time:.2f}s")
+                        time.sleep(sleep_time)
+                        continue
+                    else:
+                        # non-retriable error -> warn and return safe defaults
+                        print(f"Non-retriable GPT error: {e}")
+                        return [False] * len(rule_descriptions)
+
+            # if we exit loop without success:
+            print("Exceeded retry attempts for GPT call; returning all-False.")
+            return [False] * len(rule_descriptions)
+
+        finally:
+            # Always release semaphore if acquired
+            try:
+                if acquired:
+                    self._concurrent_semaphore.release()
+            except Exception:
+                pass
+
 
     def evaluate_category(self, task, category, rules):
         if "train" not in task or not task["train"]:
@@ -88,6 +226,7 @@ class RuleEngine:
         rule_descriptions = [rule[0] for rule in rules]
         priors = [rule[1] for rule in rules]
 
+        # We pass lists/ndarrays; query_gpt_batch will normalize for DSL
         results = self.query_gpt_batch(rule_descriptions, inp_grid.tolist(), out_grid.tolist())
 
         total_score = 0.0
@@ -162,9 +301,8 @@ class RuleEngine:
             return (idx, task_name, best_category, expected_category, normalized_category_scores)
 
 
-        from concurrent.futures import as_completed
-
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        # Use the configured concurrency to avoid too many simultaneous API calls
+        with ThreadPoolExecutor(max_workers=self.max_concurrent_requests) as executor:
             futures = {executor.submit(process_task, item): item for item in enumerate(tasks)}
             with tqdm(total=len(tasks), desc="Processing tasks") as pbar:
                 for future in as_completed(futures):
@@ -195,56 +333,56 @@ class RuleEngine:
 
 
     def manual_categorise(self):
-            import matplotlib.pyplot as plt
+        import matplotlib.pyplot as plt
 
-            self.output_folder.mkdir(parents=True, exist_ok=True)
-            manual_path = Path("manual_categorization.json")
+        self.output_folder.mkdir(parents=True, exist_ok=True)
+        manual_path = Path("manual_categorization.json")
 
-            tasks = list(self.data_folder.glob("*.json"))
-            manual_results = {}
+        tasks = list(self.data_folder.glob("*.json"))
+        manual_results = {}
 
-            print("\nManual Categorization Mode")
-            print("Categories:")
-            for i, cat in enumerate(CATEGORIES):
-                print(f"{i}: {cat}")
+        print("\nManual Categorization Mode")
+        print("Categories:")
+        for i, cat in enumerate(CATEGORIES):
+            print(f"{i}: {cat}")
 
-            plt.ion()  # Turn on interactive mode
+        plt.ion()  # Turn on interactive mode
 
-            for idx, task_path in enumerate(tasks):
-                task_name = task_path.name
-                with open(task_path) as f:
-                    task = json.load(f)
+        for idx, task_path in enumerate(tasks):
+            task_name = task_path.name
+            with open(task_path) as f:
+                task = json.load(f)
 
-                pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
+            pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
 
-                # Visualize the task
-                fig = compare_multiple_pairs(pairs, task_id=task_name)
-                plt.pause(0.001)  # Show non-blocking plot
+            # Visualize the task
+            fig = compare_multiple_pairs(pairs, task_id=task_name)
+            plt.pause(0.001)  # Show non-blocking plot
 
-                # Prompt for input
-                while True:
-                    try:
-                        inp = input(f"\nTask {idx+1}/{len(tasks)}: {task_name}\nEnter category number (or 's' to skip): ").strip()
-                        if inp.lower() == 's':
-                            print(f"⏭️ Skipped {task_name}")
-                            break
-                        elif inp.isdigit() and 0 <= int(inp) < len(CATEGORIES):
-                            manual_results[task_name] = CATEGORIES[int(inp)]
-                            print(f"✔️ Saved: {task_name} → {CATEGORIES[int(inp)]}")
-                            break
-                        else:
-                            print(f"Invalid input. Please enter a number between 0 and {len(CATEGORIES)-1}, or 's' to skip.")
-                    except KeyboardInterrupt:
-                        print("\nExiting manual categorization.")
-                        plt.close("all")
-                        return
+            # Prompt for input
+            while True:
+                try:
+                    inp = input(f"\nTask {idx+1}/{len(tasks)}: {task_name}\nEnter category number (or 's' to skip): ").strip()
+                    if inp.lower() == 's':
+                        print(f"⏭️ Skipped {task_name}")
+                        break
+                    elif inp.isdigit() and 0 <= int(inp) < len(CATEGORIES):
+                        manual_results[task_name] = CATEGORIES[int(inp)]
+                        print(f"✔️ Saved: {task_name} → {CATEGORIES[int(inp)]}")
+                        break
+                    else:
+                        print(f"Invalid input. Please enter a number between 0 and {len(CATEGORIES)-1}, or 's' to skip.")
+                except KeyboardInterrupt:
+                    print("\nExiting manual categorization.")
+                    plt.close("all")
+                    return
 
-                plt.close("all")  # Close after each entry
+            plt.close("all")  # Close after each entry
 
-            with open(manual_path, "w") as f:
-                json.dump(manual_results, f, indent=2)
+        with open(manual_path, "w") as f:
+            json.dump(manual_results, f, indent=2)
 
-            print(f"\n✅ Manual categorization saved to: {manual_path}")
+        print(f"\n✅ Manual categorization saved to: {manual_path}")
 
     def View(self, task_name=None):
         if not self.task_data:
@@ -327,8 +465,6 @@ class RuleEngine:
             self.plot_task_objects(task_name)
             plt.show()
 
-
-
     def plot_task_objects(self, task_name):
         if task_name not in self.task_data:
             print(f"Task '{task_name}' not found in loaded data.")
@@ -340,6 +476,7 @@ class RuleEngine:
         for idx, pair in enumerate(train_pairs):
             for mode in ["input", "output"]:
                 grid = tuple(tuple(row) for row in pair[mode])
+                # keep original plotting call; it uses the DSL objects function
                 objs = objects(grid=grid, univalued=True, diagonal=True, without_bg=True)
                 fig, ax = plt.subplots()
                 ax.imshow(grid, cmap="tab20", interpolation="none")
