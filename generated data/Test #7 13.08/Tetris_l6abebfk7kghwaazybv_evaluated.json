@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          8
+        ],
+        [
+          2,
+          2,
+          4,
+          8,
+          8
+        ],
+        [
+          2,
+          2,
+          0,
+          7,
+          8
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          8
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          4,
+          4,
+          7,
+          0
+        ],
+        [
+          1,
+          4,
+          7,
+          7,
+          7
+        ],
+        [
+          1,
+          3,
+          3,
+          7,
+          0
+        ],
+        [
+          1,
+          3,
+          3,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          2
+        ],
+        [
+          1,
+          1,
+          3,
+          3,
+          2
+        ],
+        [
+          8,
+          1,
+          3,
+          3,
+          2
+        ],
+        [
+          8,
+          8,
+          8,
+          2,
+          2
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          2,
+          2,
+          2
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        [
+          0,
+          7,
+          8,
+          8,
+          8
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          8
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.2499997379737758,
+    "Commonsense": 0.2499997379737758,
+    "Geometry": 0.2499997379737758,
+    "Movement": 0.2499997379737758,
+    "Number": 1.0240008467397735e-06,
+    "Object": 2.4104050249601003e-08
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "expected_category": "CommonSense",
+  "generated_hypotheses": [
+    {
+      "description": "All pixels of color X change to color Y",
+      "category": "Colour",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    unique_in = set(input_grid.flat)\n    unique_out = set(output_grid.flat)\n    # Check if it's a simple color mapping\n    if len(unique_in) == len(unique_out):\n        mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in mapping and mapping[in_color] != out_color:\n                    return False\n                mapping[in_color] = out_color\n        return len(mapping) > 0\n    return False\n",
+      "prior_probability": 0.15,
+      "confidence": 0.8,
+      "source": "template",
+      "template_name": "color_change",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 9,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Objects move by a fixed offset",
+      "category": "Movement",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Simple check: non-zero pixels shift consistently\n    in_nonzero = np.argwhere(input_grid != 0)\n    out_nonzero = np.argwhere(output_grid != 0)\n    if len(in_nonzero) != len(out_nonzero):\n        return False\n    if len(in_nonzero) == 0:\n        return False\n    # Check if there's a consistent offset\n    if len(in_nonzero) > 1:\n        offset = out_nonzero[0] - in_nonzero[0]\n        for i in range(len(in_nonzero)):\n            expected = in_nonzero[i] + offset\n            if not any(np.array_equal(expected, out_pos) for out_pos in out_nonzero):\n                return False\n    return True\n",
+      "prior_probability": 0.12,
+      "confidence": 0.7,
+      "source": "template",
+      "template_name": "object_movement",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 6,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Grid size changes (cropping or padding)",
+      "category": "Geometry",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    return input_grid.shape != output_grid.shape\n",
+      "prior_probability": 0.1,
+      "confidence": 0.9,
+      "source": "template",
+      "template_name": "size_change",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 9,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Empty spaces filled with pattern or color",
+      "category": "Commonsense",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if output has fewer zeros (background)\n    in_zeros = np.sum(input_grid == 0)\n    out_zeros = np.sum(output_grid == 0)\n    return out_zeros < in_zeros and in_zeros > 0\n",
+      "prior_probability": 0.11,
+      "confidence": 0.6,
+      "source": "template",
+      "template_name": "pattern_fill",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 7,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Transformation based on counting objects",
+      "category": "Number",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Simple check: output relates to input object count\n    in_count = len(input_objects)\n    out_count = len(output_objects)\n    return in_count != out_count and in_count > 0\n",
+      "prior_probability": 0.08,
+      "confidence": 0.5,
+      "source": "template",
+      "template_name": "object_count",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 5,
+      "solomonoff_score": 12.405497795227653,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Objects are merged, split, or transformed",
+      "category": "Object",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if objects changed\n    in_count = len(input_objects) \n    out_count = len(output_objects)\n    if in_count == out_count == 0:\n        return False\n    # Objects exist and counts differ, or positions changed\n    return in_count != out_count or in_count > 0\n",
+      "prior_probability": 0.09,
+      "confidence": 0.6,
+      "source": "template",
+      "template_name": "object_merge",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 8,
+      "solomonoff_score": 13.462158784329644,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
+  ]
+}
