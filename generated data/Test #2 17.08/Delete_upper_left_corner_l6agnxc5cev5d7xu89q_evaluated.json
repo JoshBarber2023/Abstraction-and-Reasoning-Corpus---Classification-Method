@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.30417028139760394,
+    "Commonsense": 0.30417028139760394,
+    "Geometry": 5.464406253822603e-06,
+    "Movement": 0.08748112836082869,
+    "Number": 0.30417028139760394,
+    "Object": 2.563040105774921e-06
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The filled rectangle object at position (1,2) to (3,3) was translated one column to the right, moving it from (1,2) to (1,3).",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object shifted from covering the grid cells (1,2), (1,3), (2,2), (2,3) to (1,3), (1,4), (2,3), (2,4).",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (1, 2)\n    output_object_position = (1, 3)\n    return (output_grid[1][3] == 4) and (input_grid[1][2] == 4) and (input_grid[1][3] == 0) and (output_grid[1][4] == 0)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 39,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle object was transformed into an irregular shape while maintaining its original size and color.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The original filled rectangle shape was modified to an irregular shape but still occupies the same area of the grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_shape = {(1, 2), (1, 3), (2, 2), (2, 3)}\n    new_shape = {(1, 3), (1, 4), (2, 3), (2, 4)}\n    return (len(original_shape) == len(new_shape)) and (output_grid[1][4] == 4) and (output_grid[2][3] == 4)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "complexity": 18,
+      "solomonoff_score": 15.578865152675492,
+      "passed_all": false,
+      "pass_rate": 0.75
+    },
+    {
+      "description": "No colors were lost or gained in the transformation; the color 4 remains present in the output grid.",
+      "category": "Colour",
+      "confidence": 0.95,
+      "evidence": "The color 4 appears in the same quantity in both the input and output grids.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_color_count = sum(cell == 4 for row in input_grid for cell in row)\n    output_color_count = sum(cell == 4 for row in output_grid for cell in row)\n    return input_color_count == output_color_count",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 21,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle was repositioned without changing its size or color, indicating a lateral translation.",
+      "category": "Movement",
+      "confidence": 0.88,
+      "evidence": "The filled rectangle's position shifted from (1,2) to (1,3) while retaining the same dimensions.",
+      "prior_probability": 0.13,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    return (input_grid[1][2] == 4) and (output_grid[1][3] == 4) and (output_grid[1][4] == 0)",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "complexity": 19,
+      "solomonoff_score": 4.9846583461556015,
+      "passed_all": false,
+      "pass_rate": 0.25
+    },
+    {
+      "description": "The transformation maintains the same number of filled cells (4) in the output grid as in the input grid.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "Both grids have four filled cells with color 4.",
+      "prior_probability": 0.18,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_filled_count = sum(1 for row in input_grid for cell in row if cell == 4)\n    output_filled_count = sum(1 for row in output_grid for cell in row if cell == 4)\n    return input_filled_count == output_filled_count",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle was not resized but its spatial arrangement was altered, indicating a geometric transformation.",
+      "category": "Geometry",
+      "confidence": 0.87,
+      "evidence": "The shape's area remained constant while its position changed, demonstrating a geometric transformation.",
+      "prior_probability": 0.14,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_area = 3 * 2\n    new_area = 3 * 2\n    return original_area == new_area and (output_grid[1][3] == 4)",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 18,
+      "solomonoff_score": 14.569449985666616,
+      "passed_all": false,
+      "pass_rate": 0.75
+    }
+  ],
+  "expected_category": "Object"
+}

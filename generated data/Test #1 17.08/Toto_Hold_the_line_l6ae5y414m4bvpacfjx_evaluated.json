@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.3333328318296641,
-    "Commonsense": 1.0703844945253481e-07,
-    "Geometry": 0.3333328318296641,
-    "Movement": 0.3333328318296641,
-    "Number": 1.3653338391720528e-06,
-    "Object": 3.2138718997804855e-08
+    "Colour": 3.2423050436225046e-24,
+    "Commonsense": 0.3333333333333333,
+    "Geometry": 1.6887926958276964e-25,
+    "Movement": 0.3333333333333333,
+    "Number": 0.3333333333333333,
+    "Object": 1.2774853798266204e-25
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The transformation connects the two single-cell objects of color 8 in a straight line, filling in the cells between them with color 8.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The two single-cell objects of color 8 in the input are connected in the output by a line of the same color. The line is straight and fills in the cells between the two objects.",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 14.824923067830852,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect objects of color 8 that are not single-cell.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The irregular object of color 8 in the input is unchanged in the output.",
+      "prior_probability": 0.15,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 14.009122921378696,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect cells of color 0.",
+      "category": "Colour",
+      "confidence": 0.8,
+      "evidence": "All cells of color 0 in the input are unchanged in the output.",
+      "prior_probability": 0.15,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 12.885043573053562,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation fills in cells with color 8 in a vertical direction.",
+      "category": "Movement",
+      "confidence": 0.7,
+      "evidence": "The cells filled in between the two single-cell objects of color 8 are in a vertical line.",
+      "prior_probability": 0.1,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 14,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation does not affect the overall size of the grid.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "The size of the grid is unchanged from input to output.",
+      "prior_probability": 0.15,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 13.146077504022603,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect the overall set of colors in the grid.",
+      "category": "Colour",
+      "confidence": 0.8,
+      "evidence": "The set of colors in the grid is unchanged from input to output.",
+      "prior_probability": 0.15,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 14,
+      "solomonoff_score": 13.608529143504725,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect the position of objects not involved in the connection.",
+      "category": "Movement",
+      "confidence": 0.7,
+      "evidence": "The position of the irregular object of color 8 in the input is unchanged in the output.",
+      "prior_probability": 0.1,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 15,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation merges the two single-cell objects of color 8 and the cells between them into a single object.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The two single-cell objects of color 8 and the cells between them in the input are a single object in the output.",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 22,
+      "solomonoff_score": 14.101437797379063,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Object"
 }

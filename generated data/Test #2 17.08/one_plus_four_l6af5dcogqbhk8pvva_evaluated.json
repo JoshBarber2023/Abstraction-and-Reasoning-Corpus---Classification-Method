@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          6,
+          0,
+          9,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          6,
+          0,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          6,
+          7,
+          9,
+          3
+        ],
+        [
+          0,
+          9,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          7,
+          0,
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          6,
+          0,
+          9,
+          7,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          3,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          6,
+          7,
+          9,
+          3
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          3,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          6,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color of the object at position (2,2) changed from 0 to 3, indicating a new color was introduced at that specific location.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The output grid has a new color 3 at position (2,2) that was not present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return output_grid[2][2] == 3 and input_grid[2][2] == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object at position (0,0) changed from 0 to 6, indicating a new color was introduced at that specific location.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid has a new color 6 at position (0,0) that was not present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return output_grid[0][0] == 6 and input_grid[0][0] == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object at position (0,2) changed from 0 to 9, indicating a new color was introduced at that specific location.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid has a new color 9 at position (0,2) that was not present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return output_grid[0][2] == 9 and input_grid[0][2] == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object at position (2,0) changed from 0 to 7, indicating a new color was introduced at that specific location.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid has a new color 7 at position (2,0) that was not present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return output_grid[2][0] == 7 and input_grid[2][0] == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object at position (3,3) changed from 0 to 6, indicating a new color was introduced at that specific location.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid has a new color 6 at position (3,3) that was not present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return output_grid[3][3] == 6 and input_grid[3][3] == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object at position (2,2) has a color change from 0 to 3, indicating the introduction of a new object at that position.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The output grid has a new object with color 3 at position (2,2) which was not present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    return any(obj['colors'] == [3] and obj['position'] == (2, 2) for obj in output_objects) and not any(obj['position'] == (2, 2) for obj in input_objects)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Colour"
+}

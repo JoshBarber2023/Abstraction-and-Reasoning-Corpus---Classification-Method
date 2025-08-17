@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          3,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          3,
+          0,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          3,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          3,
+          3,
+          3,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          3,
+          0,
+          3
+        ],
+        [
+          3,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          3,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The output grid retains the single pixel at position (0,4) and the irregular shape at (0,1) to (1,2), while all other pixels are cleared to 0.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The output grid shows that the objects at (0,4) and (0,1) to (1,2) are preserved, while all other objects are removed.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    preserved_positions = [(0, 4), (0, 1), (1, 1), (1, 2)]\n    for x in range(5):\n        for y in range(5):\n            if (x, y) in preserved_positions:\n                if output_grid[x][y] != input_grid[x][y]:\n                    return False\n            else:\n                if output_grid[x][y] != 0:\n                    return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 40,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The irregular shape at position (2,3) to (3,4) and the vertical line at (2,0) to (3,0) have been completely removed from the output grid.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The output grid has no pixels corresponding to the irregular shape and vertical line present in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for x in range(2, 4):\n        for y in range(0, 1):\n            if input_grid[x][y] == 3:\n                if output_grid[x][y] != 0:\n                    return False\n    for x in range(2, 4):\n        for y in range(3, 5):\n            if input_grid[x][y] == 3:\n                if output_grid[x][y] != 0:\n                    return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 41,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has a reduction in the total number of colored pixels from 7 to 4, indicating a count-based transformation.",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "The count of colored pixels (value 3) in the input grid is 7, while in the output grid it is only 4.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_count = sum(1 for row in input_grid for val in row if val == 3)\n    output_count = sum(1 for row in output_grid for val in row if val == 3)\n    return output_count == 4 and input_count == 7",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involves removing the irregular shape and vertical line while keeping the single pixel and the other irregular shape intact.",
+      "category": "Object",
+      "confidence": 0.88,
+      "evidence": "The output grid shows that specific objects have been selectively removed while others remain.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_shapes = {obj['position']: obj for obj in input_objects}\n    output_shapes = {obj['position']: obj for obj in output_objects}\n    removed_shapes = [pos for pos in input_shapes if pos not in output_shapes]\n    return len(removed_shapes) == 2",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The remaining objects in the output grid are positioned in the same locations as in the input grid, indicating no movement.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The positions of the remaining objects have not changed from the input to the output grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_positions = {(obj['position']): obj for obj in input_objects if obj['colors'] == [3]}\n    output_positions = {(obj['position']): obj for obj in output_objects if obj['colors'] == [3]}\n    return input_positions.keys() == output_positions.keys()",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 23,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involves a cropping effect where certain areas of the grid are cleared while keeping specific areas intact.",
+      "category": "Geometry",
+      "confidence": 0.75,
+      "evidence": "The output grid shows a clear distinction where certain sections have been cropped out, particularly the lower half.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for x in range(3, 5):\n        for y in range(0, 5):\n            if input_grid[x][y] != 0:\n                if output_grid[x][y] != 0:\n                    return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 20,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Object"
+}

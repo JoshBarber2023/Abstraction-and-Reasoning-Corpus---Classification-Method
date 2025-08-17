@@ -1,0 +1,380 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          4
+        ]
+      ],
+      "output": [
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          1
+        ]
+      ],
+      "output": [
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.043489930273667245,
+    "Commonsense": 0.04806380616759473,
+    "Geometry": 0.03935131621938898,
+    "Movement": 0.03935131621938898,
+    "Number": 0.03935131621938898,
+    "Object": 0.790392314900571
+  },
+  "predicted_categories": [
+    "Object",
+    "Object",
+    "Object"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "Objects change color according to a systematic color mapping rule",
+      "category": "Colour",
+      "confidence": 0.3,
+      "evidence": "Fallback hypothesis for Colour category",
+      "prior_probability": 0.1,
+      "source": "fallback_colour",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects change color according to a systematic color mapping rule\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
+      "test_results": [
+        true,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": 4.605169185988592,
+      "passed_all": false,
+      "pass_rate": 0.3333333333333333
+    },
+    {
+      "description": "Objects in the scene are modified, merged, split, or duplicated",
+      "category": "Object",
+      "confidence": 0.3,
+      "evidence": "Fallback hypothesis for Object category",
+      "prior_probability": 0.1,
+      "source": "fallback_object",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects in the scene are modified, merged, split, or duplicated\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 14.602599451369283,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation completes a logical pattern or applies contextual reasoning",
+      "category": "Commonsense",
+      "confidence": 0.3,
+      "evidence": "Fallback hypothesis for Commonsense category",
+      "prior_probability": 0.1,
+      "source": "fallback_commonsense",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation completes a logical pattern or applies contextual reasoning\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "test_results": [
+        false,
+        true,
+        true
+      ],
+      "complexity": 10,
+      "solomonoff_score": 9.210338371977183,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    }
+  ],
+  "expected_category": "Geometry"
+}

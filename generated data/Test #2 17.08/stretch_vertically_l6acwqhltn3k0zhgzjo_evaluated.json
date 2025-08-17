@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          9
+        ]
+      ],
+      "output": [
+        [
+          4,
+          8,
+          5,
+          4,
+          9
+        ],
+        [
+          4,
+          8,
+          5,
+          4,
+          9
+        ],
+        [
+          4,
+          8,
+          5,
+          4,
+          9
+        ],
+        [
+          4,
+          8,
+          5,
+          4,
+          9
+        ],
+        [
+          4,
+          8,
+          5,
+          4,
+          9
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          6,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          9
+        ]
+      ],
+      "output": [
+        [
+          1,
+          8,
+          6,
+          6,
+          9
+        ],
+        [
+          1,
+          8,
+          6,
+          6,
+          9
+        ],
+        [
+          1,
+          8,
+          6,
+          6,
+          9
+        ],
+        [
+          1,
+          8,
+          6,
+          6,
+          9
+        ],
+        [
+          1,
+          8,
+          6,
+          6,
+          9
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          3,
+          5,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          5,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          5,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          5,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          5,
+          3
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          6,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          2
+        ]
+      ],
+      "output": [
+        [
+          2,
+          4,
+          6,
+          5,
+          2
+        ],
+        [
+          2,
+          4,
+          6,
+          5,
+          2
+        ],
+        [
+          2,
+          4,
+          6,
+          5,
+          2
+        ],
+        [
+          2,
+          4,
+          6,
+          5,
+          2
+        ],
+        [
+          2,
+          4,
+          6,
+          5,
+          2
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All non-zero colors in the input grid are transformed into vertical lines in the output grid, with the same colors retained but arranged vertically.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The colors 8, 5, 4, and 9 from the input grid are transformed into vertical lines in the output grid, maintaining their original colors.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_colors = {color for row in input_grid for color in row if color != 0}\n    output_colors = {output_grid[row][col] for row in range(len(output_grid)) for col in range(len(output_grid[0])) if output_grid[row][col] != 0}\n    return input_colors == output_colors",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The positions of the colors in the input grid are transformed into vertical lines at specific columns in the output grid, with the original positions of colors 8, 5, 4, and 9 directly mapping to new vertical positions.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "Colors 8, 5, 4, and 9 move from their original positions to new vertical lines in the output grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_positions = [(r, c) for r in range(len(input_grid)) for c in range(len(input_grid[0])) if input_grid[r][c] != 0]\n    output_positions = [(r, c) for r in range(len(output_grid)) for c in range(len(output_grid[0])) if output_grid[r][c] != 0]\n    return sorted(input_positions) != sorted(output_positions)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 47,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The input grid's colors are retained but rearranged into a consistent vertical pattern across the output grid, with each unique color forming a complete column.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "The output grid features a consistent vertical arrangement of colors, indicating a geometric transformation from scattered pixels to structured columns.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(output_grid):\n    for col in range(len(output_grid[0])):\n        colors_in_col = {output_grid[row][col] for row in range(len(output_grid)) if output_grid[row][col] != 0}\n        if len(colors_in_col) > 1:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 29,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid contains no empty spaces in the columns of colors, contrasting with the input grid which has empty spaces around the colored pixels.",
+      "category": "Geometry",
+      "confidence": 0.75,
+      "evidence": "The transformation results in a filled vertical structure, eliminating any gaps that were present in the input grid.",
+      "prior_probability": 0.08,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for row in output_grid:\n        if 0 in row:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation results in the removal of all zero values from the input grid, leading to a filled output grid with only the original colors present.",
+      "category": "Colour",
+      "confidence": 0.8,
+      "evidence": "All zero values are eliminated in the output grid, which only contains the colors from the input grid.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_nonzero = {color for row in input_grid for color in row if color != 0}\n    output_nonzero = {color for row in output_grid for color in row if color != 0}\n    return input_nonzero == output_nonzero",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has a consistent height of 5 for each vertical line, indicating a transformation that maintains the height of the original colors while changing their arrangement.",
+      "category": "Number",
+      "confidence": 0.7,
+      "evidence": "Each vertical line in the output grid has a height of 5, consistent with the grid dimensions.",
+      "prior_probability": 0.09,
+      "test_code": "def test_hypothesis(output_grid):\n    for col in range(len(output_grid[0])):\n        if all(output_grid[row][col] != 0 for row in range(len(output_grid))) == False:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Geometry"
+}

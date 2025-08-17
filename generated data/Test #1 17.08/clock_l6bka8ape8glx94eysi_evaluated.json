@@ -384,18 +384,164 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.19999999998231544,
-    "Commonsense": 0.19999999998231544,
-    "Geometry": 0.19999999998231544,
-    "Movement": 0.19999999998231544,
-    "Number": 0.19999999998231544,
-    "Object": 8.842273753269462e-11
+    "Colour": 3.6165567694270312e-34,
+    "Commonsense": 0.3333333333333333,
+    "Geometry": 1.5550382849682848e-17,
+    "Movement": 7.42974361248388e-58,
+    "Number": 0.3333333333333333,
+    "Object": 0.3333333333333333
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The vertical line of color 3 in the input is transformed into a diagonal line in the output, starting from the top right and moving to the bottom left.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 3 cells in the input and output are the same number and color, but they have moved from a vertical line to a diagonal line.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 32,
+      "solomonoff_score": 23.07327118319557,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect the size of the grid.",
+      "category": "Geometry",
+      "confidence": 1.0,
+      "evidence": "The size of the input and output grids are the same.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 18.801917063172084,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect the colors used in the grid.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The colors used in the input and output grids are the same.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 19.149962171131065,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect cells with color 0.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "All cells with color 0 in the input grid remain unchanged in the output grid.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 18.801917063172084,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not add or remove any cells.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "The number of cells in the input and output grids are the same.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation does not affect the position of color 0 cells.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "All cells with color 0 in the input grid remain in the same position in the output grid.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 19.47013260182571,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation moves the color 3 cells from a vertical line to a diagonal line, starting from the top right and moving to the bottom left.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 3 cells in the input and output are the same number and color, but they have moved from a vertical line to a diagonal line.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 29,
+      "solomonoff_score": 22.6795120919389,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not affect the total number of color 3 cells.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "The number of color 3 cells in the input and output grids are the same.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 14,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
   ],
   "expected_category": "Geometry"
 }

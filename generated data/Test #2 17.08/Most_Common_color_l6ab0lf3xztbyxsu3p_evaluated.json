@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          6,
+          8
+        ],
+        [
+          4,
+          2,
+          2,
+          6,
+          8
+        ],
+        [
+          4,
+          6,
+          4,
+          6,
+          8
+        ],
+        [
+          2,
+          2,
+          6,
+          8,
+          8
+        ],
+        [
+          4,
+          2,
+          2,
+          2,
+          2
+        ]
+      ],
+      "output": [
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          7,
+          7,
+          9,
+          9,
+          6
+        ],
+        [
+          7,
+          5,
+          5,
+          5,
+          6
+        ],
+        [
+          7,
+          7,
+          9,
+          9,
+          6
+        ],
+        [
+          7,
+          8,
+          8,
+          8,
+          6
+        ],
+        [
+          7,
+          7,
+          9,
+          9,
+          6
+        ]
+      ],
+      "output": [
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          7,
+          7,
+          7,
+          7,
+          5
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          5
+        ],
+        [
+          7,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          5,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          5,
+          3,
+          3,
+          3,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          7,
+          4,
+          3,
+          6,
+          6
+        ],
+        [
+          4,
+          3,
+          8,
+          7,
+          6
+        ],
+        [
+          4,
+          3,
+          7,
+          8,
+          8
+        ],
+        [
+          3,
+          4,
+          7,
+          8,
+          1
+        ],
+        [
+          3,
+          7,
+          8,
+          8,
+          1
+        ]
+      ],
+      "output": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All colors in the input grid were replaced by the color 2, indicating a complete color transformation where every pixel changed from its original color to 2.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The input grid contained colors [4, 6, 8], which were completely replaced by color 2 in the output grid.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return all(pixel == 2 for row in output_grid for pixel in row) and all(pixel in [4, 6, 8] for row in input_grid for pixel in row)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "No objects are present in the output grid, indicating that all colored pixels have been transformed to the background color (2), effectively removing all identifiable objects.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The input contained identifiable objects, but the output grid shows no objects as all colors were transformed to 2.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(output_objects):\n    return len(output_objects) == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 30,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involved a complete reduction of the pixel values to a single uniform color, indicating a merging of all distinct color values into one.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "Distinct colors 4, 6, and 8 merged into a single color 2, suggesting a unification of all object colors.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    unique_colors_input = set(pixel for row in input_grid for pixel in row)\n    return len(unique_colors_input) > 1 and all(pixel == 2 for row in output_grid for pixel in row)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The entire grid was uniformly transformed to the color 2, which indicates a spatial transformation where all pixels were replaced without any change in grid size or shape.",
+      "category": "Geometry",
+      "confidence": 0.75,
+      "evidence": "The grid size remained 5x5 while all pixel values were uniformly changed to 2.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return len(input_grid) == len(output_grid) == 5 and all(len(row) == 5 for row in input_grid) and all(len(row) == 5 for row in output_grid)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation resulted in a complete loss of all original colors, indicating a count-based transformation where the number of distinct colors decreased to one.",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "The input grid had three distinct colors, but the output grid only contains one color (2).",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    unique_colors_input = len(set(pixel for row in input_grid for pixel in row))\n    unique_colors_output = len(set(pixel for row in output_grid for pixel in row))\n    return unique_colors_input > 1 and unique_colors_output == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation indicates a pattern completion where all elements were simplified to a single value, suggesting a reduction in complexity.",
+      "category": "Commonsense",
+      "confidence": 0.7,
+      "evidence": "The input grid had varying colors and shapes, but the output grid's uniformity suggests a simplification process.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return all(pixel == 2 for row in output_grid for pixel in row) and len(set(pixel for row in input_grid for pixel in row)) > 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Colour"
+}

@@ -1,0 +1,600 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The object has moved one position to the right in the grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The position of the object has changed from (2,0) to (2,2), indicating a rightward movement.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_position = (2, 0)\n    output_position = (2, 2)\n    return output_grid[output_position[0]][output_position[1]] == 1 and input_grid[input_position[0]][input_position[1]] == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 13,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object has been translated downwards by one row.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The object has shifted from row 2 to row 3 in the grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_position = (2, 0)\n    output_position = (3, 0)\n    return output_grid[output_position[0]][output_position[1]] == 1 and input_grid[input_position[0]][input_position[1]] == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object has been reflected horizontally across the vertical axis.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "The arrangement of the object has changed in a way that suggests a horizontal reflection.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_shape = [(2,0), (2,1), (2,2), (3,1), (3,2)]\n    output_shape = [(2,2), (2,1), (2,0), (3,2), (3,1)]\n    return all(output_grid[y][x] == 1 for x, y in output_shape) and all(input_grid[y][x] == 1 for x, y in input_shape)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 11,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object has been shifted to the right by two columns.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object has moved from starting at column 0 to starting at column 2.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_shape = [(2,0), (2,1), (2,2), (3,0), (3,1), (3,2)]\n    output_shape = [(2,2), (2,3), (2,4), (3,2), (3,3), (3,4)]\n    return all(output_grid[y][x] == 1 for x, y in output_shape) and all(input_grid[y][x] == 1 for x, y in input_shape)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 12,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object has been repositioned with a vertical shift downwards by one row and a horizontal shift to the right by two columns.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The object has moved from (2,0) to (3,2), indicating both a downward and rightward shift.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_position = (2, 0)\n    output_position = (3, 2)\n    return output_grid[output_position[0]][output_position[1]] == 1 and input_grid[input_position[0]][input_position[1]] == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object has been translated downwards and to the right, maintaining its shape.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object retains its original shape while moving to a new position in the grid.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_shape = [(2,0), (2,1), (2,2), (3,0), (3,1), (3,2)]\n    output_shape = [(3,2), (3,3), (3,4), (4,2), (4,3), (4,4)]\n    return all(output_grid[y][x] == 1 for x, y in output_shape) and all(input_grid[y][x] == 1 for x, y in input_shape)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 15,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Movement"
+}

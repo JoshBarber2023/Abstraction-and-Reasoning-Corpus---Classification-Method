@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          4,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          4,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          3,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          2,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color 1 was removed from the grid, and the pixel at (2,3) changed from color 1 to color 4 at (4,4).",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid shows that all instances of color 1 have been removed, and color 4 is now located at (4,4).",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_colors = {cell for row in input_grid for cell in row}\n    output_colors = {cell for row in output_grid for cell in row}\n    return (1 not in input_colors) and (4 in output_colors and output_grid[4][4] == 4)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 34,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The single pixel object at (2,3) was moved to (4,4) while retaining its color.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The single pixel object changed its position from (2,3) to (4,4) without any change in color.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_position = input_objects[0]['position']\n    output_position = output_objects[0]['position']\n    return input_position == (2,3) and output_position == (4,4)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 23,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The irregular shape object was completely removed from the grid.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The output grid does not contain any pixels that were part of the irregular shape object.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_shape_pixels = {(x, y) for x in range(4) for y in range(1, 5) if input_grid[x][y] == 1}\n    output_shape_pixels = {(x, y) for x in range(5) for y in range(5) if output_grid[x][y] == 1}\n    return len(output_shape_pixels) == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 11,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The grid was cleared of all colors except for the single pixel at (4,4).",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The entire grid is now filled with 0s except for the pixel at (4,4) which is color 4.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_grid):\n    return all(cell == 0 for row in output_grid[:-1] for cell in row) and output_grid[4][4] == 4",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 18,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of distinct colors in the grid decreased from 2 to 1.",
+      "category": "Number",
+      "confidence": 0.85,
+      "evidence": "The input grid had colors 1 and 4, while the output grid only has color 4.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_colors = {cell for row in input_grid for cell in row if cell != 0}\n    output_colors = {cell for row in output_grid for cell in row if cell != 0}\n    return len(input_colors) - len(output_colors) == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 16,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The remaining object (single pixel at (4,4)) is the only object left in the output.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The output only contains one object, which is the single pixel at (4,4) with color 4.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_objects):\n    return len(output_objects) == 1 and output_objects[0]['position'] == (4,4) and output_objects[0]['colors'] == [4]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 21,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Geometry"
+}

@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          6,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          6,
+          0,
+          6,
+          0
+        ],
+        [
+          6,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          9,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          9,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.2,
+    "Commonsense": 0.2,
+    "Geometry": 0.2,
+    "Movement": 5.701779120372425e-114,
+    "Number": 0.2,
+    "Object": 0.2
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The object has been translated 1 unit downwards, moving from position (0,3) to (1,3).",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The position of the object in the output grid is shifted down by one row compared to the input grid.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (0, 3)\n    output_object_position = (1, 3)\n    return output_object_position[0] == input_object_position[0] + 1 and output_object_position[1] == input_object_position[1]",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 24,
+      "solomonoff_score": 20.30068886094043,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object has been translated 1 unit upwards, moving from position (4,4) to (3,4).",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The position of the object in the output grid is shifted up by one row compared to the input grid.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (4, 4)\n    output_object_position = (3, 4)\n    return output_object_position[0] == input_object_position[0] - 1 and output_object_position[1] == input_object_position[1]",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 24,
+      "solomonoff_score": 20.30068886094043,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object has been translated 1 unit to the left, moving from position (0,3) to (0,2).",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The position of the object in the output grid is shifted left by one column compared to the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (0, 3)\n    output_object_position = (0, 2)\n    return output_object_position[0] == input_object_position[0] and output_object_position[1] == input_object_position[1] - 1",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 22.24271612407563,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object has been translated 1 unit to the right, moving from position (4,4) to (4,5).",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The position of the object in the output grid is shifted right by one column compared to the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (4, 4)\n    output_object_position = (4, 5)\n    return output_object_position[0] == input_object_position[0] and output_object_position[1] == input_object_position[1] + 1",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 22.24271612407563,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object has been translated diagonally downwards to the right, moving from position (0,3) to (1,4).",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "The position of the object in the output grid is shifted diagonally downwards to the right compared to the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (0, 3)\n    output_object_position = (1, 4)\n    return output_object_position[0] == input_object_position[0] + 1 and output_object_position[1] == input_object_position[1] + 1",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 22.24271612407563,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object has been translated diagonally upwards to the left, moving from position (4,4) to (3,3).",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "The position of the object in the output grid is shifted diagonally upwards to the left compared to the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (4, 4)\n    output_object_position = (3, 3)\n    return output_object_position[0] == input_object_position[0] - 1 and output_object_position[1] == input_object_position[1] - 1",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 22.24271612407563,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
+  ],
+  "expected_category": "Geometry"
+}

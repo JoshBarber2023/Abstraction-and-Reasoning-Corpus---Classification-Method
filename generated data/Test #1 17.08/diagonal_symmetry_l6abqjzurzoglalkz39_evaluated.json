@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.199999996143348,
-    "Commonsense": 0.199999996143348,
-    "Geometry": 0.199999996143348,
-    "Movement": 0.199999996143348,
-    "Number": 0.199999996143348,
-    "Object": 1.9283260038716342e-08
+    "Colour": 2.8093158045785816e-06,
+    "Commonsense": 1.9700132985019038e-08,
+    "Geometry": 1.9073405144526802e-06,
+    "Movement": 0.4999976318217727,
+    "Number": 0.4999976318217727,
+    "Object": 2.6163833880738875e-15
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Movement",
+    "Movement",
+    "Movement"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All objects are moved towards the center of the grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "All objects in the output grid are closer to the center compared to their positions in the input grid.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 11,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Objects retain their original colors.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The colors of objects in the output grid match their corresponding colors in the input grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 6,
+      "solomonoff_score": 6.044708836626803,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The size of the grid remains unchanged.",
+      "category": "Geometry",
+      "confidence": 1.0,
+      "evidence": "The input and output grids are both 5x5.",
+      "prior_probability": 1.0,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 8,
+      "solomonoff_score": 6.238324385039518,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The number of objects remains the same.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "There are four objects in both the input and output grids.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 8,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Objects are repositioned in a clockwise manner.",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "The positions of objects in the output grid appear to have been shifted clockwise from their positions in the input grid.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The shapes of the objects are modified to become more irregular.",
+      "category": "Object",
+      "confidence": 0.7,
+      "evidence": "The shapes of the objects in the output grid are more irregular compared to their shapes in the input grid.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 9.534160771043922,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The objects are not merged or split.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The number of objects remains the same and each object retains its original color.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 8,
+      "solomonoff_score": 6.907754978982151,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not involve any pattern completion or implicit reasoning.",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The transformation seems to be based solely on the properties of the objects and their positions in the grid, not on any external or contextual logic.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General pattern completion or logical inference\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 8.524744266894528,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Geometry"
 }

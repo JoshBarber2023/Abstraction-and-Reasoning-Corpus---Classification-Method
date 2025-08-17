@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.2499997379737758,
-    "Commonsense": 0.2499997379737758,
-    "Geometry": 0.2499997379737758,
-    "Movement": 0.2499997379737758,
-    "Number": 1.0240008467397735e-06,
-    "Object": 2.4104050249601003e-08
+    "Colour": 9.892945272645136e-25,
+    "Commonsense": 0.4999999999999989,
+    "Geometry": 1.8032983571964226e-39,
+    "Movement": 0.4999999999999989,
+    "Number": 1.0375979676461788e-15,
+    "Object": 1.0375979676461788e-15
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All cells with color 4 in the input grid are transformed to color 7 in the output grid.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "All cells with color 4 in the input grid are not present in the output grid. Instead, new cells with color 7 appear in the output grid.",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 13.961877900474224,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The position of new color 7 cells in the output grid corresponds to the diagonal from top-left to bottom-right of the input grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The new cells with color 7 appear in a diagonal pattern from top-left to bottom-right of the output grid.",
+      "prior_probability": 0.15,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of new color 7 cells in the output grid is equal to the number of rows (or columns) in the input grid.",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "The input grid has 5 rows (or columns) and there are 5 new cells with color 7 in the output grid.",
+      "prior_probability": 0.1,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 16.90436040951951,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "All cells with color 0 in the input grid remain unchanged in the output grid.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "All cells with color 0 in the input grid are also present in the output grid.",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 17,
+      "solomonoff_score": 13.327951219472034,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The output grid has the same size as the input grid.",
+      "category": "Geometry",
+      "confidence": 1.0,
+      "evidence": "The input and output grids both have 5 rows and 5 columns.",
+      "prior_probability": 0.25,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 11.613601592724018,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 7 cells in the output grid form a line shape.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "Each of the new cells with color 7 in the output grid is isolated and forms a line shape.",
+      "prior_probability": 0.1,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 14,
+      "solomonoff_score": 14.824923067830852,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Each color 7 cell in the output grid is a separate object.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "Each of the new cells with color 7 in the output grid is isolated and forms a separate object.",
+      "prior_probability": 0.05,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 14,
+      "solomonoff_score": 16.90436040951951,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not depend on the specific shape of color 4 cells in the input grid.",
+      "category": "Geometry",
+      "confidence": 0.7,
+      "evidence": "The shape of color 4 cells in the input grid is irregular and does not seem to influence the transformation.",
+      "prior_probability": 0.05,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 19,
+      "solomonoff_score": 17.820502358182956,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Object"
 }

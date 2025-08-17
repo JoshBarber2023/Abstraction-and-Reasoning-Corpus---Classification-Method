@@ -1,0 +1,351 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          2,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          8,
+          2,
+          2,
+          2,
+          2
+        ]
+      ],
+      "output": [
+        [
+          2,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          2,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          7,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          8,
+          8,
+          8,
+          2,
+          2
+        ]
+      ],
+      "output": [
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          2,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          8,
+          8,
+          8,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          2,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          2,
+          2,
+          2,
+          8
+        ]
+      ],
+      "output": [
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color 7 is removed from the grid and the object representation, while color 2 remains in the same positions.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "Color 7 is present in the input grid at (2,0) and is completely absent in the output grid.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return 7 not in [color for row in output_grid for color in row] and (2 in [color for row in input_grid for color in row])",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 24,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object representing color 7 is removed from the output, while the object representing color 2 is expanded to include additional pixels.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "Object 1 (color 7) is absent in the output, while Object 3 (color 2) expands from 5 pixels to 6 pixels.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    return len([obj for obj in output_objects if obj['colors'] == [2]]) == 1 and len([obj for obj in input_objects if obj['colors'] == [7]]) == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The position of the object representing color 8 is shifted upwards, moving from the bottom half of the grid to the top half.",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "Object 2 (color 8) moves from positions (2,0) to (4,4) to (0,0) to (2,4).",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_positions = [(2,0), (3,0), (4,0), (2,1), (3,1), (4,1), (2,2), (3,2), (4,2), (2,3), (3,3), (4,3), (2,4), (3,4), (4,4)]\n    output_positions = [(0,0), (1,0), (2,0), (0,1), (1,1), (2,1), (0,2), (1,2), (2,2), (0,3), (1,3), (2,3), (0,4), (1,4), (2,4)]\n    return all(pos not in input_positions for pos in output_positions)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object representing color 2 is transformed into a vertical line, maintaining its color but changing its shape.",
+      "category": "Geometry",
+      "confidence": 0.75,
+      "evidence": "Object 4 (color 2) retains its color but changes from a 2x5 irregular shape to a vertical line in the output.",
+      "prior_probability": 0.08,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_shape = 'irregular'\n    output_shape = 'vertical'\n    return (input_shape != output_shape) and (2 in [obj['colors'][0] for obj in output_objects])",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 21,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The arrangement of color 8 is preserved in the output, but its position is altered to fill the upper part of the grid.",
+      "category": "Movement",
+      "confidence": 0.7,
+      "evidence": "Color 8 retains its presence but shifts from the lower section of the grid to the upper section.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return all(output_grid[y][x] == 8 for y in range(3) for x in range(5) if input_grid[y][x] == 8)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The grid's overall structure is preserved, but the arrangement of colors is altered, indicating a rearrangement of existing elements.",
+      "category": "Commonsense",
+      "confidence": 0.65,
+      "evidence": "The grid maintains its 5x5 structure while the positions of colors 2 and 8 are rearranged.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return sorted([color for row in input_grid for color in row]) == sorted([color for row in output_grid for color in row])",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 24,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Movement"
+}

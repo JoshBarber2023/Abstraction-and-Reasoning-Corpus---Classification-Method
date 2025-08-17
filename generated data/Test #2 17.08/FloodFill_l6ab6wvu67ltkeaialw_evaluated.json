@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          7,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          7,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          1,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          7,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.19996988619540823,
+    "Commonsense": 0.19996988619540823,
+    "Geometry": 0.19996988619540823,
+    "Movement": 0.19996988619540823,
+    "Number": 0.19996988619540823,
+    "Object": 0.00015056902295884186
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The filled rectangle in the input grid changes color from 1 to 7 while maintaining its position and size.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The only change observed is the color of the filled rectangle from 1 to 7 without any alteration in its size or position.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_color = input_objects[0]['colors'][0]\n    output_color = output_objects[0]['colors'][0]\n    return input_color != output_color and input_objects[0]['shape'] == output_objects[0]['shape'] and input_objects[0]['position'] == output_objects[0]['position']",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle in the output grid is a transformation of the input rectangle where the color has changed from 1 to 7.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The filled rectangle is the same shape and size but has undergone a color transformation.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_shape = input_objects[0]['shape']\n    output_shape = output_objects[0]['shape']\n    return input_shape == output_shape and input_objects[0]['colors'][0] != output_objects[0]['colors'][0]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle remains in the same position (1,1) to (3,3) in both grids, indicating no movement.",
+      "category": "Movement",
+      "confidence": 0.95,
+      "evidence": "The position of the filled rectangle is unchanged in both the input and output grids.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_position = input_objects[0]['position']\n    output_position = output_objects[0]['position']\n    return input_position == output_position",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle retains its size of 3x3 in both the input and output grids, indicating no geometric transformation.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The dimensions of the filled rectangle are consistent in both grids, confirming no scaling or cropping.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_size = (input_objects[0]['position'][2] - input_objects[0]['position'][0] + 1, input_objects[0]['position'][3] - input_objects[0]['position'][1] + 1)\n    output_size = (output_objects[0]['position'][2] - output_objects[0]['position'][0] + 1, output_objects[0]['position'][3] - output_objects[0]['position'][1] + 1)\n    return input_size == output_size",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 24,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation results in a complete color change of the filled rectangle from 1 to 7, indicating a color-based transformation.",
+      "category": "Colour",
+      "confidence": 0.88,
+      "evidence": "The filled rectangle's color changes entirely, which is the only transformation observed.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    return input_objects[0]['colors'][0] != output_objects[0]['colors'][0] and input_objects[0]['shape'] == output_objects[0]['shape']",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 25,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid contains no additional shapes or objects beyond the transformed filled rectangle, indicating no object addition or removal.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The output grid only contains the transformed filled rectangle, confirming that no new objects were created or existing ones removed.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    return len(output_objects) == 1 and len(input_objects) == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        false,
+        true
+      ],
+      "complexity": 22,
+      "solomonoff_score": 10.787250692709563,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    }
+  ],
+  "expected_category": "CommonSense"
+}

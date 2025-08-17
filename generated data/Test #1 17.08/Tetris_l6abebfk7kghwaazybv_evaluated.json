@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.2499997379737758,
-    "Commonsense": 0.2499997379737758,
-    "Geometry": 0.2499997379737758,
-    "Movement": 0.2499997379737758,
-    "Number": 1.0240008467397735e-06,
-    "Object": 2.4104050249601003e-08
+    "Colour": 1.0728780918512621e-25,
+    "Commonsense": 0.49999999184041033,
+    "Geometry": 1.5353475775591484e-16,
+    "Movement": 0.49999999184041033,
+    "Number": 1.6185666472433723e-09,
+    "Object": 1.470061269267911e-08
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All cells of color 2, 4, 7, and 8 in the input grid are replaced by color 5 in the output grid.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "All cells of color 2, 4, 7, and 8 in the input grid are replaced by color 5 in the output grid, while cells of color 0 remain unchanged.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 31,
+      "solomonoff_score": 11.371985116700502,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not change the size of the grid.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The size of the input and output grids is the same.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 7.86311605983777,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Cells of color 0 remain unchanged in the transformation.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "Cells of color 0 in the input grid remain unchanged in the output grid.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 8.263710178782775,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not introduce new colors except for color 5.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The only new color introduced in the output grid is color 5.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 8.764872347058002,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not move or reposition cells.",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "The positions of cells in the output grid correspond to their positions in the input grid.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation does not change the number of objects in the grid.",
+      "category": "Number",
+      "confidence": 0.7,
+      "evidence": "The number of objects in the input and output grids is the same.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 9.774288834064548,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not split or merge objects.",
+      "category": "Object",
+      "confidence": 0.7,
+      "evidence": "The shapes and bounds of objects in the output grid correspond to those in the input grid.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 8.671114733688542,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not change the shapes of objects, only their colors.",
+      "category": "Geometry",
+      "confidence": 0.7,
+      "evidence": "The shapes of objects in the output grid correspond to those in the input grid, only their colors are changed.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 14,
+      "solomonoff_score": 9.99661269052573,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "CommonSense"
 }

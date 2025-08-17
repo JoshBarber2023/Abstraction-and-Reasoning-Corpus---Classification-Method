@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 9.721963119483258e-10,
-    "Commonsense": 0.33333331416646184,
-    "Geometry": 0.33333331416646184,
-    "Movement": 2.4389652585244184e-08,
-    "Number": 0.33333331416646184,
-    "Object": 3.213876550293524e-08
+    "Colour": 2.6462136423911044e-37,
+    "Commonsense": 0.2499999999999919,
+    "Geometry": 3.232700086242682e-14,
+    "Movement": 0.2499999999999919,
+    "Number": 0.2499999999999919,
+    "Object": 0.2499999999999919
   },
   "predicted_categories": [
     "Commonsense",
     "Commonsense",
     "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color of each object in the input grid is replaced by the color of the next object in the output grid. The order of the objects is determined by their position in the grid, from top-left to bottom-right.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "Each object in the output grid has the color of the next object in the input grid. For example, the first object (color 3) in the input grid becomes the color of the second object (color 4) in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 44,
+      "solomonoff_score": 12.021997905697866,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The shape and size of each object remain unchanged.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The shape and size of each object in the input grid match the corresponding object in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 10,
+      "solomonoff_score": 7.577185557924791,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The position of each object remains unchanged.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The position of each object in the input grid matches the corresponding object in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 8,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The color of the last object in the input grid is replaced by the color of the first object in the output grid, forming a cycle.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The last object (color 8) in the input grid becomes the color of the first object (color 2) in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 10.666043134468424,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The number of objects in the grid remains unchanged.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "The number of objects in the input grid matches the number of objects in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The color of the background (color 0) remains unchanged.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The color of the background in the input grid matches the color of the background in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 8.364278238827278,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The overall size of the grid remains unchanged.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The size of the input grid matches the size of the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 7.2611040484513065,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not depend on the specific colors of the objects, but only on their order.",
+      "category": "Colour",
+      "confidence": 0.7,
+      "evidence": "The transformation rule can be described without referring to the specific colors of the objects.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 19,
+      "solomonoff_score": 10.365792858797445,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Colour"
 }

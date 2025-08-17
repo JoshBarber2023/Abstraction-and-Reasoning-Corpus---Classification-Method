@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          2,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          2,
+          0,
+          2,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          4,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          3,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          3
+        ],
+        [
+          3,
+          0,
+          3,
+          0,
+          3
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The transformation rule involves adding a color (2) to the rightmost column of the output grid, specifically at positions (0,4), (1,4), (3,4), and (4,4).",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid has new color (2) pixels in the rightmost column that were not present in the input grid.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for row in range(len(input_grid)):\n        for col in range(len(input_grid[0])):\n            if col == 4 and input_grid[row][col] != output_grid[row][col]:\n                if output_grid[row][col] != 2:\n                    return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 44,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule involves moving the existing color (2) pixels in the last column of the input grid to the last column of the output grid while maintaining their vertical alignment.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The color (2) pixels in the last column of the output grid are aligned vertically with those in the input grid, indicating a movement of these pixels.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for row in range(len(input_grid)):\n        if input_grid[row][4] == 2 and output_grid[row][4] != 2:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 34,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule involves merging the two separate color (2) pixels in the input grid at positions (0,0) and (2,0) into a continuous block of color (2) in the output grid, specifically at positions (0,0) to (2,2).",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The output grid shows a continuous block of color (2) that was formed from the previously separate pixels in the input grid.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_block = sum(row[0:3] for row in input_grid[0:3])\n    output_block = sum(row[0:3] for row in output_grid[0:3])\n    return input_block == 5 and output_block == 6",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 58,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule involves adding a new color (0) to the previously empty spaces in the output grid, specifically filling the area from (0,0) to (3,3) with color (0).",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output grid has a new color (0) filling the area that was previously empty in the input grid.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for row in range(4):\n        for col in range(4):\n            if input_grid[row][col] == 0 and output_grid[row][col] != 0:\n                return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 42,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule involves duplicating the color (2) pixels from the input grid and placing them in the output grid at the same relative positions, specifically in the first three rows.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The output grid retains the positions of the color (2) pixels from the input grid, indicating a duplication of these objects.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for row in range(3):\n        for col in range(5):\n            if input_grid[row][col] == 2 and output_grid[row][col] != 2:\n                return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 36,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule involves a spatial transformation where the color (2) pixels in the input grid are expanded to fill additional space in the output grid, particularly in the last two rows.",
+      "category": "Geometry",
+      "confidence": 0.85,
+      "evidence": "The output grid shows an expansion of the color (2) pixels into previously empty spaces in the last two rows.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for row in range(3, 5):\n        for col in range(5):\n            if output_grid[row][col] == 2 and input_grid[row][col] != 2:\n                return True\n    return False",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 36,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Number"
+}

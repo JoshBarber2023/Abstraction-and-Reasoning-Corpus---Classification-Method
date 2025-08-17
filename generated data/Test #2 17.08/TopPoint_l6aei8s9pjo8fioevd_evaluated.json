@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          7,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          0,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          7,
+          7,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          0,
+          7,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          7
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          4,
+          0,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          0,
+          7,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "Each pixel of color 4 in the input grid is replaced by a single pixel of color 7 in the output grid, with specific positions changing to new coordinates.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "Color 4 is completely replaced by color 7 in specific positions, indicating a color transformation.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_colors = {cell for row in input_grid for cell in row if cell == 4}\n    output_colors = {cell for row in output_grid for cell in row if cell == 7}\n    return input_colors == {4} and output_colors == {7}",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 33,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid contains single pixels of color 7 at specific coordinates derived from the original positions of color 4, indicating a spatial transformation.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The original positions of color 4 lead to new positions for color 7, showing a pattern of movement.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_positions = [(i, j) for i in range(5) for j in range(5) if input_grid[i][j] == 4]\n    output_positions = [(0, 0), (1, 2), (2, 4), (3, 1), (4, 3)]\n    return all(pos in output_positions for pos in input_positions)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation results in a reduction of the number of occupied pixels from 10 (color 4) to 5 (color 7), indicating a count-based transformation.",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "The count of color 4 pixels is reduced to half in the output grid, showing a clear numerical transformation.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    count_input = sum(1 for row in input_grid for cell in row if cell == 4)\n    count_output = sum(1 for row in output_grid for cell in row if cell == 7)\n    return count_input == 10 and count_output == 5",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 34,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has color 7 appearing in a diagonal pattern, suggesting a geometric transformation that aligns new pixels along specific coordinates.",
+      "category": "Geometry",
+      "confidence": 0.75,
+      "evidence": "The positions of color 7 form a diagonal pattern, indicating a spatial arrangement change.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(output_grid):\n    diagonal_positions = [(0, 0), (1, 2), (2, 4), (3, 1), (4, 3)]\n    return all(output_grid[i][j] == 7 for (i, j) in diagonal_positions)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involves splitting the original object of color 4 into multiple single-pixel objects of color 7, indicating an object manipulation.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The original object is divided into five distinct single-pixel objects, demonstrating a clear manipulation of the object.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_objects):\n    return len(output_objects) == 5 and all(obj['colors'] == [7] for obj in output_objects)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 27,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation maintains the overall grid size while changing the color and position of specific pixels, indicating a pattern completion.",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The grid size remains constant, but the arrangement and color of the pixels change, suggesting a logical completion of a pattern.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return len(input_grid) == len(output_grid) and all(len(row) == len(output_grid[i]) for i, row in enumerate(input_grid))",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Object"
+}

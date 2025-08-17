@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          2,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          2,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          2,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          8,
+          8
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          8
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          8
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          7,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          7,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          7,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.2,
+    "Commonsense": 0.2,
+    "Geometry": 0.2,
+    "Movement": 1.0246671233374868e-19,
+    "Number": 0.2,
+    "Object": 0.2
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The object in the input grid has been translated downwards and to the right by one position, resulting in the same shape but in a different location.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The original object occupies the area from (0,0) to (3,3) and is moved to occupy (1,1) to (4,4).",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_object_position = (0, 0)\n    output_object_position = (1, 1)\n    # Check if the object has moved down and right by 1\n    return (output_object_position[0] - input_object_position[0] == 1) and (output_object_position[1] - input_object_position[1] == 1)",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 29,
+      "solomonoff_score": 21.057655526163565,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color of the object has changed from 0 to 1, indicating a transformation in color properties.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The input object has color [0] and the output object has color [1], indicating a color change.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_color = input_objects[0]['colors'][0]\n    output_color = output_objects[0]['colors'][0]\n    # Check if the color has changed from 0 to 1\n    return (input_color == 0) and (output_color == 1)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 21,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has a single pixel of the object in each of the last four rows, indicating a vertical alignment of the object.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "The output object occupies a vertical line from (1,1) to (4,4), while the input object was more spread out.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(output_grid):\n    # Check if the object occupies a vertical line in the output grid\n    for i in range(1, 5):\n        if output_grid[i][i] != 1:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of pixels occupied by the object has decreased from 12 pixels in the input to 4 pixels in the output.",
+      "category": "Number",
+      "confidence": 0.75,
+      "evidence": "The input object has 12 pixels while the output object has only 4 pixels, indicating a reduction in the number of occupied pixels.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_pixel_count = len(input_objects[0]['shape'])\n    output_pixel_count = len(output_objects[0]['shape'])\n    # Check if the pixel count has decreased\n    return output_pixel_count < input_pixel_count",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 25,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The shape of the object has been modified to occupy a more compact area, resulting in a smaller bounding box in the output.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The bounding box of the input object is (0,0) to (3,3) while the output object's bounding box is (1,1) to (4,4), indicating a modification in shape.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_bounds = (0, 0, 3, 3)\n    output_bounds = (1, 1, 4, 4)\n    # Check if the bounding box has changed to a smaller area\n    return (output_bounds[2] - output_bounds[0]) < (input_bounds[2] - input_bounds[0]) and (output_bounds[3] - output_bounds[1]) < (input_bounds[3] - input_bounds[1])",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 25,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output object has been spatially transformed to occupy a diagonal pattern from the top-left to the bottom-right of the output grid.",
+      "category": "Geometry",
+      "confidence": 0.7,
+      "evidence": "The output object occupies positions (1,1), (2,2), (3,3), and (4,4) which form a diagonal line.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(output_grid):\n    # Check if the object occupies a diagonal line in the output grid\n    diagonal_positions = [(1, 1), (2, 2), (3, 3), (4, 4)]\n    return all(output_grid[x][y] == 1 for x, y in diagonal_positions)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Movement"
+}

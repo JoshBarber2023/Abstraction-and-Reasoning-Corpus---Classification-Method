@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.2855526826187686,
-    "Commonsense": 9.169548711044405e-08,
-    "Geometry": 0.2855526826187686,
-    "Movement": 0.2855526826187686,
-    "Number": 0.1433418329162733,
-    "Object": 2.753193369935919e-08
+    "Colour": 2.065468807200104e-09,
+    "Commonsense": 0.3333333326448391,
+    "Geometry": 1.5730213577134142e-19,
+    "Movement": 0.3333333326448391,
+    "Number": 0.3333333326448391,
+    "Object": 1.3809871767089778e-14
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color of the object in the input grid changes from 7 to 8 in the output grid.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The color 7 in the input grid has changed to color 8 in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 9.44964816014383,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object in the input grid expands to fill its bounding box in the output grid.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "The object in the input grid, which was not filling its bounding box, is filling its bounding box in the output grid.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 17,
+      "solomonoff_score": 9.569664135413506,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object in the input grid is mirrored along the vertical axis in the output grid.",
+      "category": "Geometry",
+      "confidence": 0.6,
+      "evidence": "The shape of the object in the output grid resembles a mirrored version of the input object.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return input_grid.shape != output_grid.shape  # Size change is geometric\n    # Check various reflections\n    return (np.array_equal(output_grid, np.flip(input_grid, axis=0)) or  # vertical flip\n            np.array_equal(output_grid, np.flip(input_grid, axis=1)) or  # horizontal flip\n            np.array_equal(output_grid, input_grid.T))  # transpose\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 17,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object in the input grid is rotated 90 degrees clockwise in the output grid.",
+      "category": "Geometry",
+      "confidence": 0.5,
+      "evidence": "The shape of the object in the output grid resembles a 90 degree clockwise rotation of the input object.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # Check 90-degree rotations\n    for k in range(1, 4):\n        if np.array_equal(output_grid, np.rot90(input_grid, k)):\n            return True\n    return False\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 17,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object in the input grid is reflected along the main diagonal in the output grid.",
+      "category": "Geometry",
+      "confidence": 0.4,
+      "evidence": "The shape of the object in the output grid resembles a reflection of the input object along the main diagonal.",
+      "prior_probability": 0.4,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return input_grid.shape != output_grid.shape  # Size change is geometric\n    # Check various reflections\n    return (np.array_equal(output_grid, np.flip(input_grid, axis=0)) or  # vertical flip\n            np.array_equal(output_grid, np.flip(input_grid, axis=1)) or  # horizontal flip\n            np.array_equal(output_grid, input_grid.T))  # transpose\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 17,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object in the input grid is scaled up in the output grid.",
+      "category": "Geometry",
+      "confidence": 0.3,
+      "evidence": "The size of the object in the output grid is larger than the size of the object in the input grid.",
+      "prior_probability": 0.3,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 14,
+      "solomonoff_score": 11.52908900182391,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The object in the input grid is translated to the right in the output grid.",
+      "category": "Movement",
+      "confidence": 0.2,
+      "evidence": "The object in the output grid is positioned more to the right compared to the object in the input grid.",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 16,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object in the input grid is split into multiple smaller objects in the output grid.",
+      "category": "Object",
+      "confidence": 0.1,
+      "evidence": "The object in the output grid appears to be made up of multiple smaller objects, unlike the single object in the input grid.",
+      "prior_probability": 0.1,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 17,
+      "solomonoff_score": 15.407390211155121,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Geometry"
 }

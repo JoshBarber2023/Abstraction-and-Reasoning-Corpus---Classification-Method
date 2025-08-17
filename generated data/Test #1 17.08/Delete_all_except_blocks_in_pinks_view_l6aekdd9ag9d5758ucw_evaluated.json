@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.24609350160710283,
-    "Commonsense": 0.24609350160710283,
-    "Geometry": 0.24609350160710283,
-    "Movement": 0.24609350160710283,
-    "Number": 0.015625969844163493,
-    "Object": 2.3727425384182223e-08
+    "Colour": 1.4207871864541048e-31,
+    "Commonsense": 0.4975170095642957,
+    "Geometry": 6.824662621338609e-10,
+    "Movement": 0.4975170095642957,
+    "Number": 0.004965980188941183,
+    "Object": 1.3835549368012685e-15
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All cells of color 6 are changed to color 0.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The single cell of color 6 in the input grid is color 0 in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 8.010929186024786,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "All cells of color 5 that are not connected to the top or bottom edge of the grid are changed to color 0.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "All cells of color 5 in the input grid that are not connected to the top or bottom edge are color 0 in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 10.443719293007234,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "All cells of color 5 that are connected to the top or bottom edge of the grid remain unchanged.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "All cells of color 5 in the input grid that are connected to the top or bottom edge are the same in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 9.802997179613001,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "All cells of color 0 remain unchanged.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "All cells of color 0 in the input grid are the same in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 6.907754978982151,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The shape of the object composed of cells of color 5 changes from irregular to lines.",
+      "category": "Geometry",
+      "confidence": 0.7,
+      "evidence": "The shape of the object composed of cells of color 5 in the input grid is irregular, while in the output grid it is composed of lines.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 18,
+      "solomonoff_score": 10.203591244986601,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The size of the object composed of cells of color 5 decreases.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The object composed of cells of color 5 in the input grid has a size of 11, while in the output grid it has a size of 3 and 2.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 14,
+      "solomonoff_score": 8.987196220662033,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The number of objects composed of cells of color 5 increases from 1 to 2.",
+      "category": "Number",
+      "confidence": 0.7,
+      "evidence": "The number of objects composed of cells of color 5 in the input grid is 1, while in the output grid it is 2.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        true,
+        true
+      ],
+      "complexity": 19,
+      "solomonoff_score": 6.910528572531629,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object composed of cells of color 6 is removed.",
+      "category": "Object",
+      "confidence": 1.0,
+      "evidence": "The object composed of cells of color 6 in the input grid is not present in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 7.770801096337507,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Object"
 }

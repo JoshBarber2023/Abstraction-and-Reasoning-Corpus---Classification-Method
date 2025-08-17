@@ -612,12 +612,12 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.04875565603265519,
-    "Commonsense": 0.3168794155466957,
-    "Geometry": 0.3168794155466957,
-    "Movement": 0.0006060973272577235,
-    "Number": 0.3168794155466957,
-    "Object": 1.3507608343607068e-17
+    "Colour": 3.597398423953623e-18,
+    "Commonsense": 0.3333333333333333,
+    "Geometry": 6.969201208204849e-22,
+    "Movement": 1.8190923691533017e-21,
+    "Number": 0.3333333333333333,
+    "Object": 0.3333333333333333
   },
   "predicted_categories": [
     "Commonsense",
@@ -627,6 +627,184 @@
     "Commonsense",
     "Commonsense",
     "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color 1 line object from the input grid is moved to the top in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 1 line object is present at the top of the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 20,
+      "solomonoff_score": 16.09437787434116,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    },
+    {
+      "description": "The color 4 irregular shape from the input grid is rotated 90 degrees clockwise in the output grid.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "The color 4 irregular shape in the output grid appears to be in the same position as the input grid but rotated.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # Check 90-degree rotations\n    for k in range(1, 4):\n        if np.array_equal(output_grid, np.rot90(input_grid, k)):\n            return True\n    return False\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 23.808379571635403,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 0 line objects from the input grid are moved to the bottom and right side in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 0 line objects are present at the bottom and right side of the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 16.793187398717006,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    },
+    {
+      "description": "The color 1 line object from the input grid is recolored to color 4 in the output grid.",
+      "category": "Colour",
+      "confidence": 0.7,
+      "evidence": "The color 1 line object in the input grid appears as color 4 in the output grid.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 18.231597281809403,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    },
+    {
+      "description": "The color 4 irregular shape from the input grid is recolored to color 1 in the output grid.",
+      "category": "Colour",
+      "confidence": 0.7,
+      "evidence": "The color 4 irregular shape in the input grid appears as color 1 in the output grid.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 18.231597281809403,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    },
+    {
+      "description": "The color 0 line object from the input grid is recolored to color 1 in the output grid.",
+      "category": "Colour",
+      "confidence": 0.7,
+      "evidence": "The color 0 line object in the input grid appears as color 1 in the output grid.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 18.231597281809403,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    },
+    {
+      "description": "The color 0 line object from the input grid is moved to the right side in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 0 line object is present at the right side of the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 16.338328632688334,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    },
+    {
+      "description": "The color 0 line object from the input grid is moved to the bottom in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 0 line object is present at the bottom of the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "complexity": 20,
+      "solomonoff_score": 16.09437787434116,
+      "passed_all": false,
+      "pass_rate": 0.7142857142857143
+    }
   ],
   "expected_category": "Object"
 }

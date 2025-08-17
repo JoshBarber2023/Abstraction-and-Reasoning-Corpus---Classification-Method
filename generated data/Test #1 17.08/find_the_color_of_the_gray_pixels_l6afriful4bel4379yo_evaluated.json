@@ -460,12 +460,12 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.14758020616857043,
-    "Commonsense": 0.28413993127682996,
-    "Geometry": 0.28413993127682996,
-    "Movement": 3.637003849831441e-13,
-    "Number": 0.28413993127682996,
-    "Object": 5.760361273653493e-13
+    "Colour": 3.178927103688312e-27,
+    "Commonsense": 0.3333333333318397,
+    "Geometry": 4.481026568430217e-12,
+    "Movement": 0.3333333333318397,
+    "Number": 0.3333333333318397,
+    "Object": 3.7742474215886788e-31
   },
   "predicted_categories": [
     "Commonsense",
@@ -473,6 +473,168 @@
     "Commonsense",
     "Commonsense",
     "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The transformation changes the color of the first object from 5 to 4.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The first object in the input grid is color 5 and in the output grid, it is color 4.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 14.978660367770054,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation changes the color of the second object from 5 to 7.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The second object in the input grid is color 5 and in the output grid, it is color 7.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 14.978660367770054,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not change the position of the objects.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The position of the objects in the input grid is the same as in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 11,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation does not change the shape of the objects.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The shape of the objects in the input grid is the same as in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 12.51627833116991,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not change the number of objects.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "The number of objects in the input grid is the same as in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation does not add any new objects.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "There are no new objects in the output grid that were not in the input grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 11.512924964970253,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not remove any objects.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "All objects in the input grid are present in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 8,
+      "solomonoff_score": 10.924009842243887,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation does not merge or split any objects.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "All objects in the input grid are present in the output grid and there are no additional or fewer objects.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 10,
+      "solomonoff_score": 12.039727487703836,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Colour"
 }

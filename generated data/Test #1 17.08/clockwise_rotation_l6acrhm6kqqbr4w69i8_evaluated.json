@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.0042106757345017135,
-    "Commonsense": 0.331929755991701,
-    "Geometry": 0.331929755991701,
-    "Movement": 2.4286955690542257e-08,
-    "Number": 0.331929755991701,
-    "Object": 3.200343961400881e-08
+    "Colour": 0.2475043732656978,
+    "Commonsense": 0.2475043732656978,
+    "Geometry": 0.009982506937208717,
+    "Movement": 4.607339250280858e-21,
+    "Number": 0.2475043732656978,
+    "Object": 0.2475043732656978
   },
   "predicted_categories": [
-    "Commonsense",
-    "Commonsense",
-    "Commonsense"
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The object with color 1 in the input grid moves to the position of the object with color 6 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 1 in the input grid is at position (2,0) and the object with color 6 in the output grid is at position (0,2).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object with color 6 in the input grid moves to the position of the object with color 5 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 6 in the input grid is at position (0,1) and the object with color 5 in the output grid is at position (0,2).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object with color 5 in the input grid moves to the position of the object with color 7 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 5 in the input grid is at position (0,2) and the object with color 7 in the output grid is at position (2,0).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object with color 7 in the input grid moves to the position of the object with color 4 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 7 in the input grid is at position (4,1) and the object with color 4 in the output grid is at position (4,1).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object with color 4 in the input grid moves to the position of the object with color 5 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 4 in the input grid is at position (4,3) and the object with color 5 in the output grid is at position (4,3).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object with color 5 in the input grid moves to the position of the object with color 9 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 5 in the input grid is at position (3,4) and the object with color 9 in the output grid is at position (3,4).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The object with color 9 in the input grid moves to the position of the object with color 1 in the output grid.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The object with color 9 in the input grid is at position (1,4) and the object with color 1 in the output grid is at position (0,1).",
+      "prior_probability": 0.2,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": 9.735066300912855,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The size and shape of the objects remain unchanged.",
+      "category": "Geometry",
+      "confidence": 1.0,
+      "evidence": "All objects in the input grid have size 1 and shape line, and this remains the same in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 10,
+      "solomonoff_score": 4.815890995081534,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    }
   ],
   "expected_category": "Colour"
 }

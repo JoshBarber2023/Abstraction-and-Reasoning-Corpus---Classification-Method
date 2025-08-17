@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The output grid is derived from the input grid by removing the last row, which contains a single '1' at position (4,0), resulting in a 4x5 grid.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The last row of the input grid is entirely removed, which reduces the height of the grid while maintaining the same width.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    # Check if the output grid is the input grid without the last row\n    expected_output = input_grid[:-1]\n    return expected_output == output_grid",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 38,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has the same number of '1's as the input grid, but the positions of these '1's are shifted upwards, indicating a vertical compression of the grid.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The '1's in the output grid are positioned in the same columns as in the input grid but are all shifted one row up.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    # Check if '1's in output grid are shifted up by one row\n    for col in range(len(input_grid[0])):\n        for row in range(len(input_grid)-1):\n            if input_grid[row][col] == 1:\n                if output_grid[row][col] != 1:\n                    return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 36,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid maintains the same color properties but has one less pixel due to the removal of the last row.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The color of the remaining pixels remains unchanged, and the total pixel count decreases from 5 to 4.",
+      "prior_probability": 0.08,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    # Check if colors are the same and pixel count is reduced\n    return (input_objects[0]['colors'] == output_objects[0]['colors']) and (len(input_objects[0]['pixels']) - 1 == len(output_objects[0]['pixels']))",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has a reduced bounding box for the object, changing from a 5x5 to a 4x4 area, indicating a cropping transformation.",
+      "category": "Geometry",
+      "confidence": 0.88,
+      "evidence": "The bounding box of the object shrinks as the last row is removed, indicating that the spatial dimensions of the object are reduced.",
+      "prior_probability": 0.14,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    # Check if the bounding box dimensions have changed correctly\n    input_bounds = input_objects[0]['shape']\n    output_bounds = output_objects[0]['shape']\n    return (input_bounds[0] - 1 == output_bounds[0]) and (input_bounds[1] == output_bounds[1])",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 32,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation results in a grid where the last column of the input grid has been modified to remove the last '1', resulting in a column shift.",
+      "category": "Movement",
+      "confidence": 0.82,
+      "evidence": "The last column of the output grid does not contain a '1' at the bottom, indicating a shift in the column's contents.",
+      "prior_probability": 0.11,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    # Check if the last column of the output grid has no '1' in the last position\n    return output_grid[-1][-1] == 0",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 30,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid has the same arrangement of '1's in the first four rows as in the input grid, indicating a pattern preservation with vertical reduction.",
+      "category": "Commonsense",
+      "confidence": 0.87,
+      "evidence": "The arrangement of '1's in the first four rows of the output grid matches the first four rows of the input grid, showing a consistent pattern.",
+      "prior_probability": 0.09,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    # Check if the first four rows of both grids are equal\n    return input_grid[:4] == output_grid[:4]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 30,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Number"
+}

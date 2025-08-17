@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          5,
+          1,
+          5,
+          5,
+          5
+        ],
+        [
+          1,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          5,
+          1,
+          5,
+          5,
+          5
+        ],
+        [
+          1,
+          5,
+          1,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          1,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          3,
+          0,
+          9,
+          9
+        ],
+        [
+          0,
+          0,
+          3,
+          9,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          9
+        ]
+      ],
+      "output": [
+        [
+          0,
+          3,
+          0,
+          9,
+          9
+        ],
+        [
+          0,
+          0,
+          3,
+          9,
+          9
+        ],
+        [
+          0,
+          3,
+          0,
+          9,
+          9
+        ],
+        [
+          3,
+          0,
+          0,
+          9,
+          9
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          9
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          2,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          2,
+          4,
+          4,
+          4
+        ],
+        [
+          4,
+          4,
+          2,
+          4,
+          4
+        ],
+        [
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          2,
+          4,
+          4,
+          4,
+          2
+        ],
+        [
+          4,
+          2,
+          4,
+          2,
+          4
+        ],
+        [
+          4,
+          4,
+          2,
+          4,
+          4
+        ],
+        [
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          3,
+          3,
+          3,
+          6,
+          1
+        ],
+        [
+          3,
+          3,
+          3,
+          1,
+          6
+        ],
+        [
+          3,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          3,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          3,
+          3,
+          3,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          3,
+          6,
+          1
+        ],
+        [
+          3,
+          3,
+          3,
+          1,
+          6
+        ],
+        [
+          3,
+          3,
+          3,
+          6,
+          1
+        ],
+        [
+          3,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          3,
+          3,
+          3,
+          6,
+          6
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          2,
+          8,
+          2
+        ],
+        [
+          0,
+          0,
+          8,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          2
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          2,
+          8,
+          2
+        ],
+        [
+          0,
+          0,
+          8,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          2,
+          8,
+          2
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          8
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 3.388056023281969e-18,
+    "Commonsense": 7.262591584527751e-18,
+    "Geometry": 0.5,
+    "Movement": 6.384917751703654e-20,
+    "Number": 3.653481421833092e-17,
+    "Object": 0.5
+  },
+  "predicted_categories": [
+    "Geometry",
+    "Geometry",
+    "Geometry",
+    "Geometry"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The irregular shape of Object 2 has been modified to extend its height by one row, while maintaining its leftmost column position.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The original Object 2 spans from (2,0) to (3,1), while the output Object 2 spans from (2,0) to (4,3), indicating an increase in height and width.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_shape = [(2,0), (3,1)]\n    new_shape = [(2,0), (4,3)]\n    return new_shape[1][0] - original_shape[1][0] == 2 and new_shape[1][1] - original_shape[1][1] == 2",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The position of the filled rectangle (Object 1) remains unchanged, confirming that no movement occurred for this object.",
+      "category": "Movement",
+      "confidence": 0.95,
+      "evidence": "Object 1's position in both input and output grids is (0,0) to (1,4), indicating no translation.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_position = (0, 0, 1, 4)\n    new_position = (0, 0, 1, 4)\n    return original_position == new_position",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 21.75230803570336,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color properties of Object 2 have not changed, as it retains the same color (1) in both the input and output grids.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "Both input and output objects of Object 2 have the same color attribute, confirming no color change.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_color = 1\n    new_color = 1\n    return original_color == new_color",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 19.766564090441136,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The irregular shape of Object 2 has been split into two distinct parts, with one part remaining at (2,0) to (3,1) and the other extending to (4,3).",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The output shows an extension of Object 2, indicating that it has been manipulated to create a larger shape while keeping part of the original.",
+      "prior_probability": 0.18,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_shape = [(2,0), (3,1)]\n    new_shape = [(2,0), (4,3)]\n    return len(new_shape) > len(original_shape)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 41,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of filled cells in the output grid has increased due to the expansion of Object 2, indicating a count-based transformation.",
+      "category": "Number",
+      "confidence": 0.75,
+      "evidence": "The filled cells in Object 2 increased from 2 to 4, reflecting a change in count.",
+      "prior_probability": 0.25,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_count = 2\n    new_count = 4\n    return new_count > original_count",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 18.577559436567654,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The irregular shape of Object 2 has been modified to create a pattern completion, as it now occupies a larger area in the output grid.",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The transformation of Object 2 suggests a completion of a pattern by filling in more space in the grid.",
+      "prior_probability": 0.22,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_area = (3-2)*(1-0)\n    new_area = (4-2)*(3-0)\n    return new_area > original_area",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 19.385323880314065,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
+  ],
+  "expected_category": "Movement"
+}

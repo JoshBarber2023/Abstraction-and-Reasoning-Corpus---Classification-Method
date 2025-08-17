@@ -1,0 +1,440 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          3,
+          6,
+          5,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          9
+        ],
+        [
+          1,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        [
+          3,
+          7,
+          3,
+          4,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          1,
+          6,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        [
+          7,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          9
+        ],
+        [
+          3,
+          4,
+          3,
+          5,
+          3
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          3,
+          6,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          8
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          9,
+          3,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          9,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          6
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          8,
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          3,
+          3,
+          5,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          5,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        [
+          3,
+          3,
+          5,
+          3,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          5,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          5,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        [
+          3,
+          3,
+          5,
+          3,
+          3
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          3,
+          3,
+          4,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        [
+          6,
+          3,
+          3,
+          3,
+          4
+        ],
+        [
+          3,
+          3,
+          3,
+          9,
+          3
+        ]
+      ],
+      "output": [
+        [
+          3,
+          3,
+          6,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          4
+        ],
+        [
+          9,
+          3,
+          3,
+          3,
+          2
+        ],
+        [
+          3,
+          3,
+          3,
+          4,
+          3
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.09692492949008163,
+    "Commonsense": 0.09692492949008163,
+    "Geometry": 0.09692492949008163,
+    "Movement": 0.311252170968735,
+    "Number": 0.09692492949008163,
+    "Object": 0.3010481110709385
+  },
+  "predicted_categories": [
+    "Movement",
+    "Movement",
+    "Movement"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "Each unique number (excluding '3') moves one step clockwise to the next unique number's previous position. This movement is consistent across all unique numbers and follows a specific pattern of spatial translation.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The '6' moved from the second column of the first row to the third column of the first row. The '5' moved from the third column of the first row to the fifth column of the second row. The '9' moved from the fifth column of the second row to the fifth column of the fourth row. The '1' moved from the first column of the third row to the second column of the first row. The '5' moved from the fifth column of the fourth row to the fourth column of the fifth row. The '7' moved from the second column of the fifth row to the first column of the third row. The '4' moved from the fourth column of the fifth row to the second column of the fifth row.",
+      "prior_probability": 0.7,
+      "specificity_score": 0.95,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Each unique number (excluding '3') moves one step clockwise to the next unique number's previous position. This movement is consistent across all unique numbers and follows a specific pattern of spatial translation.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Check if colors are preserved (movement doesn't change colors)\n        input_counts = np.bincount(input_grid.flat, minlength=10)\n        output_counts = np.bincount(output_grid.flat, minlength=10)\n        \n        if not np.array_equal(input_counts, output_counts):\n            return False  # Colors changed, not pure movement\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No movement occurred\n        \n        # Check if this looks like a movement pattern\n        # (pixels moved but overall structure preserved)\n        non_zero_input = np.count_nonzero(input_grid)\n        non_zero_output = np.count_nonzero(output_grid)\n        \n        # Must preserve non-zero pixel count for movement\n        if non_zero_input != non_zero_output:\n            return False\n            \n        # Additional check: see if we can find a simple translation\n        # that explains the transformation\n        for dy in range(-3, 4):\n            for dx in range(-3, 4):\n                if dy == 0 and dx == 0:\n                    continue\n                # Test if shifting by (dy, dx) produces the output\n                shifted = np.zeros_like(input_grid)\n                for i in range(input_grid.shape[0]):\n                    for j in range(input_grid.shape[1]):\n                        new_i, new_j = i + dy, j + dx\n                        if 0 <= new_i < shifted.shape[0] and 0 <= new_j < shifted.shape[1]:\n                            shifted[new_i, new_j] = input_grid[i, j]\n                \n                if np.array_equal(shifted, output_grid):\n                    return True\n        \n        return True  # Default to movement if colors preserved and positions changed\n    except:\n        return False\n",
+      "source": "category_specific_movement",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 38,
+      "solomonoff_score": 7.9885211216162455,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The movement of each unique number (excluding '3') is not random but follows a specific rule of clockwise rotation. The direction of movement is consistent for all unique numbers and they all preserve their shape during the movement.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "All unique numbers moved in a clockwise direction. The '6' moved right, the '5' moved down, the '9' moved down, the '1' moved right, the '5' moved left, the '7' moved up, and the '4' moved left. All numbers preserved their shape during the movement.",
+      "prior_probability": 0.65,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The movement of each unique number (excluding '3') is not random but follows a specific rule of clockwise rotation. The direction of movement is consistent for all unique numbers and they all preserve their shape during the movement.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Check if colors are preserved (movement doesn't change colors)\n        input_counts = np.bincount(input_grid.flat, minlength=10)\n        output_counts = np.bincount(output_grid.flat, minlength=10)\n        \n        if not np.array_equal(input_counts, output_counts):\n            return False  # Colors changed, not pure movement\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No movement occurred\n        \n        # Check if this looks like a movement pattern\n        # (pixels moved but overall structure preserved)\n        non_zero_input = np.count_nonzero(input_grid)\n        non_zero_output = np.count_nonzero(output_grid)\n        \n        # Must preserve non-zero pixel count for movement\n        if non_zero_input != non_zero_output:\n            return False\n            \n        # Additional check: see if we can find a simple translation\n        # that explains the transformation\n        for dy in range(-3, 4):\n            for dx in range(-3, 4):\n                if dy == 0 and dx == 0:\n                    continue\n                # Test if shifting by (dy, dx) produces the output\n                shifted = np.zeros_like(input_grid)\n                for i in range(input_grid.shape[0]):\n                    for j in range(input_grid.shape[1]):\n                        new_i, new_j = i + dy, j + dx\n                        if 0 <= new_i < shifted.shape[0] and 0 <= new_j < shifted.shape[1]:\n                            shifted[new_i, new_j] = input_grid[i, j]\n                \n                if np.array_equal(shifted, output_grid):\n                    return True\n        \n        return True  # Default to movement if colors preserved and positions changed\n    except:\n        return False\n",
+      "source": "category_specific_movement",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 43,
+      "solomonoff_score": 8.383964740495548,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The transformation rule involves a positional shift of the numbers in the grid, where each number in a column is moved down by one position, and the bottom number wraps around to the top. This rule does not require any pattern completion, implicit logical reasoning, or contextual understanding, but rather a simple understanding of positional shifts.",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The numbers in the grid have been rearranged, but not altered or changed in any way. The positions of the numbers within the grid have been shifted according to the described rule.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule involves a positional shift of the numbers in the grid, where each number in a column is moved down by one position, and the bottom number wraps around to the top. This rule does not require any pattern completion, implicit logical reasoning, or contextual understanding, but rather a simple understanding of positional shifts.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 63,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule does not involve any commonsense aspects such as pattern completion, implicit logical reasoning, or contextual understanding. If these aspects were to be tested, the hypothesis would fail as the transformation is purely a positional shift of the numbers in the grid.",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The transformation does not involve any changes to the numbers themselves, only their positions within the grid. There are no patterns to complete, no logical reasoning required, and no contextual understanding necessary to understand the transformation.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule does not involve any commonsense aspects such as pattern completion, implicit logical reasoning, or contextual understanding. If these aspects were to be tested, the hypothesis would fail as the transformation is purely a positional shift of the numbers in the grid.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 50,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Each number in the grid is an individual object that moves to a new position according to a specific rule. The rule is: the number 6 moves one place to the right, the number 5 moves one place down, the number 9 moves one place to the right and one place down, the number 1 moves two places to the right, the number 7 moves three places up, and the number 4 moves one place down. No object is created, deleted, merged, split, or duplicated.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The positional shifts of the numbers in the grid, with no changes in the numbers themselves or their count.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.95,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Each number in the grid is an individual object that moves to a new position according to a specific rule. The rule is: the number 6 moves one place to the right, the number 5 moves one place down, the number 9 moves one place to the right and one place down, the number 1 moves two places to the right, the number 7 moves three places up, and the number 4 moves one place down. No object is created, deleted, merged, split, or duplicated.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 104,
+      "solomonoff_score": 12.507647223177987,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The grid itself is an object, and the numbers within it are sub-objects. The grid remains constant in size and shape, but the positions of the sub-objects change. The rule for these changes is: the sub-object 6 moves one place to the right within the grid, the sub-object 5 moves one place down within the grid, the sub-object 9 moves one place to the right and one place down within the grid, the sub-object 1 moves two places to the right within the grid, the sub-object 7 moves three places up within the grid, and the sub-object 4 moves one place down within the grid. No sub-object is created, deleted, merged, split, or duplicated.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The positional shifts of the numbers within the grid, with no changes in the grid or the numbers themselves.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The grid itself is an object, and the numbers within it are sub-objects. The grid remains constant in size and shape, but the positions of the sub-objects change. The rule for these changes is: the sub-object 6 moves one place to the right within the grid, the sub-object 5 moves one place down within the grid, the sub-object 9 moves one place to the right and one place down within the grid, the sub-object 1 moves two places to the right within the grid, the sub-object 7 moves three places up within the grid, and the sub-object 4 moves one place down within the grid. No sub-object is created, deleted, merged, split, or duplicated.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 147,
+      "solomonoff_score": 13.775085543425275,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    }
+  ],
+  "expected_category": "Colour"
+}

@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.199999996143348,
-    "Commonsense": 0.199999996143348,
-    "Geometry": 0.199999996143348,
-    "Movement": 0.199999996143348,
-    "Number": 0.199999996143348,
-    "Object": 1.9283260038716342e-08
+    "Colour": 0.33333206771263246,
+    "Commonsense": 0.33333206771263246,
+    "Geometry": 3.796862102533692e-06,
+    "Movement": 2.4142870977374143e-35,
+    "Number": 0.33333206771263246,
+    "Object": 2.926378500248575e-20
   },
   "predicted_categories": [
     "Colour",
     "Colour",
     "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color 5 line object moves from the right side of the grid to the left, aligning with the rectangular object.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 5 line object is moved from the 3rd column to the 2nd column, aligning with the rectangular object in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 25,
+      "solomonoff_score": 10.32605719104738,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 7 line object moves from the bottom of the grid to the middle, aligning with the rectangular object.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The color 7 line object is moved from the 4th row to the 3rd row, aligning with the rectangular object in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 24,
+      "solomonoff_score": 10.203591244986601,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The rectangular object remains unchanged.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The rectangular object maintains its position, size, shape, and color in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 6,
+      "solomonoff_score": 5.69135975465765,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 5 line object maintains its color and size.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The color 5 line object maintains its color and size in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 8.124150153306664,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 7 line object maintains its color and size.",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The color 7 line object maintains its color and size in the output grid.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 8.124150153306664,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 5 line object moves to a position adjacent to the rectangular object.",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "The color 5 line object is moved to a position adjacent to the rectangular object in the output grid.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 9.387790312821334,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 7 line object moves to a position adjacent to the rectangular object.",
+      "category": "Movement",
+      "confidence": 0.8,
+      "evidence": "The color 7 line object is moved to a position adjacent to the rectangular object in the output grid.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 9.387790312821334,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "All objects maintain their shape.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "All objects maintain their shape in the output grid.",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 6,
+      "solomonoff_score": 5.69135975465765,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Movement"
 }

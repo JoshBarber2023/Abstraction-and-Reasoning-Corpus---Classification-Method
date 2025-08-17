@@ -1,65 +1,127 @@
-from rule_engine import RuleEngine
+from rule_engine import HybridRuleEngine
 import numpy as np
 from pathlib import Path
 import os
 
 if __name__ == "__main__":
-    # Set your OpenAI API key (either here or as environment variable)
+    # Set your OpenAI API key
     openai_api_key = os.getenv("OPENAI_API_KEY", None)
-    # Alternatively, set it directly: openai_api_key = "your-api-key-here"
     
     if not openai_api_key:
-        print("⚠️ Warning: No OpenAI API key found. Set OPENAI_API_KEY environment variable or pass it directly.")
-        print("The engine will still work but won't generate AI hypotheses.")
+        print("⚠️ Warning: No OpenAI API key found. Set OPENAI_API_KEY environment variable.")
+        print("The system needs AI to generate smart hypotheses and interpretations.")
+        exit(1)
     
-    # Paths
-    arc_folder = "./MINI-ARC/data/MiniARC"  # or "./Training Sets/NORMAL-ARC/Training"
-    data_folder = r"./generated data/Test #7 13.08"
+    # Paths  
+    arc_folder = "./MINI-ARC/data/MiniARC"  # or your full ARC dataset
+    data_folder = r"./generated data/Test #3 17.08"
     
-    # Initialize the smart engine
-    engine = RuleEngine(arc_folder, data_folder, openai_api_key)
+    # Initialize the hybrid engine with controlled rate limits
+    engine = HybridRuleEngine(
+        arc_folder, 
+        data_folder, 
+        openai_api_key,
+        max_concurrent_requests=2,  # Conservative to avoid rate limits
+        rpm_limit=150               # Adjust based on your OpenAI plan
+    )
     
     # Load all tasks
     engine.load_tasks()
     
     # Optional: Manual categorization for validation
+    # Uncomment this to create ground truth for accuracy measurement:
     # engine.manual_categorize()
     
-    # Run optimized AI-powered analysis with cost control
-    print("🚀 Running optimized AI-powered rule analysis...")
+    # Run the hybrid AI system (now generates interpretations automatically!)
+    print("🚀 Running Hybrid AI Rule Analysis System with Problem Interpretations...")
+    engine.run(save_results=True)
     
-    # Cost control options:
-    # Option 1: Use AI selectively (recommended)
-    engine.run(save_results=True, use_ai_hypotheses=True, max_ai_tasks=20)
+    # NEW: Export clean interpretations summary for easy reference
+    print("\n📝 Generating clean interpretations summary...")
+    engine.export_interpretations_summary()
     
-    # Option 2: Templates only (fastest, cheapest)
-    # engine.run(save_results=True, use_ai_hypotheses=False)
+    # Get performance summary
+    print("\n📊 Performance Analysis:")
+    engine.get_performance_summary()
     
-    # Option 3: AI for all tasks (most accurate but expensive)
-    # engine.run(save_results=True, use_ai_hypotheses=True)
+    # Analyze errors to understand what needs improvement
+    print("\n❌ Error Analysis:")
+    engine.analyze_errors()
     
-    # Visualize results
-    print("\n🔍 Viewing analysis results...")
-    engine.View()  # View first task
+    # NEW: Quick overview of all interpretations
+    print("\n🧠 Problem Interpretations Overview:")
+    engine.view_interpretations()
     
-    # Analyze generated hypotheses
-    print("\n📊 Analyzing generated hypotheses...")
-    from hypothesis_analyzer import HypothesisAnalyzer
+    # View detailed analysis of first few tasks (now includes interpretations!)
+    print("\n🔍 Detailed analysis with AI interpretations:")
     
-    analyzer = HypothesisAnalyzer(data_folder)
+    # Ask user what they want to see
+    print("\nChoose analysis mode:")
+    print("1. View first task only (detailed)")
+    print("2. View first 3 tasks (detailed)")  
+    print("3. View specific task by name")
+    print("4. Skip detailed view")
     
-    # Compare overall predictions (show only errors for debugging)
-    analyzer.compare_predictions(show_only_errors=True)
+    try:
+        choice = input("Enter choice (1-4): ").strip()
+        
+        if choice == "1":
+            engine.View(0)  # First task with full interpretation
+        elif choice == "2":
+            engine.View(show_all=True, max_tasks=3)  # First 3 tasks
+        elif choice == "3":
+            task_name = input("Enter task name (e.g., 'task_001.json'): ").strip()
+            engine.View(task_name)
+        elif choice == "4":
+            print("Skipping detailed view.")
+        else:
+            print("Invalid choice, showing first task:")
+            engine.View(0)
+            
+    except KeyboardInterrupt:
+        print("\nSkipping detailed analysis.")
     
-    # Analyze hypothesis generation patterns
-    analyzer.analyze_hypothesis_patterns()
+    # NEW: Show specific interpretations if user wants
+    print("\n💡 Want to see specific problem interpretations?")
+    try:
+        while True:
+            task_input = input("Enter task name to see interpretation (or 'q' to quit): ").strip()
+            if task_input.lower() in ['q', 'quit', 'exit']:
+                break
+            elif task_input:
+                engine.view_interpretations(task_input)
+            else:
+                break
+    except KeyboardInterrupt:
+        pass
     
-    # Find best performing hypotheses
-    analyzer.find_best_hypotheses(top_n=5)
+    print("\n✅ Analysis complete! Check the generated files:")
+    print(f"  📊 Results: {data_folder}/evaluated_scores.json")
+    print(f"  🧠 Hypotheses: {data_folder}/generated_hypotheses.json") 
+    print(f"  🤖 AI Interpretations: {data_folder}/problem_interpretations.json")
+    print(f"  📝 Clean Summary: {data_folder}/interpretations_summary.json")
+    print(f"  📁 Individual tasks: {data_folder}/*_evaluated.json")
     
-    # You can also analyze specific tasks:
-    # analyzer.analyze_task_hypotheses("your_task.json", show_details=True)
+    print(f"\n🎯 The 'interpretations_summary.json' file contains easy-to-read")
+    print(f"    explanations of what each problem is doing!")
     
-    # You can also view specific tasks:
-    # engine.View(0)  # View first task by index
-    # engine.View("specific_task.json")  # View by filename
+    # Show sample interpretation
+    try:
+        interpretations_path = Path(data_folder) / "interpretations_summary.json"
+        if interpretations_path.exists():
+            import json
+            with open(interpretations_path) as f:
+                summary = json.load(f)
+            
+            if summary.get("problems"):
+                sample_task = list(summary["problems"].keys())[0]
+                sample_data = summary["problems"][sample_task]
+                
+                print(f"\n📖 Sample interpretation for {sample_task}:")
+                print(f"   What it does: {sample_data['what_it_does']}")
+                print(f"   Confidence: {sample_data['confidence']}")
+                print(f"   Category: {sample_data['category']}")
+                print(f"   Success rate: {sample_data['success_rate']}")
+                
+    except Exception as e:
+        print(f"Could not show sample interpretation: {e}")

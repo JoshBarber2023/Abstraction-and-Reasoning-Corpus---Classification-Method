@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          5,
+          8
+        ],
+        [
+          8,
+          2,
+          8,
+          0,
+          8
+        ],
+        [
+          8,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          8,
+          0,
+          8,
+          0,
+          8
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          5,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          0,
+          8,
+          7
+        ],
+        [
+          3,
+          3,
+          0,
+          8,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          7,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          7,
+          8,
+          8,
+          4,
+          4
+        ],
+        [
+          0,
+          8,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          4,
+          8
+        ],
+        [
+          4,
+          4,
+          8,
+          4,
+          8
+        ],
+        [
+          0,
+          4,
+          8,
+          0,
+          8
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          8
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All non-zero cells in the output grid are changed to the color 8, while the original colors are preserved for the objects.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The color 8 replaces all non-zero values in the input grid, while the colors of the objects remain unchanged.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    for i in range(len(input_grid)):\n        for j in range(len(input_grid[0])):\n            if input_grid[i][j] != 0:\n                assert output_grid[i][j] == 8, f'Expected 8 at ({i},{j}), got {output_grid[i][j]}'\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 2 remains in the same position (2,1) in the output grid, indicating no movement.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "Object 1 retains its position in both input and output grids.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_pos = input_objects[0]['position']\n    output_pos = output_objects[0]['position']\n    assert input_pos == output_pos, f'Expected position {input_pos}, got {output_pos}'\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 25,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "A vertical line object with color 0 is created from the empty cells below the original object at (2,3) to (4,3).",
+      "category": "Object",
+      "confidence": 0.88,
+      "evidence": "A new vertical line object with color 0 appears in the output grid, indicating an object manipulation.",
+      "prior_probability": 0.14,
+      "test_code": "def test_hypothesis(output_objects):\n    new_object = output_objects[3]\n    assert new_object['shape'] == 'vertical line' and new_object['colors'] == [0] and new_object['position'] == (2,3, 4,3), 'Vertical line object not created correctly'\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 30,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "A vertical line object with color 0 is created from the empty cells at (3,1) to (4,1).",
+      "category": "Object",
+      "confidence": 0.87,
+      "evidence": "A new vertical line object appears in the output grid, indicating a new object formed from empty spaces.",
+      "prior_probability": 0.13,
+      "test_code": "def test_hypothesis(output_objects):\n    new_object = output_objects[1]\n    assert new_object['shape'] == 'vertical line' and new_object['colors'] == [0] and new_object['position'] == (3,1, 4,1), 'Vertical line object not created correctly'\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid retains the original shape of the input grid, with no resizing or cropping occurring.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The dimensions of the input grid (5x5) are the same as the output grid (5x5).",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    assert len(input_grid) == len(output_grid) and len(input_grid[0]) == len(output_grid[0]), 'Grid sizes do not match'\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 19,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of non-zero cells in the output grid has increased due to the introduction of new objects with color 0.",
+      "category": "Number",
+      "confidence": 0.85,
+      "evidence": "The output grid has additional non-zero cells (new objects) compared to the input grid.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_non_zero_count = sum(1 for row in input_grid for cell in row if cell != 0)\n    output_non_zero_count = sum(1 for row in output_grid for cell in row if cell != 0)\n    assert output_non_zero_count > input_non_zero_count, 'Output grid does not have more non-zero cells than input grid'\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 24,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "CommonSense"
+}

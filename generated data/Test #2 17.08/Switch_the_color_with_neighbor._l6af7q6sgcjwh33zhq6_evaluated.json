@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          3,
+          3,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          2,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          6,
+          6,
+          6,
+          8,
+          0
+        ]
+      ],
+      "output": [
+        [
+          2,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          8,
+          8,
+          6,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          1,
+          1,
+          0,
+          9,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          9,
+          5
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          4,
+          4,
+          0,
+          5
+        ],
+        [
+          0,
+          4,
+          4,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          0,
+          5,
+          0
+        ],
+        [
+          4,
+          4,
+          0,
+          5,
+          9
+        ],
+        [
+          4,
+          4,
+          0,
+          0,
+          9
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          9
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          4,
+          8,
+          8,
+          8
+        ],
+        [
+          4,
+          4,
+          8,
+          8,
+          8
+        ],
+        [
+          4,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          9,
+          9
+        ],
+        [
+          4,
+          4,
+          4,
+          9,
+          9
+        ]
+      ],
+      "output": [
+        [
+          8,
+          8,
+          4,
+          4,
+          4
+        ],
+        [
+          8,
+          8,
+          4,
+          4,
+          4
+        ],
+        [
+          8,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          5
+        ],
+        [
+          9,
+          9,
+          9,
+          5,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          5,
+          0,
+          1
+        ],
+        [
+          1,
+          5,
+          5,
+          0,
+          1
+        ],
+        [
+          1,
+          5,
+          5,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          8,
+          8
+        ]
+      ],
+      "output": [
+        [
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          8
+        ],
+        [
+          5,
+          1,
+          1,
+          0,
+          8
+        ],
+        [
+          5,
+          1,
+          1,
+          0,
+          8
+        ],
+        [
+          5,
+          0,
+          0,
+          1,
+          1
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          7
+        ],
+        [
+          3,
+          3,
+          0,
+          7,
+          7
+        ],
+        [
+          3,
+          3,
+          0,
+          7,
+          7
+        ],
+        [
+          0,
+          8,
+          8,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          0,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          0,
+          8,
+          8
+        ],
+        [
+          0,
+          3,
+          3,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The filled rectangle of color 3 at (0,0) to (1,1) has been moved down two rows to (1,2) to (2,3), and the filled rectangle of color 2 at (1,2) to (2,3) has been moved up two rows to (0,0) to (1,1).",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The positions of the filled rectangles have been exchanged vertically.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_positions = [(1, 2), (2, 3)]\n    output_positions = [(0, 0), (1, 1)]\n    for pos in input_positions:\n        if pos in [obj['position'] for obj in input_objects]:\n            return False\n    for pos in output_positions:\n        if pos not in [obj['position'] for obj in output_objects]:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 75,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The horizontal line of color 6 at (4,0) to (4,2) has been moved up one row to (3,0) to (3,2), and the horizontal line of color 8 at (4,3) to (4,3) has been moved to (4,0) to (4,2).",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The horizontal lines have been repositioned vertically.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_line = [(4, 0), (4, 1), (4, 2)]\n    output_line = [(3, 0), (3, 1), (3, 2)]\n    if input_line in [obj['position'] for obj in input_objects]:\n        return False\n    if output_line not in [obj['position'] for obj in output_objects]:\n        return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 72,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle of color 2 at (1,2) to (2,3) has been replaced by a filled rectangle of color 3 at (1,2) to (2,3).",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The object color has changed from 2 to 3 while maintaining the same position and shape.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_color = 2\n    output_color = 3\n    input_pos = (1, 2)\n    if input_color in [obj['colors'][0] for obj in input_objects if obj['position'] == input_pos]:\n        return False\n    if output_color not in [obj['colors'][0] for obj in output_objects if obj['position'] == input_pos]:\n        return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 42,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The single pixel of color 8 at (4,3) has been moved to (4,0) to (4,2) and has been transformed into a horizontal line of color 8.",
+      "category": "Object",
+      "confidence": 0.75,
+      "evidence": "The single pixel has been transformed into a horizontal line while changing its position.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_pixel = (4, 3)\n    output_line = [(4, 0), (4, 1), (4, 2)]\n    if input_pixel in [obj['position'] for obj in input_objects]:\n        return False\n    if output_line not in [obj['position'] for obj in output_objects]:\n        return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 41,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle of color 3 at (0,0) to (1,1) has been replaced with a filled rectangle of color 2 at (0,0) to (1,1).",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "The object color has changed from 3 to 2 while maintaining the same position and shape.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_color = 3\n    output_color = 2\n    input_pos = (0, 0)\n    if input_color in [obj['colors'][0] for obj in input_objects if obj['position'] == input_pos]:\n        return False\n    if output_color not in [obj['colors'][0] for obj in output_objects if obj['position'] == input_pos]:\n        return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 42,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The horizontal line of color 6 at (4,0) to (4,2) has been transformed into a horizontal line of color 8 at (4,0) to (4,2).",
+      "category": "Object",
+      "confidence": 0.7,
+      "evidence": "The color of the horizontal line has changed from 6 to 8 while maintaining the same position and shape.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_color = 6\n    output_color = 8\n    input_pos = (4, 0)\n    if input_color in [obj['colors'][0] for obj in input_objects if obj['position'] == input_pos]:\n        return False\n    if output_color not in [obj['colors'][0] for obj in output_objects if obj['position'] == input_pos]:\n        return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 42,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Colour"
+}

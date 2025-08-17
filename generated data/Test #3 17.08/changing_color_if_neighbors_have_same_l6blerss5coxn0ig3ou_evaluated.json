@@ -1,0 +1,563 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          2,
+          2,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          5,
+          0
+        ],
+        [
+          8,
+          8,
+          5,
+          0,
+          5
+        ],
+        [
+          8,
+          0,
+          8,
+          5,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          8,
+          0,
+          2,
+          0
+        ],
+        [
+          8,
+          0,
+          8,
+          2,
+          0
+        ],
+        [
+          8,
+          0,
+          8,
+          2,
+          0
+        ],
+        [
+          0,
+          8,
+          2,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          2,
+          0,
+          5,
+          0
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          2,
+          5,
+          2,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          2,
+          5,
+          2,
+          5,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 4.658886145103289e-15,
+    "Commonsense": 0.9999999999999767,
+    "Geometry": 4.658886145103289e-15,
+    "Movement": 4.658886145103289e-15,
+    "Number": 4.658886145103289e-15,
+    "Object": 4.658886145103289e-15
+  },
+  "predicted_categories": [
+    "Commonsense",
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The transformation rule removes all 2s from the grid except the one in the center, indicating a focus on the center of the grid.",
+      "category": "Commonsense",
+      "confidence": 0.9,
+      "evidence": "The majority of 2s in the input grid have been removed in the output grid, leaving only one 2 in the center.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.95,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule removes all 2s from the grid except the one in the center, indicating a focus on the center of the grid.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 19.766564090441136,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation rule does not change any other numbers in the grid, implying a specific focus on the number 2.",
+      "category": "Commonsense",
+      "confidence": 0.85,
+      "evidence": "Only the 2s in the grid are removed or preserved, while other numbers remain unchanged.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule does not change any other numbers in the grid, implying a specific focus on the number 2.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 20.13045066993149,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation rule does not depend on the position of the 2s in the input grid, suggesting a uniform application of the rule.",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The output grid has all 0s and a 2 in the center, regardless of the initial distribution of 2s in the input grid.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule does not depend on the position of the 2s in the input grid, suggesting a uniform application of the rule.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 27,
+      "solomonoff_score": 20.771820203567323,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation rule does not involve complex reasoning, pattern completion, or contextual understanding, indicating a simple rule-based transformation.",
+      "category": "Commonsense",
+      "confidence": 0.75,
+      "evidence": "The transformation seems to be a simple rule applied uniformly across the grid without consideration of complex patterns or context.",
+      "prior_probability": 0.1,
+      "specificity_score": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule does not involve complex reasoning, pattern completion, or contextual understanding, indicating a simple rule-based transformation.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 23,
+      "solomonoff_score": 21.75230803570336,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "All '2' objects except for the one located at the center of the grid are deleted.",
+      "category": "Object Deletion",
+      "confidence": 0.9,
+      "evidence": "In the output grid, all but one of the '2' objects have been deleted, leaving only a single '2' object in the center of the grid.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.95,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # All '2' objects except for the one located at the center of the grid are deleted.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 19,
+      "solomonoff_score": 18.21550376640397,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "No new objects are created in the transformation process.",
+      "category": "Object Creation",
+      "confidence": 0.95,
+      "evidence": "There are no additional objects in the output grid that were not present in the input grid.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # No new objects are created in the transformation process.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 10,
+      "solomonoff_score": 16.79881764485393,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "No objects are merged or split in the transformation process.",
+      "category": "Object Merging/Splitting",
+      "confidence": 0.95,
+      "evidence": "The count and configuration of all objects other than '2' remain consistent between the input and output grids.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # No objects are merged or split in the transformation process.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 11,
+      "solomonoff_score": 17.18005809740475,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "No objects are duplicated in the transformation process.",
+      "category": "Object Duplication",
+      "confidence": 0.95,
+      "evidence": "The count of all objects other than '2' remain consistent between the input and output grids, indicating no duplication has occurred.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # No objects are duplicated in the transformation process.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 16.377375848889123,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
+  ],
+  "expected_category": "Object"
+}

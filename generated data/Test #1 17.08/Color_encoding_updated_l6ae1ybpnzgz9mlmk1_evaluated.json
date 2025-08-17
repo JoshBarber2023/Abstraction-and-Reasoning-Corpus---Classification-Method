@@ -308,17 +308,163 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.2499999739042444,
-    "Commonsense": 8.027894949021665e-08,
-    "Geometry": 0.2499999739042444,
-    "Movement": 0.2499999739042444,
-    "Number": 0.2499999739042444,
-    "Object": 2.4104072997144326e-08
+    "Colour": 9.269729175806737e-10,
+    "Commonsense": 0.333333332930054,
+    "Geometry": 7.947782199073749e-25,
+    "Movement": 0.333333332930054,
+    "Number": 0.333333332930054,
+    "Object": 2.8286513804123185e-10
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The grid size remains unchanged in the transformation.",
+      "category": "Geometry",
+      "confidence": 1.0,
+      "evidence": "The input and output grids both have a size of 5x5.",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 7.2611040484513065,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color 5 in the input is replaced by colors 1, 2, and 4 in the output.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The transformation summary mentions new colors [1, 2, 4] and lost colors [5].",
+      "prior_probability": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 24,
+      "solomonoff_score": 9.850242238017422,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Objects in the output are lines of size 5, regardless of their size in the input.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "All output objects are lines of size 5, while input objects vary in size.",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 19,
+      "solomonoff_score": 9.903340955029915,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The position of objects in the output is determined by the order of their corresponding colors in the 'new colors' list, not their original positions.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The output objects are positioned in the order of the new colors [1, 2, 4], not their original positions.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 29,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Objects in the output are always horizontal lines, regardless of their shape in the input.",
+      "category": "Geometry",
+      "confidence": 0.8,
+      "evidence": "All output objects are horizontal lines, while input objects can be vertical lines.",
+      "prior_probability": 0.6,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 17,
+      "solomonoff_score": 10.03211605346674,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The transformation creates an equal number of objects in the output as in the input.",
+      "category": "Number",
+      "confidence": 0.7,
+      "evidence": "There are three objects in both the input and output grids.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 16,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation maintains the same total number of colored cells in the output as in the input.",
+      "category": "Number",
+      "confidence": 0.7,
+      "evidence": "There are 15 colored cells in both the input and output grids.",
+      "prior_probability": 0.5,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 18,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation does not create any new objects or merge existing ones.",
+      "category": "Object",
+      "confidence": 0.6,
+      "evidence": "The number of objects remains the same in the input and output, and no new objects are introduced or existing ones merged.",
+      "prior_probability": 0.4,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 13,
+      "solomonoff_score": 10.443719293007234,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "CommonSense"
 }

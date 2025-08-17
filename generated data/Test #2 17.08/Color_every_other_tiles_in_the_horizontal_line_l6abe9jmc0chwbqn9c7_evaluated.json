@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          4,
+          5,
+          4,
+          5,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          4,
+          5,
+          4,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          4,
+          5,
+          4
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          4,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The transformation involves replacing the pixels in the last row of the grid, where all pixels were originally 5, with a pattern of alternating colors 4 and 5, specifically at positions (4,0), (4,1), (4,2), and (4,4). The pixel at (4,3) remains 5.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The last row changes from all 5s to a combination of 4s and 5s, indicating a specific alteration in color properties.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return input_grid[4] == [5, 5, 5, 5, 5] and output_grid[4] == [4, 5, 4, 5, 4]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 70,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule involves the introduction of new color 4 in the last row while maintaining the existing color 5 in the same row at specific positions, indicating a selective modification of the last row's pixel colors.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "The output introduces color 4 at specific positions while retaining color 5, showing a selective color addition.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_grid):\n    return output_grid[4][0] == 4 and output_grid[4][1] == 5 and output_grid[4][2] == 4 and output_grid[4][3] == 5 and output_grid[4][4] == 4",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 42,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involves a spatial modification where the last row's pixels are rearranged to create a new pattern without changing the overall size of the object.",
+      "category": "Geometry",
+      "confidence": 0.85,
+      "evidence": "The shape remains the same, but the arrangement of colors in the last row changes, indicating a spatial transformation.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_grid):\n    return output_grid[4] == [4, 5, 4, 5, 4]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 29,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule indicates that the last row of the grid has been modified by splitting the original single color into multiple colors, specifically introducing color 4 at alternating positions.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The original single color 5 in the last row is split into a pattern of 4s and 5s, indicating an object manipulation.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_grid):\n    return output_grid[4] == [4, 5, 4, 5, 4]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 33,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involves a count-based alteration where the number of distinct colors in the last row increases from 1 (only color 5) to 2 (colors 4 and 5).",
+      "category": "Number",
+      "confidence": 0.85,
+      "evidence": "The count of distinct colors in the last row changes from 1 to 2, indicating a count-based transformation.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_grid):\n    return len(set(output_grid[4])) == 2",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 38,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation rule indicates a pattern completion where the last row's pixel colors alternate, suggesting a systematic approach to color placement based on their positions.",
+      "category": "Commonsense",
+      "confidence": 0.85,
+      "evidence": "The alternating pattern of colors in the last row suggests an implicit reasoning about how colors are arranged based on their positions.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(output_grid):\n    return output_grid[4] == [4, 5, 4, 5, 4]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Number"
+}

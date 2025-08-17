@@ -1,0 +1,517 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          5,
+          0,
+          0,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          0,
+          5,
+          0
+        ]
+      ],
+      "output": [
+        [
+          2,
+          2,
+          0,
+          3,
+          3
+        ],
+        [
+          2,
+          2,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          0,
+          4,
+          4
+        ],
+        [
+          2,
+          2,
+          0,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          0,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          5,
+          0,
+          5,
+          5
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ]
+      ],
+      "output": [
+        [
+          1,
+          1,
+          0,
+          2,
+          2
+        ],
+        [
+          1,
+          1,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          0,
+          4,
+          4
+        ],
+        [
+          3,
+          3,
+          0,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          5,
+          5,
+          0,
+          0,
+          5
+        ],
+        [
+          5,
+          0,
+          0,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          0,
+          5,
+          0
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          0,
+          1,
+          1
+        ],
+        [
+          4,
+          4,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          4,
+          4
+        ],
+        [
+          1,
+          1,
+          0,
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          5,
+          5,
+          0,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          0,
+          5,
+          5
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          0,
+          3,
+          3
+        ],
+        [
+          4,
+          4,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          0,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          0,
+          2,
+          2
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          5,
+          0,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          0,
+          0,
+          5
+        ]
+      ],
+      "output": [
+        [
+          1,
+          1,
+          0,
+          3,
+          3
+        ],
+        [
+          1,
+          1,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          3,
+          3
+        ],
+        [
+          1,
+          1,
+          0,
+          3,
+          3
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color of objects changed from 5 to new colors 2, 3, and 4 based on their positions in the grid.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "Objects originally colored with 5 have been transformed to colors 2, 3, and 4, indicating a systematic color change based on their original positions.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis_color_change(input_objects, output_objects):\n    input_colors = [obj['colors'][0] for obj in input_objects]\n    output_colors = [obj['colors'][0] for obj in output_objects]\n    expected_colors = [2, 3, 4]\n    return sorted(output_colors) == sorted(expected_colors) and all(color == 5 for color in input_colors)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Objects have been repositioned to new coordinates while maintaining their relative arrangement.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The positions of the objects have changed, with Object 1 moving from (3,0) to (3,0), Object 2 from (0,3) to (0,3), Object 3 from (0,0) to (0,0), and Object 4 from (3,3) to (3,3), indicating a consistent translation.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis_movement(input_objects, output_objects):\n    input_positions = [obj['position'] for obj in input_objects]\n    output_positions = [obj['position'] for obj in output_objects]\n    return input_positions == output_positions",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 15,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The shapes of the objects changed from irregular to filled rectangles, indicating a geometric transformation.",
+      "category": "Geometry",
+      "confidence": 0.88,
+      "evidence": "All objects transitioned from irregular shapes to filled rectangles, indicating a clear geometric transformation.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis_geometry_change(input_objects, output_objects):\n    input_shapes = [obj['shape'] for obj in input_objects]\n    output_shapes = [obj['shape'] for obj in output_objects]\n    return all(shape == 'irregular shape' for shape in input_shapes) and all(shape == 'filled rectangle' for shape in output_shapes)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 17,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of distinct colors increased from 1 (5) to 3 (2, 3, 4) across the output objects.",
+      "category": "Number",
+      "confidence": 0.9,
+      "evidence": "The transition from a single color to multiple distinct colors indicates a count-based transformation in the color properties of the objects.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis_number_change(output_objects):\n    output_colors = set(obj['colors'][0] for obj in output_objects)\n    return len(output_colors) == 3 and 5 not in output_colors",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 29,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "Objects were modified by changing their color properties while retaining their spatial arrangement.",
+      "category": "Object",
+      "confidence": 0.87,
+      "evidence": "The objects were modified in terms of color while their spatial arrangement remains consistent, indicating a manipulation of object properties.",
+      "prior_probability": 0.11,
+      "test_code": "def test_hypothesis_object_modification(input_objects, output_objects):\n    for input_obj, output_obj in zip(input_objects, output_objects):\n        if input_obj['position'] != output_obj['position']:\n            return False\n        if input_obj['colors'][0] == output_obj['colors'][0]:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 14,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The output grid maintains a similar structure to the input grid, with changes in color and shape indicating a pattern completion.",
+      "category": "Commonsense",
+      "confidence": 0.85,
+      "evidence": "The overall structure of the grid remains intact, with specific changes in color and shape that suggest a logical progression in the transformation.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis_commonsense(input_grid, output_grid):\n    for i in range(len(input_grid)):\n        for j in range(len(input_grid[i])):\n            if input_grid[i][j] == 5 and output_grid[i][j] not in [2, 3, 4, 0]:\n                return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 23,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "CommonSense"
+}

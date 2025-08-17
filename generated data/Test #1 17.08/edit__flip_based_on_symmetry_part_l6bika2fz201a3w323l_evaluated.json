@@ -384,18 +384,172 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.19999999998231544,
-    "Commonsense": 0.19999999998231544,
-    "Geometry": 0.19999999998231544,
-    "Movement": 0.19999999998231544,
-    "Number": 0.19999999998231544,
-    "Object": 8.842273753269462e-11
+    "Colour": 1.7417823495386096e-19,
+    "Commonsense": 1.4439544116591645e-50,
+    "Geometry": 0.333333333330661,
+    "Movement": 8.016928466456182e-12,
+    "Number": 0.333333333330661,
+    "Object": 0.333333333330661
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour",
-    "Colour"
+    "Geometry",
+    "Geometry",
+    "Geometry",
+    "Geometry"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The cell at position (2,0) moves to position (2,2)",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The cell at position (2,0) in the input grid is at position (2,2) in the output grid",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 17,
+      "solomonoff_score": 12.225426731481793,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The cell at position (2,2) becomes 0",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "The cell at position (2,2) in the input grid is 0 in the output grid",
+      "prior_probability": 0.8,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 10.832200204408885,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The cell at position (1,1) remains the same",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The cell at position (1,1) in the input grid is the same in the output grid",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General pattern completion or logical inference\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 11.366325689192704,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The cell at position (0,1) remains the same",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The cell at position (0,1) in the input grid is the same in the output grid",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General pattern completion or logical inference\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 11.366325689192704,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The cell at position (0,2) remains the same",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The cell at position (0,2) in the input grid is the same in the output grid",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General pattern completion or logical inference\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 11.366325689192704,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The cell at position (1,0) remains the same",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The cell at position (1,0) in the input grid is the same in the output grid",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General pattern completion or logical inference\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 11.366325689192704,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The cell at position (0,0) remains the same",
+      "category": "Commonsense",
+      "confidence": 0.8,
+      "evidence": "The cell at position (0,0) in the input grid is the same in the output grid",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General pattern completion or logical inference\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 11.366325689192704,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color of the moved cell remains the same",
+      "category": "Colour",
+      "confidence": 0.8,
+      "evidence": "The color of the cell at position (2,0) in the input grid is the same as the color of the cell at position (2,2) in the output grid",
+      "prior_probability": 0.7,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 9,
+      "solomonoff_score": 10.215597570814126,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Geometry"
 }

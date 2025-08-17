@@ -308,17 +308,155 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 0.22212446587944348,
-    "Commonsense": 0.22212446587944348,
-    "Geometry": 0.22212446587944348,
-    "Movement": 0.22212446587944348,
-    "Number": 0.11150211506580643,
-    "Object": 2.1416419595549807e-08
+    "Colour": 2.2072904865011075e-55,
+    "Commonsense": 0.4569950936799463,
+    "Geometry": 1.5304783416605412e-13,
+    "Movement": 0.4569950936799463,
+    "Number": 0.08600981263980136,
+    "Object": 1.5304783416605412e-13
   },
   "predicted_categories": [
-    "Colour",
-    "Colour",
-    "Colour"
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color of the cell at the top right corner is changed to 0.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The cell at the top right corner changes from color 6 to 0.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 15.225516645705323,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color of the cell at the bottom left corner is changed to 0.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The cell at the bottom left corner changes from color 2 to 0.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 16,
+      "solomonoff_score": 15.225516645705323,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color of the cell at the top right of the rectangular object changes from 4 to 6.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The cell at the top right of the rectangular object changes from color 4 to 6.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 16.04131629215902,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The color of the cell at the bottom left of the rectangular object changes from 4 to 2.",
+      "category": "Colour",
+      "confidence": 1.0,
+      "evidence": "The cell at the bottom left of the rectangular object changes from color 4 to 2.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if colors changed but positions stayed same\n    return not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 16.04131629215902,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The rectangular object remains in the same position.",
+      "category": "Movement",
+      "confidence": 1.0,
+      "evidence": "The rectangular object does not move.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_grid.shape != output_grid.shape:\n        return False\n    # Check if same colors exist (movement preserves colors)\n    input_colors = np.bincount(input_grid.flat)\n    output_colors = np.bincount(output_grid.flat)\n    if len(input_colors) != len(output_colors):\n        # Pad shorter array\n        max_len = max(len(input_colors), len(output_colors))\n        input_colors = np.pad(input_colors, (0, max_len - len(input_colors)))\n        output_colors = np.pad(output_colors, (0, max_len - len(output_colors)))\n    return np.array_equal(input_colors, output_colors) and not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 9,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The size of the rectangular object decreases by 2 cells.",
+      "category": "Geometry",
+      "confidence": 1.0,
+      "evidence": "The rectangular object loses 2 cells.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    # General geometry change (size or spatial transformation)\n    return input_grid.shape != output_grid.shape or not np.array_equal(input_grid, output_grid)\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 14.362471628348299,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The number of objects in the grid increases from 3 to 4.",
+      "category": "Number",
+      "confidence": 1.0,
+      "evidence": "Two new objects are created from the original rectangular object.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        # Fallback: check if non-background pixels changed in a count-related way\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        return output_nonzero != input_nonzero\n    # Check if transformation relates to object count\n    return len(output_objects) != len(input_objects)\n",
+      "source": "ai",
+      "test_results": [
+        false,
+        true,
+        false
+      ],
+      "complexity": 15,
+      "solomonoff_score": 5.010633794097381,
+      "passed_all": false,
+      "pass_rate": 0.3333333333333333
+    },
+    {
+      "description": "The shape of the rectangular object changes to an irregular shape.",
+      "category": "Object",
+      "confidence": 1.0,
+      "evidence": "The rectangular object changes to an irregular shape.",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    if input_objects is None or output_objects is None:\n        return False\n    # Check if object count or structure changed\n    return len(input_objects) != len(output_objects) or input_objects != output_objects\n",
+      "source": "ai",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 12,
+      "solomonoff_score": 14.362471628348299,
+      "passed_all": true,
+      "pass_rate": 1.0
+    }
   ],
   "expected_category": "Geometry"
 }

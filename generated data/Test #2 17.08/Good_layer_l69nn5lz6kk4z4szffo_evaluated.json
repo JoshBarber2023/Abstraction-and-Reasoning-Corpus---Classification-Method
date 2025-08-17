@@ -1,0 +1,351 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          1,
+          1,
+          1
+        ],
+        [
+          4,
+          4,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          1
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          0,
+          3,
+          3,
+          6,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          6
+        ],
+        [
+          0,
+          3,
+          3,
+          3,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          7,
+          0
+        ],
+        [
+          7,
+          8,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          8,
+          7,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          7,
+          0
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The filled rectangle (Object 2) has been transformed into an irregular shape by changing its internal structure while maintaining its overall bounds.",
+      "category": "Object",
+      "confidence": 0.9,
+      "evidence": "The filled rectangle shape is altered to an irregular shape, which implies a change in the internal arrangement of pixels while keeping the same bounding box.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects, output_objects):\n    input_shape = input_objects[1]['shape']\n    output_shape = output_objects[2]['shape']\n    return input_shape != output_shape and output_shape == 'irregular shape'",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The vertical line (Object 3) remains in the same position but retains its color, indicating no change in color properties.",
+      "category": "Colour",
+      "confidence": 0.95,
+      "evidence": "Object 3 retains its color (0) and position, confirming that color properties have not changed.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_color = input_objects[2]['colors'][0]\n    output_color = output_objects[1]['colors'][0]\n    return input_color == output_color and input_objects[2]['position'] == output_objects[1]['position']",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 25,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle (Object 2) has been transformed into an irregular shape that occupies the same spatial bounds but has a different internal configuration.",
+      "category": "Geometry",
+      "confidence": 0.85,
+      "evidence": "The output shape is described as irregular, indicating a change in the spatial arrangement of pixels within the same bounding box.",
+      "prior_probability": 0.14,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_bounds = (2, 2, 4, 4)\n    output_bounds = (2, 2, 4, 4)\n    return input_bounds == output_bounds and output_objects[2]['shape'] == 'irregular shape'",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 28,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The horizontal line (Object 1) remains unchanged in position and shape, indicating stability in this object.",
+      "category": "Movement",
+      "confidence": 0.92,
+      "evidence": "Object 1 has the same shape and position in both input and output grids, showing no movement.",
+      "prior_probability": 0.08,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_position = input_objects[0]['position']\n    output_position = output_objects[0]['position']\n    return input_position == output_position and input_objects[0]['shape'] == output_objects[0]['shape']",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 21,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The filled rectangle (Object 2) has been modified to an irregular shape, indicating an internal change without altering the overall size.",
+      "category": "Object",
+      "confidence": 0.88,
+      "evidence": "The overall size remains the same, but the internal structure of Object 2 has changed, confirming an object manipulation.",
+      "prior_probability": 0.13,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_size = (3, 3)\n    output_size = (3, 3)\n    return input_size == output_size and input_objects[1]['shape'] != output_objects[2]['shape']",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of filled pixels in the irregular shape (Object 2) has changed, indicating a count-based transformation.",
+      "category": "Number",
+      "confidence": 0.87,
+      "evidence": "The filled rectangle has been transformed into an irregular shape, suggesting a change in the number of filled pixels within the defined area.",
+      "prior_probability": 0.11,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_pixel_count = 9  # 3x3 rectangle\n    output_pixel_count = 5  # irregular shape\n    return input_pixel_count != output_pixel_count",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 23,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Movement"
+}

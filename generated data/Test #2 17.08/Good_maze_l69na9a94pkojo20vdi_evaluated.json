@@ -1,0 +1,351 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          2,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          8,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          4
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          8,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          8,
+          0,
+          8,
+          0,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          2,
+          2,
+          0
+        ],
+        [
+          4,
+          2,
+          4,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          8,
+          8
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All instances of colors [2] and [4] in the input grid were replaced with color [8] in the output grid, resulting in a color transformation.",
+      "category": "Colour",
+      "confidence": 0.9,
+      "evidence": "Colors [2] and [4] were present in the input grid and completely absent in the output grid, replaced by [8].",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_colors = {color for row in input_grid for color in row if color > 0}\n    output_colors = {color for row in output_grid for color in row if color > 0}\n    return input_colors == {2, 4} and output_colors == {8}",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 33,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The horizontal line of color [2] at (1,3) to (1,4) was transformed into a vertical shape of color [8] spanning from (1,0) to (4,2).",
+      "category": "Geometry",
+      "confidence": 0.85,
+      "evidence": "The original horizontal line was transformed into a vertical shape occupying a larger area in the output grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_shape = [(1,3), (1,4)]\n    output_shape = [(1,0), (4,2)]\n    return len(output_objects) == 1 and output_objects[0]['shape'] == 'irregular shape' and output_objects[0]['position'] == (1,0) and output_objects[0]['colors'] == [8]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 44,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of pixels in the output grid increased from 6 (2 from the horizontal lines and 2 single pixels) to 12 (6 pixels in the irregular shape).",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "The count of active pixels increased significantly from the input to the output grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_pixel_count = sum(1 for row in input_grid for color in row if color > 0)\n    output_pixel_count = sum(1 for row in output_grid for color in row if color > 0)\n    return output_pixel_count == 12 and input_pixel_count == 6",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 35,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involved merging multiple objects of colors [2] and [4] into a single object of color [8], thus manipulating the objects.",
+      "category": "Object",
+      "confidence": 0.88,
+      "evidence": "Multiple input objects were combined into a single output object with a new color.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_object_count = len(input_objects)\n    output_object_count = len(output_objects)\n    return input_object_count > 1 and output_object_count == 1 and output_objects[0]['colors'] == [8]",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 29,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation involved a spatial reconfiguration where the original positions of the objects were altered to form a new shape in the output grid.",
+      "category": "Movement",
+      "confidence": 0.75,
+      "evidence": "The original positions of the objects were not preserved but instead rearranged to create a new configuration.",
+      "prior_probability": 0.08,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    original_positions = [(obj['position'][0], obj['position'][1]) for obj in input_objects]\n    new_positions = [(obj['position'][0], obj['position'][1]) for obj in output_objects]\n    return original_positions != new_positions and len(new_positions) == 1",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The transformation resulted in a change in the overall structure of the grid, where the previously sparse arrangement of colors became a denser, more compact arrangement.",
+      "category": "Commonsense",
+      "confidence": 0.82,
+      "evidence": "The output grid shows a more compact arrangement of color [8] compared to the sparse distribution of colors [2] and [4].",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_density = sum(1 for row in input_grid for color in row if color > 0) / (len(input_grid) * len(input_grid[0]))\n    output_density = sum(1 for row in output_grid for color in row if color > 0) / (len(output_grid) * len(output_grid[0]))\n    return output_density > input_density",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false
+      ],
+      "complexity": 30,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Object"
+}

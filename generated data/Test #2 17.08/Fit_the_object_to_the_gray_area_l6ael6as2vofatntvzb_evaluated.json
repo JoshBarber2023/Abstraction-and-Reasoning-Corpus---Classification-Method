@@ -1,0 +1,600 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          4,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          6,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          6,
+          6,
+          6,
+          0
+        ],
+        [
+          4,
+          6,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          6,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          4,
+          6,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          6,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          6,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          4,
+          6,
+          6,
+          6,
+          0
+        ],
+        [
+          4,
+          6,
+          6,
+          6,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          6,
+          6
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          6
+        ]
+      ],
+      "output": [
+        [
+          4,
+          6,
+          6,
+          6,
+          0
+        ],
+        [
+          4,
+          6,
+          4,
+          6,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          4,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          6,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          6,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          6,
+          6
+        ]
+      ],
+      "output": [
+        [
+          4,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          6,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The object with color 5 at position (1,1) to (2,2) was removed from the grid, resulting in the color 6 being introduced in the surrounding area.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "Color 5 was present in the input but not in the output, and color 6 was introduced in the area where color 5 was removed.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_colors = {cell for row in input_grid for cell in row}\n    output_colors = {cell for row in output_grid for cell in row}\n    return 5 not in input_colors and 6 in output_colors",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 38,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 6 expanded its area from position (2,2) to (4,4) in the output grid, covering new positions (1,1) to (3,3).",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The color 6 object now occupies positions that were previously occupied by color 5, indicating a movement and expansion of the object.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_positions = {(i, j) for i in range(5) for j in range(5) if input_grid[i][j] == 6}\n    output_positions = {(i, j) for i in range(5) for j in range(5) if output_grid[i][j] == 6}\n    return output_positions.issuperset(input_positions) and len(output_positions) > len(input_positions)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 41,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 4 at position (0,0) to (2,2) was retained but its area was modified to cover only the top left corner of the grid.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "The object with color 4 remains but its shape has been altered, indicating a modification rather than a complete removal.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    input_shape = [(0, 0), (1, 1), (2, 2)]  # Original shape positions\n    output_shape = [(0, 0), (1, 0), (1, 1), (2, 0), (2, 1)]  # New shape positions\n    return all(pos in output_shape for pos in input_shape) and len(output_shape) < len(input_shape)",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 37,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 6 grew in size, moving from a 3x3 area to cover an additional area, effectively merging with the previous color 5 area.",
+      "category": "Geometry",
+      "confidence": 0.85,
+      "evidence": "The area occupied by color 6 increased, indicating a spatial transformation that involved merging with the area of color 5.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_area = sum(1 for row in input_grid for cell in row if cell == 6)\n    output_area = sum(1 for row in output_grid for cell in row if cell == 6)\n    return output_area > input_area",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 34,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number of pixels occupied by color 4 in the output grid remains the same, but the arrangement of these pixels has changed.",
+      "category": "Number",
+      "confidence": 0.85,
+      "evidence": "The count of color 4 pixels is unchanged, but their positions have been altered, indicating a reorganization rather than a numerical change.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_count = sum(1 for row in input_grid for cell in row if cell == 4)\n    output_count = sum(1 for row in output_grid for cell in row if cell == 4)\n    return input_count == output_count",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 26,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 5 was completely removed, leading to a cascading effect where color 6 filled in the gaps left by color 5.",
+      "category": "Commonsense",
+      "confidence": 0.85,
+      "evidence": "The removal of color 5 allowed color 6 to occupy adjacent spaces, indicating a pattern completion based on the absence of color 5.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    input_has_5 = any(5 in row for row in input_grid)\n    output_has_6 = any(6 in row for row in output_grid)\n    return not input_has_5 and output_has_6",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 30,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Geometry"
+}

@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          7,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          7,
+          0,
+          8,
+          0
+        ],
+        [
+          1,
+          7,
+          0,
+          8,
+          0
+        ],
+        [
+          1,
+          7,
+          6,
+          0,
+          0
+        ],
+        [
+          1,
+          7,
+          6,
+          0,
+          5
+        ],
+        [
+          1,
+          0,
+          6,
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          3
+        ],
+        [
+          2,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          1,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          5,
+          3
+        ],
+        [
+          2,
+          0,
+          3,
+          5,
+          3
+        ],
+        [
+          2,
+          0,
+          3,
+          5,
+          3
+        ],
+        [
+          2,
+          0,
+          3,
+          0,
+          3
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          8,
+          8,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          6,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          8,
+          0,
+          6,
+          0
+        ],
+        [
+          8,
+          8,
+          0,
+          6,
+          0
+        ],
+        [
+          8,
+          0,
+          3,
+          6,
+          6
+        ],
+        [
+          8,
+          0,
+          3,
+          0,
+          6
+        ],
+        [
+          8,
+          0,
+          3,
+          0,
+          6
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          5,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          2,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          2,
+          4,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          5,
+          0
+        ],
+        [
+          4,
+          0,
+          4,
+          5,
+          7
+        ],
+        [
+          4,
+          0,
+          4,
+          5,
+          7
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.16666666666666666,
+    "Commonsense": 0.16666666666666666,
+    "Geometry": 0.16666666666666666,
+    "Movement": 0.16666666666666666,
+    "Number": 0.16666666666666666,
+    "Object": 0.16666666666666666
+  },
+  "predicted_categories": [
+    "Colour",
+    "Colour",
+    "Colour"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The color 7 is added to the grid in a vertical line from (0,1) to (3,1) while maintaining the original positions of other colors.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "Color 7 appears in the output grid where it was absent in the input grid, specifically in a vertical line.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return all(output_grid[i][1] == 7 for i in range(4)) and all(input_grid[i][1] != 7 for i in range(5))",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 34,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The color 8 is maintained and moved from (1,3) to (0,3) and (1,3) in a vertical line.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "Color 8 is present in both the input and output grids but is now represented in two positions vertically.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_grid, output_grid):\n    return output_grid[0][3] == 8 and output_grid[1][3] == 8 and input_grid[1][3] == 8",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 6 changes from a single pixel at (2,2) to a vertical line from (2,2) to (4,2).",
+      "category": "Geometry",
+      "confidence": 0.85,
+      "evidence": "Object 1 expands from a single pixel to a vertical line of height 3.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    return output_objects[0]['shape'] == 'vertical line' and output_objects[0]['position'] == (2,2) and output_objects[0]['height'] == 3",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 33,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 1 is expanded from a single pixel at (1,0) to a vertical line from (1,0) to (4,0).",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "Object 4 is transformed from a single pixel to a vertical line of height 4.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    return output_objects[3]['shape'] == 'vertical line' and output_objects[3]['position'] == (1,0) and output_objects[3]['height'] == 4",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 34,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 5 remains in the same position but is now part of a vertical line from (3,4) to (4,4).",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "Object 5 is unchanged in color but is now represented as part of a vertical line.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    return output_objects[4]['shape'] == 'vertical line' and output_objects[4]['position'] == (3,4) and output_objects[4]['height'] == 2",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The object with color 7 is now represented as a vertical line from (0,1) to (3,1) instead of a single pixel.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "Object 3 has transformed from a single pixel to a vertical line.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    return output_objects[2]['shape'] == 'vertical line' and output_objects[2]['position'] == (0,1) and output_objects[2]['height'] == 4",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 31,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Geometry"
+}

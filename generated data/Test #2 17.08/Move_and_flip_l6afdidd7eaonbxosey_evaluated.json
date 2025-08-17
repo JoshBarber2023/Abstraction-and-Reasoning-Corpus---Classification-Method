@@ -1,0 +1,434 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          6,
+          4,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          6,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          4,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          6,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          4,
+          3,
+          3,
+          0
+        ],
+        [
+          0,
+          2,
+          4,
+          3,
+          0
+        ],
+        [
+          0,
+          2,
+          2,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          3,
+          4,
+          2
+        ],
+        [
+          0,
+          0,
+          3,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          6,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          5,
+          6,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          4,
+          4,
+          0
+        ],
+        [
+          0,
+          6,
+          5,
+          4,
+          0
+        ],
+        [
+          0,
+          6,
+          6,
+          5,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 0.05380013571841574,
+    "Commonsense": 0.23654996607039605,
+    "Geometry": 0.23654996607039605,
+    "Movement": 4.252119516528048e-19,
+    "Number": 0.23654996607039605,
+    "Object": 0.23654996607039605
+  },
+  "predicted_categories": [
+    "Commonsense",
+    "Commonsense",
+    "Commonsense"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "The objects have been translated downwards and to the right by one position.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The original positions of the objects (0,0) to (1,1) have moved to (1,1) to (2,2) in the output grid.",
+      "prior_probability": 0.15,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_positions = [(0, 0), (1, 1)]\n    new_positions = [(1, 1), (2, 2)]\n    for original, new in zip(original_positions, new_positions):\n        if output_grid[new[0]][new[1]] != input_grid[original[0]][original[1]]:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 14,
+      "solomonoff_score": 9.072352762336484,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The arrangement of the objects has changed from a vertical alignment to a horizontal alignment.",
+      "category": "Movement",
+      "confidence": 0.85,
+      "evidence": "The original vertical arrangement of colors 6 and 4 has changed to a horizontal arrangement in the output grid.",
+      "prior_probability": 0.1,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    vertical_positions = [(0, 0), (1, 0)]\n    horizontal_positions = [(1, 1), (1, 2)]\n    for v_pos, h_pos in zip(vertical_positions, horizontal_positions):\n        if output_grid[h_pos[0]][h_pos[1]] != input_grid[v_pos[0]][v_pos[1]]:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        false
+      ],
+      "complexity": 16,
+      "solomonoff_score": 10.150344430470215,
+      "passed_all": false,
+      "pass_rate": 0.6666666666666666
+    },
+    {
+      "description": "The objects have been repositioned without any change in size or shape.",
+      "category": "Movement",
+      "confidence": 0.9,
+      "evidence": "The objects maintain their original 2x2 bounds but have moved to a new location in the grid.",
+      "prior_probability": 0.14,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    original_bounds = [(0, 0, 2, 2)]  # (x, y, width, height)\n    new_bounds = [(1, 1, 2, 2)]\n    for original, new in zip(original_bounds, new_bounds):\n        if output_grid[new[0]][new[1]] != input_grid[original[0]][original[1]]:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 15,
+      "solomonoff_score": 14.022485958141136,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "No colors have been lost or gained; the same colors are present in the output.",
+      "category": "Colour",
+      "confidence": 0.95,
+      "evidence": "Both colors 6 and 4 are present in the output grid, matching the input colors.",
+      "prior_probability": 0.2,
+      "test_code": "def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    input_colors = {6, 4}\n    output_colors = {cell for row in output_grid for cell in row if cell != 0}\n    return input_colors == output_colors",
+      "source": "ai_optimized",
+      "test_results": [
+        true,
+        false,
+        false
+      ],
+      "complexity": 17,
+      "solomonoff_score": 4.442650406490678,
+      "passed_all": false,
+      "pass_rate": 0.3333333333333333
+    },
+    {
+      "description": "The objects have not changed in shape or size, maintaining their irregular shape.",
+      "category": "Geometry",
+      "confidence": 0.9,
+      "evidence": "The shape of the objects remains irregular and occupies the same number of pixels in both input and output.",
+      "prior_probability": 0.12,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    for input_obj, output_obj in zip(input_objects, output_objects):\n        if input_obj['shape'] != output_obj['shape']:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 15,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The spatial arrangement of the objects has been altered while retaining their original colors and shapes.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "Both objects retain their original colors and shapes but are now positioned differently in the grid.",
+      "prior_probability": 0.11,
+      "test_code": "def test_hypothesis(input_objects, output_objects):\n    for input_obj, output_obj in zip(input_objects, output_objects):\n        if input_obj['colors'] != output_obj['colors'] or input_obj['shape'] != output_obj['shape']:\n            return False\n    return True",
+      "source": "ai_optimized",
+      "test_results": [
+        false,
+        false,
+        false
+      ],
+      "complexity": 17,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    }
+  ],
+  "expected_category": "Geometry"
+}
