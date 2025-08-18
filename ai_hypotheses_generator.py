@@ -147,7 +147,7 @@ Be very specific about {category.lower()} aspects. If this doesn't look like a {
 
             try:
                 response = self.client.chat.completions.create(
-                    model="gpt-4",
+                    model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": f"You are an expert in {category.lower()} transformations in visual puzzles. Focus ONLY on {category.lower()} aspects."},
                         {"role": "user", "content": category_prompt}
@@ -215,7 +215,7 @@ Make each hypothesis DISTINCTLY about {category.lower()} aspects."""
 
             try:
                 response = self.client.chat.completions.create(
-                    model="gpt-4",
+                    model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": f"Generate ONLY {category} hypotheses. Be extremely specific about {category.lower()} transformations. Return valid JSON."},
                         {"role": "user", "content": hypothesis_prompt}

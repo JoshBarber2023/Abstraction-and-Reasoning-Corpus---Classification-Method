@@ -308,12 +308,12 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 5.626751426995915e-08,
-    "Commonsense": 0.49999935051711086,
-    "Geometry": 5.626751426995915e-08,
-    "Movement": 5.626751426995915e-08,
-    "Number": 1.1301632354452534e-06,
-    "Object": 0.49999935051711086
+    "Colour": 5.06201389585336e-08,
+    "Commonsense": 0.44981614934899583,
+    "Geometry": 5.06201389585336e-08,
+    "Movement": 5.06201389585336e-08,
+    "Number": 0.44981614934899583,
+    "Object": 0.10036754944159147
   },
   "predicted_categories": [
     "Commonsense",
@@ -322,96 +322,116 @@
   ],
   "generated_hypotheses": [
     {
-      "description": "The transformation follows a numerical pattern based on counts or repetitions",
+      "description": "The number of times the key number 5 appears in the output grid is directly proportional to the position of the column in the input grid.",
       "category": "Number",
-      "confidence": 0.3,
-      "evidence": "Fallback hypothesis for Number category",
-      "prior_probability": 0.1,
-      "source": "fallback_number",
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation follows a numerical pattern based on counts or repetitions\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
+      "confidence": 0.85,
+      "evidence": "In the output grid, the number 5 appears once in the first column, twice in the second column, and three times in the third column.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number of times the key number 5 appears in the output grid is directly proportional to the position of the column in the input grid.\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
+      "source": "category_specific_number",
       "test_results": [
         true,
         true,
         true
       ],
-      "complexity": 11,
-      "solomonoff_score": 14.101437797379063,
+      "complexity": 28,
+      "solomonoff_score": 14.824923067830852,
       "passed_all": true,
       "pass_rate": 1.0
     },
     {
-      "description": "The transformation rule involves a pattern of replication and removal, where each row upwards is a replica of the row below it, but with one number removed from the left end.",
+      "description": "The count of numbers greater than 3 in each column of the output grid is equal to the position of the column in the input grid.",
+      "category": "Number",
+      "confidence": 0.75,
+      "evidence": "In the output grid, the first column has 3 numbers greater than 3, the second column has 4 numbers greater than 3, and the third column has 5 numbers greater than 3.",
+      "prior_probability": 0.25,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The count of numbers greater than 3 in each column of the output grid is equal to the position of the column in the input grid.\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
+      "source": "category_specific_number",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 28,
+      "solomonoff_score": 14.155493253887165,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The missing elements in the output grid are filled by incrementing each row and column based on the existing numbers in a consistent sequence.",
       "category": "Commonsense",
-      "confidence": 0.8,
-      "evidence": "The pattern observed in the grid is consistent with this rule, as each row upwards is a copy of the row below it, but with one less number from the left.",
-      "prior_probability": 0.15,
+      "confidence": 0.85,
+      "evidence": "Observing the input grid, the numbers in each row and column increase by a fixed value, suggesting a pattern of sequential progression.",
+      "prior_probability": 0.2,
       "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule involves a pattern of replication and removal, where each row upwards is a replica of the row below it, but with one number removed from the left end.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The missing elements in the output grid are filled by incrementing each row and column based on the existing numbers in a consistent sequence.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
       "source": "category_specific_commonsense",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 26,
+      "solomonoff_score": 14.602599451369283,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The missing elements in the output grid are determined by identifying and extending number sequences present in the input grid.",
+      "category": "Commonsense",
+      "confidence": 0.75,
+      "evidence": "Noticing that certain rows or columns in the input grid contain consecutive numbers, implying a trend of continuing sequences.",
+      "prior_probability": 0.25,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The missing elements in the output grid are determined by identifying and extending number sequences present in the input grid.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
+      "source": "category_specific_commonsense",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 21,
+      "solomonoff_score": 13.292447876531,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Each object in the grid splits into two separate objects, with one object moving to the right and the other to the left within its row, resulting in a mirror image arrangement.",
+      "category": "Object",
+      "confidence": 0.7,
+      "evidence": "Observing the input grid, the objects split into two distinct parts, with one part moving right and the other left within the row.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Each object in the grid splits into two separate objects, with one object moving to the right and the other to the left within its row, resulting in a mirror image arrangement.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true
+      ],
+      "complexity": 35,
+      "solomonoff_score": 15.494352671775136,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Each object in the grid duplicates itself, with the original object moving to the right and the duplicate moving to the left within its row, maintaining the original object's properties.",
+      "category": "Object",
+      "confidence": 0.75,
+      "evidence": "By examining the input grid, each object creates an identical duplicate that shifts to the left while the original object moves to the right.",
+      "prior_probability": 0.25,
+      "specificity_score": 0.88,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Each object in the grid duplicates itself, with the original object moving to the right and the duplicate moving to the left within its row, maintaining the original object's properties.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
       "test_results": [
         true,
         true,
         true
       ],
       "complexity": 34,
-      "solomonoff_score": 16.270434728513834,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "The transformation rule is based on a simple logical progression, where the numbers from the bottom row are gradually filling the grid from bottom to top, following a specific pattern of replication and removal.",
-      "category": "Commonsense",
-      "confidence": 0.8,
-      "evidence": "The pattern observed in the grid supports this rule, as the numbers are gradually filling the grid from bottom to top, with each row replicating the one below it, but with one less number from the left.",
-      "prior_probability": 0.15,
-      "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The transformation rule is based on a simple logical progression, where the numbers from the bottom row are gradually filling the grid from bottom to top, following a specific pattern of replication and removal.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
-      "source": "category_specific_commonsense",
-      "test_results": [
-        true,
-        true,
-        true
-      ],
-      "complexity": 37,
-      "solomonoff_score": 16.524106292599445,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "Each object in the bottom row is moved upwards by a number of rows equal to its value minus 2, except for the number 5 which is duplicated in every row above its original position, and the number 6 which remains stationary. This rule applies to objects that are numbers and positioned in the bottom row of a grid.",
-      "category": "Object",
-      "confidence": 0.8,
-      "evidence": "The numbers 1, 2, 3, 5, and 6, initially positioned in the bottom row of the input grid, have been moved upwards in the output grid. The number 1 has moved up three rows, the number 2 has moved up two rows, the number 3 has moved up one row, and the number 5 has been duplicated three times upwards. The number 6 remains in its original position.",
-      "prior_probability": 0.15,
-      "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Each object in the bottom row is moved upwards by a number of rows equal to its value minus 2, except for the number 5 which is duplicated in every row above its original position, and the number 6 which remains stationary. This rule applies to objects that are numbers and positioned in the bottom row of a grid.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
-      "source": "category_specific_object",
-      "test_results": [
-        true,
-        true,
-        true
-      ],
-      "complexity": 66,
-      "solomonoff_score": 18.26031098076596,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "Objects that are numbers and positioned in the bottom row of a grid are either moved, duplicated or remain stationary based on their value. If the value is 1, the object moves up three rows. If the value is 2, the object moves up two rows. If the value is 3, the object moves up one row. If the value is 5, the object is duplicated in every row above its original position. If the value is 6, the object remains stationary.",
-      "category": "Object",
-      "confidence": 0.8,
-      "evidence": "The numbers 1, 2, 3, 5, and 6, initially positioned in the bottom row of the input grid, have been moved upwards in the output grid. The number 1 has moved up three rows, the number 2 has moved up two rows, the number 3 has moved up one row, and the number 5 has been duplicated three times upwards. The number 6 remains in its original position.",
-      "prior_probability": 0.15,
-      "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects that are numbers and positioned in the bottom row of a grid are either moved, duplicated or remain stationary based on their value. If the value is 1, the object moves up three rows. If the value is 2, the object moves up two rows. If the value is 3, the object moves up one row. If the value is 5, the object is duplicated in every row above its original position. If the value is 6, the object remains stationary.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
-      "source": "category_specific_object",
-      "test_results": [
-        true,
-        true,
-        true
-      ],
-      "complexity": 99,
-      "solomonoff_score": 19.476699705126755,
+      "solomonoff_score": 14.73796057721093,
       "passed_all": true,
       "pass_rate": 1.0
     }

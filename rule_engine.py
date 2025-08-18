@@ -81,7 +81,7 @@ class HybridRuleEngine:
     def generate_problem_interpretation(self, hypotheses: List[Dict[str, Any]], task_name: str) -> str:
         """
         Generate a plain-language interpretation of what the problem is doing
-        based on the generated hypotheses
+        by sending all hypotheses to ChatGPT for analysis
         """
         if not hypotheses:
             return "Unable to determine what this problem is doing - no hypotheses generated."
@@ -89,83 +89,97 @@ class HybridRuleEngine:
         # Sort hypotheses by performance (pass rate, then confidence)
         sorted_hyps = sorted(hypotheses, key=lambda x: (-x.get('pass_rate', 0), -x.get('confidence', 0)))
         
-        # Get the best performing hypotheses
-        best_hyps = [h for h in sorted_hyps if h.get('pass_rate', 0) > 0.5]  # At least 50% pass rate
+        # Prepare hypotheses data for ChatGPT
+        hypotheses_summary = []
+        for i, hyp in enumerate(sorted_hyps):
+            hyp_data = {
+                'rank': i + 1,
+                'category': hyp.get('category', 'Unknown'),
+                'description': hyp.get('description', ''),
+                'confidence': hyp.get('confidence', 0),
+                'pass_rate': hyp.get('pass_rate', 0),
+                'passed_all_training': hyp.get('passed_all', False),
+                'evidence': hyp.get('evidence', ''),
+                'test_results': hyp.get('test_results', [])
+            }
+            hypotheses_summary.append(hyp_data)
         
-        if not best_hyps:
-            # If no good hypotheses, use the best we have
-            best_hyps = sorted_hyps[:3]
+        # Create prompt for ChatGPT
+        prompt = f"""I have an ARC (Abstraction and Reasoning Corpus) puzzle task called "{task_name}" and I've generated {len(hypotheses)} different hypotheses about what transformation rule this puzzle follows.
+
+    Please analyze these hypotheses and provide a clear, concise interpretation of what you think this puzzle is actually doing. Focus on:
+    1. What is the core transformation or pattern?
+    2. What are the key elements being modified?
+    3. How confident should we be in this interpretation?
+
+    Here are the hypotheses ranked by performance:
+
+    """
         
-        # Analyze patterns in the best hypotheses
-        common_themes = []
-        transformation_patterns = []
-        
-        for hyp in best_hyps:
-            desc = hyp.get('description', '').lower()
+        # Add each hypothesis to the prompt
+        for hyp in hypotheses_summary:
+            success_rate = f"{hyp['pass_rate']*100:.0f}%" if hyp['pass_rate'] > 0 else "0%"
+            status = "✓ PASSED ALL" if hyp['passed_all_training'] else f"✗ {success_rate} success"
             
-            # Extract key transformation patterns
-            if 'replace' in desc or 'change' in desc or 'transform' in desc:
-                transformation_patterns.append(hyp['description'])
+            prompt += f"""
+    Hypothesis #{hyp['rank']} [{hyp['category']}] - {status}
+    Description: {hyp['description']}
+    Confidence: {hyp['confidence']:.2f}
+    Evidence: {hyp['evidence']}
+    Training Results: {hyp['test_results']}
+    ---"""
+        
+        prompt += f"""
+
+    Based on this analysis, please provide:
+
+    1. **Most Likely Explanation**: What do you think this puzzle is actually doing? (2-3 sentences)
+    2. **Key Pattern**: What is the core transformation rule? (1-2 sentences)  
+    3. **Confidence Level**: How confident are you in this interpretation? (High/Medium/Low and why)
+    4. **Category**: Which category best fits this puzzle? (Colour, Commonsense, Geometry, Movement, Number, Object)
+
+    Please be concise and focus on the most probable explanation based on the hypothesis performance."""
+
+        try:
+            # Use the existing hypothesis generator's API connection
+            response = self.hypothesis_generator.client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are an expert at analyzing ARC puzzles and understanding transformation patterns. Provide clear, concise interpretations based on the provided hypotheses."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=500,
+                temperature=0.3
+            )
             
-            # Look for spatial patterns
-            if 'surround' in desc:
-                common_themes.append("spatial_surrounding")
-            if 'pattern' in desc:
-                common_themes.append("pattern_matching")
-            if 'sequence' in desc:
-                common_themes.append("sequence_completion")
-            if 'object' in desc:
-                common_themes.append("object_modification")
-            if 'colour' in desc or 'color' in desc:
-                common_themes.append("color_change")
-        
-        # Generate interpretation based on best hypothesis
-        best_hyp = best_hyps[0] if best_hyps else sorted_hyps[0]
-        
-        # Create a plain-language summary
-        interpretation = f"🔍 **Problem Analysis for {task_name}:**\n\n"
-        
-        if best_hyp.get('pass_rate', 0) >= 0.8:
-            confidence_level = "High confidence"
-        elif best_hyp.get('pass_rate', 0) >= 0.6:
-            confidence_level = "Medium confidence"
-        else:
-            confidence_level = "Low confidence"
+            interpretation = response.choices[0].message.content
             
-        interpretation += f"**{confidence_level}** - This problem appears to be doing the following:\n\n"
-        
-        # Simplify the best hypothesis description
-        best_desc = best_hyp.get('description', '')
-        
-        # Try to extract the core transformation
-        if 'zero' in best_desc.lower() and 'eight' in best_desc.lower() and 'nine' in best_desc.lower():
-            interpretation += "**Core Behavior:** Replace the value `0` with `8` when it is horizontally surrounded by `9`s (i.e., 9-0-9 pattern)."
-        elif 'replace' in best_desc.lower():
-            interpretation += f"**Core Behavior:** {best_desc}"
-        else:
-            interpretation += f"**Core Behavior:** {best_desc}"
+            # Format the response nicely
+            formatted_interpretation = f"🔍 **Problem Analysis for {task_name}:**\n\n"
+            formatted_interpretation += interpretation
+            formatted_interpretation += f"\n\n**Analysis based on {len(hypotheses)} AI-generated hypotheses**"
+            formatted_interpretation += f"\n**Generated at:** {time.strftime('%Y-%m-%d %H:%M:%S')}"
             
-        # Add category information
-        best_category = best_hyp.get('category', 'Unknown')
-        interpretation += f"\n\n**Category:** {best_category}"
-        
-        # Add pass rate info
-        pass_rate = best_hyp.get('pass_rate', 0) * 100
-        interpretation += f"\n**Success Rate:** {pass_rate:.0f}% on training examples"
-        
-        # Add evidence if available
-        evidence = best_hyp.get('evidence', '')
-        if evidence:
-            interpretation += f"\n**Evidence:** {evidence}"
-        
-        # Add alternative interpretations if multiple good hypotheses exist
-        if len(best_hyps) > 1:
-            interpretation += f"\n\n**Alternative interpretations:**"
-            for i, alt_hyp in enumerate(best_hyps[1:3], 2):  # Show up to 2 alternatives
-                alt_desc = alt_hyp.get('description', '')[:100] + "..." if len(alt_hyp.get('description', '')) > 100 else alt_hyp.get('description', '')
-                interpretation += f"\n{i}. [{alt_hyp.get('category', 'Unknown')}] {alt_desc}"
-        
-        return interpretation
+            return formatted_interpretation
+            
+        except Exception as e:
+            print(f"Error generating ChatGPT interpretation: {str(e)}")
+            
+            # Fallback to best hypothesis if ChatGPT fails
+            if hypotheses:
+                best_hyp = sorted_hyps[0]
+                pass_rate = best_hyp.get('pass_rate', 0) * 100
+                
+                fallback_interpretation = f"🔍 **Problem Analysis for {task_name}:**\n\n"
+                fallback_interpretation += f"**Best Hypothesis** (ChatGPT unavailable):\n"
+                fallback_interpretation += f"**Description:** {best_hyp.get('description', '')}\n"
+                fallback_interpretation += f"**Category:** {best_hyp.get('category', 'Unknown')}\n"
+                fallback_interpretation += f"**Success Rate:** {pass_rate:.0f}% on training examples\n"
+                fallback_interpretation += f"**Evidence:** {best_hyp.get('evidence', 'N/A')}"
+                
+                return fallback_interpretation
+            else:
+                return "Unable to generate interpretation - no hypotheses available and ChatGPT unavailable."
 
     def generate_and_evaluate_hypotheses(self, task: Dict[str, Any], task_name: str = None) -> Tuple[List[Dict[str, Any]], Dict[str, float]]:
         """Generate AI hypotheses and evaluate them like your original approach"""
@@ -610,16 +624,15 @@ class HybridRuleEngine:
                 print("-" * 50)
                 interpretation_data = self.problem_interpretations[task_name]
                 
-                # Show plain text interpretation
-                plain_interpretation = interpretation_data.get('plain_text_interpretation', 'No interpretation available')
-                print(plain_interpretation)
+                # Show the full interpretation
+                full_interpretation = interpretation_data.get('interpretation', 'No interpretation available')
+                print(full_interpretation)
                 
                 # Show confidence metrics
-                metrics = interpretation_data.get('confidence_metrics', {})
                 print(f"\n📊 Analysis Confidence:")
-                print(f"  • Generated from {metrics.get('num_hypotheses', 0)} hypotheses")
-                print(f"  • Best hypothesis passed {metrics.get('best_pass_rate', 0)*100:.0f}% of training examples")
-                print(f"  • Primary category: {metrics.get('best_category', 'Unknown')}")
+                print(f"  • Generated from {interpretation_data.get('num_hypotheses', 0)} hypotheses")
+                print(f"  • Best hypothesis passed {interpretation_data.get('best_pass_rate', 0)*100:.0f}% of training examples")
+                print(f"  • Primary category: {interpretation_data.get('best_category', 'Unknown')}")
             else:
                 print(f"\n🤖 WHAT I THINK IS HAPPENING:")
                 print("-" * 50)
@@ -666,15 +679,38 @@ class HybridRuleEngine:
                     avg_pass_rate = np.mean([h.get('pass_rate', 0) for h in cat_hyps])
                     print(f"{cat:12}: {len(cat_hyps)} hyps | {passed_all} perfect | {avg_pass_rate:.2f} avg pass rate")
 
-            # Visualize the grids
+            # Visualize the grids with object numbers
             try:
                 pairs = [(np.array(pair["input"]), np.array(pair["output"])) for pair in task["train"]]
+                
+                # Enhanced visualization with object numbers
                 compare_multiple_pairs(
                     pairs, 
                     task_id=task_name, 
                     predicted_categories=predicted_categories,
-                    expected_category=expected_category
+                    expected_category=expected_category,
+                    show_object_numbers=True  # Show object numbers on grids
                 )
+
+                # Optional: Show a separate legend for object meanings
+                if pairs:
+                    # Create legend based on all unique values from all pairs
+                    all_values = set()
+                    for inp, out in pairs:
+                        all_values.update(inp.flatten())
+                        all_values.update(out.flatten())
+                    
+                    if len(all_values) <= 15:  # Only show legend if not too many unique values
+                        plt.figure(figsize=(4, max(3, len(all_values) * 0.3)))
+                        legend_text = "🔢 Object Number Legend:\n\n"
+                        for val in sorted(all_values):
+                            legend_text += f"   {int(val)} = Object {int(val)}\n"
+                        
+                        plt.text(0.1, 0.95, legend_text, 
+                                fontsize=11, verticalalignment='top',
+                                bbox=dict(boxstyle="round,pad=0.5", facecolor="lightblue", alpha=0.8))
+                        plt.title(f"Object Reference for {task_name}", fontsize=12, pad=20)
+                        plt.axis('off')
 
                 # Show category scores plot
                 try:
@@ -683,7 +719,7 @@ class HybridRuleEngine:
                         with open(scores_path, "r") as f:
                             self.category_scores = json.load(f)
                             
-                        score_dict = self.category_scores.get(task_name, {}).get('scores', {})
+                        score_dict = self.category_scores.get(task_name, {})
                         if score_dict:
                             plot_solomonoff_scores(score_dict)
                             
@@ -698,6 +734,8 @@ class HybridRuleEngine:
                     
             except Exception as e:
                 print(f"Visualization error: {e}")
+                import traceback
+                traceback.print_exc()
 
     def analyze_errors(self):
         """Analyze common error patterns to improve the system"""
@@ -876,3 +914,106 @@ class HybridRuleEngine:
         
         print(f"✅ Clean interpretations summary saved to: {summary_path.resolve()}")
         return summary_path
+    
+    def generate_interpretations_from_existing_data(self):
+        """
+        Generate problem interpretations using existing hypothesis data
+        without rerunning the entire engine
+        """
+        # Check if hypotheses file exists
+        hypotheses_path = self.output_folder / "generated_hypotheses.json"
+        
+        if not hypotheses_path.exists():
+            print("❌ No existing hypothesis data found. You need to run the engine first.")
+            return False
+        
+        print("📚 Loading existing hypothesis data...")
+        with open(hypotheses_path) as f:
+            all_hypotheses = json.load(f)
+        
+        print(f"✅ Found hypothesis data for {len(all_hypotheses)} tasks")
+        
+        # Generate interpretations for each task
+        print("🤖 Generating AI interpretations from existing hypotheses...")
+        
+        interpretations_generated = 0
+        
+        for task_name, hypotheses in all_hypotheses.items():
+            if not hypotheses:  # Skip tasks with no hypotheses
+                continue
+                
+            try:
+                print(f"   🔄 Generating interpretation for {task_name}...")
+                
+                # Generate interpretation using ChatGPT
+                interpretation = self.generate_problem_interpretation(hypotheses, task_name)
+                
+                # Store interpretation
+                self.problem_interpretations[task_name] = {
+                    'interpretation': interpretation,
+                    'generated_at': time.strftime('%Y-%m-%d %H:%M:%S'),
+                    'num_hypotheses': len(hypotheses),
+                    'best_pass_rate': max([h.get('pass_rate', 0) for h in hypotheses]) if hypotheses else 0,
+                    'best_category': max(hypotheses, key=lambda x: x.get('pass_rate', 0)).get('category', 'Unknown') if hypotheses else 'Unknown'
+                }
+                
+                interpretations_generated += 1
+                
+                # Small delay to respect rate limits
+                time.sleep(0.5)
+                
+            except Exception as e:
+                print(f"   ❌ Error generating interpretation for {task_name}: {str(e)}")
+                continue
+        
+        # Save all interpretations
+        if interpretations_generated > 0:
+            interpretations_file = self.save_problem_interpretations()
+            summary_file = self.export_interpretations_summary()
+            
+            print(f"✅ Generated {interpretations_generated} interpretations!")
+            print(f"📁 Saved to: {interpretations_file}")
+            print(f"📁 Summary: {summary_file}")
+            
+            return True
+        else:
+            print("❌ No interpretations could be generated.")
+            return False
+
+    # Also add this convenience function to the main script
+    def generate_interpretations_only():
+        """Standalone function to generate interpretations from existing data"""
+        import os
+        # Set your OpenAI API key
+        openai_api_key = os.getenv("OPENAI_API_KEY", None)
+        
+        if not openai_api_key:
+            print("⚠️ Warning: No OpenAI API key found. Set OPENAI_API_KEY environment variable.")
+            return False
+        
+        # Paths  
+        arc_folder = "./MINI-ARC/data/MiniARC"
+        data_folder = r"./generated data/Test #3 17.08"
+        
+        # Initialize engine (lightweight - just for interpretation generation)
+        engine = HybridRuleEngine(
+            arc_folder, 
+            data_folder, 
+            openai_api_key,
+            max_concurrent_requests=2,
+            rpm_limit=150
+        )
+        
+        # Generate interpretations from existing hypothesis data
+        success = engine.generate_interpretations_from_existing_data()
+        
+        if success:
+            print("\n🧠 Viewing generated interpretations:")
+            engine.view_interpretations()
+            
+            print("\n💡 You can now use:")
+            print("  - engine.view_interpretations() to see all interpretations")
+            print("  - engine.view_interpretations('task_name.json') to see specific task")
+            print(f"  - Check {data_folder}/interpretations_summary.json for clean summaries")
+        
+        return success

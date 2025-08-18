@@ -1,0 +1,689 @@
+{
+  "train": [
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          6,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          6,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          6,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          6,
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          7,
+          0,
+          7,
+          0,
+          7
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        [
+          7,
+          0,
+          7,
+          0,
+          7
+        ],
+        [
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      ],
+      "output": [
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          3,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          3,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          3,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "input": [
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "output": [
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "test": [
+    {
+      "input": [
+        [
+          8,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          8,
+          0,
+          0,
+          0,
+          8
+        ],
+        [
+          0,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          8,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ]
+      ],
+      "output": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "predicted_scores": {
+    "Colour": 1.1253510211244061e-07,
+    "Commonsense": 1.1253510211244061e-07,
+    "Geometry": 1.1253510211244061e-07,
+    "Movement": 1.1253510211244061e-07,
+    "Number": 1.9505180535240332e-07,
+    "Object": 0.9999993548077862
+  },
+  "predicted_categories": [
+    "Object",
+    "Object",
+    "Object",
+    "Object",
+    "Object",
+    "Object"
+  ],
+  "generated_hypotheses": [
+    {
+      "description": "All instances of the original colour (0) are replaced with a darker shade of blue (e.g., RGB 0, 0, 100) in the output grid.",
+      "category": "Colour",
+      "confidence": 0.85,
+      "evidence": "Observing the consistent change of original colour (0) to the darker blue shade in multiple grid examples.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # All instances of the original colour (0) are replaced with a darker shade of blue (e.g., RGB 0, 0, 100) in the output grid.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
+      "source": "category_specific_colour",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 36,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The original colour (0) is transformed into a gradient of colours ranging from red to yellow based on its position in the grid, with the top-left corner becoming red (e.g., RGB 255, 0, 0) and transitioning to yellow (e.g., RGB 255, 255, 0) at the bottom-right corner.",
+      "category": "Colour",
+      "confidence": 0.75,
+      "evidence": "Examining the systematic shift of original colour (0) to the gradient of red to yellow in various grid layouts.",
+      "prior_probability": 0.25,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The original colour (0) is transformed into a gradient of colours ranging from red to yellow based on its position in the grid, with the top-left corner becoming red (e.g., RGB 255, 0, 0) and transitioning to yellow (e.g., RGB 255, 255, 0) at the bottom-right corner.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
+      "source": "category_specific_colour",
+      "test_results": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 71,
+      "solomonoff_score": -0.0,
+      "passed_all": false,
+      "pass_rate": 0.0
+    },
+    {
+      "description": "The number '2' splits into two separate objects: '5' and '0', where '5' surrounds '0' in a 3x3 grid.",
+      "category": "Object",
+      "confidence": 0.85,
+      "evidence": "In the transformation, the '2' object is no longer a single entity but has separated into '5' and '0' objects forming a specific pattern.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number '2' splits into two separate objects: '5' and '0', where '5' surrounds '0' in a 3x3 grid.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 34,
+      "solomonoff_score": 30.81478042231024,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "The number '2' duplicates itself, creating a mirrored object of '2' that transforms into a pattern where '5' surrounds '0' in a 3x3 grid.",
+      "category": "Object",
+      "confidence": 0.75,
+      "evidence": "Observing the transformation, a duplicated '2' object appears and then transforms into the '5' surrounding '0' pattern.",
+      "prior_probability": 0.25,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number '2' duplicates itself, creating a mirrored object of '2' that transforms into a pattern where '5' surrounds '0' in a 3x3 grid.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "category_specific_object",
+      "test_results": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 37,
+      "solomonoff_score": 29.983264762591258,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Each occurrence of number 2 in the input grid is replaced by the number 5 in the output grid.",
+      "category": "Number",
+      "confidence": 0.85,
+      "evidence": "The number 2 in the input grid is consistently transformed into the number 5 in the output grid.",
+      "prior_probability": 0.2,
+      "specificity_score": 0.9,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Each occurrence of number 2 in the input grid is replaced by the number 5 in the output grid.\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
+      "source": "category_specific_number",
+      "test_results": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 22,
+      "solomonoff_score": 9.400958531586042,
+      "passed_all": false,
+      "pass_rate": 0.3333333333333333
+    },
+    {
+      "description": "Any 0 adjacent to a 2 in the input grid is replaced by the number 5 in the output grid; otherwise, it remains as 0.",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "The number 0 in the input grid changes to 5 only when it is next to a 2 in the input grid.",
+      "prior_probability": 0.25,
+      "specificity_score": 0.85,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Any 0 adjacent to a 2 in the input grid is replaced by the number 5 in the output grid; otherwise, it remains as 0.\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
+      "source": "category_specific_number",
+      "test_results": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "complexity": 32,
+      "solomonoff_score": 9.704057967840873,
+      "passed_all": false,
+      "pass_rate": 0.3333333333333333
+    }
+  ],
+  "expected_category": "Number"
+}
