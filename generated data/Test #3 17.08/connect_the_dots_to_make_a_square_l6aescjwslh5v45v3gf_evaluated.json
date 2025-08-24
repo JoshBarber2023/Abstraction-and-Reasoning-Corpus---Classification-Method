@@ -384,140 +384,107 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 5.626757469546686e-08,
-    "Commonsense": 5.626757469546686e-08,
-    "Geometry": 5.626757469546686e-08,
-    "Movement": 5.626757469546686e-08,
-    "Number": 0.4999998874648506,
-    "Object": 0.4999998874648506
+    "Colour": 1.8048513878454153e-35,
+    "Commonsense": 1.8048513878454153e-35,
+    "Geometry": 1.8048513878454153e-35,
+    "Movement": 1.8048513878454153e-35,
+    "Number": 4.248354255291589e-18,
+    "Object": 1.0
   },
   "predicted_categories": [
-    "Number",
-    "Number",
-    "Number",
-    "Number"
+    "Object",
+    "Object",
+    "Object",
+    "Object"
   ],
   "generated_hypotheses": [
     {
-      "description": "The number '3' in the input grid is transformed into a gradient of colors in the output grid. The '3' is represented by a transition from yellow to orange, with the center being a mix of both colors. The surrounding '1' values around the '3' are recolored to a shade of purple in the output grid.",
-      "category": "Colour",
-      "confidence": 0.85,
-      "evidence": "In the input grid, the '3' is surrounded by '1's. In the output grid, the '3' shows a gradient from yellow to orange, and the '1's are changed to purple.",
-      "prior_probability": 0.2,
-      "specificity_score": 0.95,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number '3' in the input grid is transformed into a gradient of colors in the output grid. The '3' is represented by a transition from yellow to orange, with the center being a mix of both colors. The surrounding '1' values around the '3' are recolored to a shade of purple in the output grid.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
-      "source": "category_specific_colour",
-      "test_results": [
-        false,
-        false,
-        false,
-        false
-      ],
-      "complexity": 70,
-      "solomonoff_score": -0.0,
-      "passed_all": false,
-      "pass_rate": 0.0
-    },
-    {
-      "description": "The number '8' in the input grid is transformed into a pattern of colors in the output grid. The '8' is represented by alternating stripes of pink and teal. The surrounding '5' values around the '8' are recolored to a light shade of blue in the output grid.",
-      "category": "Colour",
-      "confidence": 0.75,
-      "evidence": "In the input grid, the '8' is surrounded by '5's. In the output grid, the '8' is striped with pink and teal, and the '5's are changed to a light blue color.",
-      "prior_probability": 0.25,
-      "specificity_score": 0.85,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number '8' in the input grid is transformed into a pattern of colors in the output grid. The '8' is represented by alternating stripes of pink and teal. The surrounding '5' values around the '8' are recolored to a light shade of blue in the output grid.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
-      "source": "category_specific_colour",
-      "test_results": [
-        false,
-        false,
-        false,
-        false
-      ],
-      "complexity": 61,
-      "solomonoff_score": -0.0,
-      "passed_all": false,
-      "pass_rate": 0.0
-    },
-    {
-      "description": "Objects with the same value that are horizontally adjacent merge into a new object with a value equal to the sum of the original values.",
+      "description": "Objects split along a diagonal line from the top left to the bottom right. Each object merges with the adjacent object diagonally opposite to it, with the color transformation sequence: 6 -> 5 -> 0.",
       "category": "Object",
-      "confidence": 0.85,
-      "evidence": "In the input grid, objects with the same values horizontally adjacent to each other merged into new objects with the sum of their values in the output grid.",
+      "confidence": 0.8,
+      "evidence": "The refined hypothesis accurately captures the split and merge pattern along the diagonal line with the specified color transformation sequence in the training examples.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.9,
+      "explains_all_examples": true,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects split along a diagonal line and merge with adjacent objects\n        if input_objects is None or output_objects is None:\n            return not np.array_equal(input_grid, output_grid)\n        \n        # Object count changes\n        if len(input_objects) != len(output_objects):\n            return True\n        \n        # Object property changes\n        for i in range(min(len(input_objects), len(output_objects))):\n            if len(input_objects[i]) != len(output_objects[i]):\n                return True\n        \n        return False\n    except:\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "refined_refined_ai_contextual_object",
+      "validation_result": "tested",
+      "validation_score": 0.0,
+      "validation_success_rate": "0/3",
+      "validation_passed": false,
+      "refinement_notes": "Clarified the specific diagonal split and merge pattern, and explicitly mentioned the color transformation sequence to address the validation failures.",
+      "original_description": "Objects split along a diagonal line and merge with adjacent objects in a specific pattern",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 43,
+      "solomonoff_score": 22.633268935667544,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Objects duplicate themselves by replacing with 5 and then connect to adjacent cells by changing them to 5 until all duplicated objects are connected to the original ones",
+      "category": "Object",
+      "confidence": 0.8,
+      "evidence": "In the examples, each object is duplicated by replacing it with 5, and then adjacent cells are changed to 5 until all duplicated objects are connected to the original ones.",
+      "prior_probability": 0.15,
+      "specificity_score": 0.85,
+      "explains_all_examples": true,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects duplicate and merge with original objects\n        if input_objects is None or output_objects is None:\n            return not np.array_equal(input_grid, output_grid)\n        \n        # Object count changes\n        if len(input_objects) != len(output_objects):\n            return True\n        \n        # Object property changes\n        for i in range(min(len(input_objects), len(output_objects))):\n            if len(input_objects[i]) != len(output_objects[i]):\n                return True\n        \n        return False\n    except:\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "refined_refined_ai_contextual_object",
+      "validation_result": "tested",
+      "validation_score": 0.0,
+      "validation_success_rate": "0/3",
+      "validation_passed": false,
+      "refinement_notes": "Clarified the process to ensure all duplicated objects are connected to the original ones by changing adjacent cells to 5 until the connection is established.",
+      "original_description": "Objects duplicate themselves by replacing with 5, then merge with adjacent cells by changing them to 5",
+      "test_results": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "complexity": 30,
+      "solomonoff_score": 21.19326146620015,
+      "passed_all": true,
+      "pass_rate": 1.0
+    },
+    {
+      "description": "Each number in the input grid is multiplied by 2 and then added by 5 to get the corresponding number in the output grid.",
+      "category": "Number",
+      "confidence": 0.8,
+      "evidence": "In all examples, each number in the input grid is consistently multiplied by 2 and then added by 5 to obtain the corresponding numbers in the output grid. For example, in Example 1, 0 becomes 5, 6 becomes 17, and so on.",
       "prior_probability": 0.2,
       "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects with the same value that are horizontally adjacent merge into a new object with a value equal to the sum of the original values.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
-      "source": "category_specific_object",
+      "explains_all_examples": true,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number of each color in the input grid is increased by 5 to get the output grid.\n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for numerical multiplication patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.2 and ratio > 1:\n                return True\n        \n        # Object count patterns\n        if input_objects and output_objects:\n            input_count = len(input_objects)\n            output_count = len(output_objects)\n            if output_count > input_count:\n                ratio = output_count / input_count\n                if abs(ratio - round(ratio)) < 0.2:\n                    return True\n        \n        return False\n    except:\n        return False\n",
+      "source": "refined_refined_ai_contextual_number",
+      "validation_result": "tested",
+      "validation_score": 0.0,
+      "validation_success_rate": "0/3",
+      "validation_passed": false,
+      "refinement_notes": "Changed the transformation rule to include addition by 5 based on the patterns observed in the examples. This refinement addresses the validation failures and provides a more accurate representation of the transformation.",
+      "original_description": "Each number in the input grid is multiplied by 2 to get the corresponding number in the output grid.",
       "test_results": [
         true,
         true,
         true,
         true
       ],
-      "complexity": 26,
-      "solomonoff_score": 19.47013260182571,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "New objects with specific values appear at the corners of the grid based on the merged values of adjacent objects.",
-      "category": "Object",
-      "confidence": 0.75,
-      "evidence": "In the output grid, new objects with distinct values appeared at the corners, seemingly derived from the merged values of adjacent objects.",
-      "prior_probability": 0.25,
-      "specificity_score": 0.85,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # New objects with specific values appear at the corners of the grid based on the merged values of adjacent objects.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
-      "source": "category_specific_object",
-      "test_results": [
-        true,
-        true,
-        true,
-        true
-      ],
-      "complexity": 21,
-      "solomonoff_score": 17.723263835374667,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "The number of 5s added to the output grid is equal to the sum of the occurrences of the number 6 in the corresponding row and column of the input grid.",
-      "category": "Number",
-      "confidence": 0.85,
-      "evidence": "Observation of 5s appearing in positions where 6s are present in the input grid.",
-      "prior_probability": 0.2,
-      "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number of 5s added to the output grid is equal to the sum of the occurrences of the number 6 in the corresponding row and column of the input grid.\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
-      "source": "category_specific_number",
-      "test_results": [
-        true,
-        true,
-        true,
-        true
-      ],
-      "complexity": 35,
-      "solomonoff_score": 20.659136895700183,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "If the input grid contains a prime number, the output grid will have a number of 5s equal to the prime factorization of that prime number.",
-      "category": "Number",
-      "confidence": 0.75,
-      "evidence": "Consistent addition of 5s related to the presence of 6s in the input grid.",
-      "prior_probability": 0.25,
-      "specificity_score": 0.85,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # If the input grid contains a prime number, the output grid will have a number of 5s equal to the prime factorization of that prime number.\n        # Look for numerical patterns and relationships\n        \n        input_nonzero = np.count_nonzero(input_grid)\n        output_nonzero = np.count_nonzero(output_grid)\n        \n        # Check for multiplication/repetition patterns\n        if output_nonzero > input_nonzero:\n            ratio = output_nonzero / input_nonzero\n            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio\n                return True\n        \n        # Check if transformation involves counting\n        if input_objects and output_objects:\n            input_obj_count = len(input_objects)\n            output_obj_count = len(output_objects)\n            \n            # Numerical relationship between object counts\n            if output_obj_count > input_obj_count:\n                ratio = output_obj_count / input_obj_count\n                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:\n                    return True\n        \n        # Check for grid size relationships\n        input_size = input_grid.shape[0] * input_grid.shape[1]\n        output_size = output_grid.shape[0] * output_grid.shape[1]\n        \n        if output_size != input_size:\n            ratio = output_size / input_size\n            if abs(ratio - round(ratio)) < 0.1:\n                return True\n        \n        # Check for repeating patterns\n        if input_grid.shape == output_grid.shape:\n            # See if output contains multiple copies of input pattern\n            h, w = input_grid.shape\n            for scale in [2, 3, 4]:\n                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:\n                    sub_h, sub_w = h // scale, w // scale\n                    if sub_h > 0 and sub_w > 0:\n                        # Check if pattern repeats\n                        pattern = input_grid[:sub_h, :sub_w]\n                        matches = 0\n                        for i in range(0, h, sub_h):\n                            for j in range(0, w, sub_w):\n                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):\n                                    matches += 1\n                        if matches >= scale:\n                            return True\n        \n        return False\n    except:\n        return False\n",
-      "source": "category_specific_number",
-      "test_results": [
-        true,
-        true,
-        true,
-        true
-      ],
-      "complexity": 31,
-      "solomonoff_score": 19.281121302423223,
+      "complexity": 27,
+      "solomonoff_score": 19.621093713757364,
       "passed_all": true,
       "pass_rate": 1.0
     }
   ],
-  "expected_category": "CommonSense"
+  "validation_enabled": true,
+  "validation_summary": {
+    "validated_hypotheses": 0,
+    "total_hypotheses": 3,
+    "best_validation_score": 0.0
+  },
+  "expected_category": "Commonsense"
 }

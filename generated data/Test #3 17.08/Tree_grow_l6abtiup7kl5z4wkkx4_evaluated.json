@@ -308,12 +308,12 @@
     }
   ],
   "predicted_scores": {
-    "Colour": 3.734054145577708e-08,
-    "Commonsense": 0.33181217827164106,
-    "Geometry": 3.734054145577708e-08,
-    "Movement": 3.734054145577708e-08,
-    "Number": 3.734054145577708e-08,
-    "Object": 0.6681876723661931
+    "Colour": 1.8048513878454153e-35,
+    "Commonsense": 4.248354255291589e-18,
+    "Geometry": 1.8048513878454153e-35,
+    "Movement": 1.8048513878454153e-35,
+    "Number": 1.8048513878454153e-35,
+    "Object": 1.0
   },
   "predicted_categories": [
     "Object",
@@ -322,119 +322,89 @@
   ],
   "generated_hypotheses": [
     {
-      "description": "The number '9' in the input grid is transformed into a vibrant shade of red (color A) in the output grid, while the number '0' is transformed into a deep shade of blue (color B). The surrounding colors of the transformed numbers shift towards warm tones for '9' and cool tones for '0'.",
-      "category": "Colour",
-      "confidence": 0.85,
-      "evidence": "In the input grid, the number '9' is originally a pale yellow surrounded by light green, and the number '0' is a light blue surrounded by white. In the output grid, '9' appears as vibrant red with surrounding colors shifted to orange hues, and '0' is a deep blue with surrounding colors shifted to shades of purple.",
-      "prior_probability": 0.2,
-      "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number '9' in the input grid is transformed into a vibrant shade of red (color A) in the output grid, while the number '0' is transformed into a deep shade of blue (color B). The surrounding colors of the transformed numbers shift towards warm tones for '9' and cool tones for '0'.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
-      "source": "category_specific_colour",
-      "test_results": [
-        false,
-        false,
-        false
-      ],
-      "complexity": 66,
-      "solomonoff_score": -0.0,
-      "passed_all": false,
-      "pass_rate": 0.0
-    },
-    {
-      "description": "The number '9' in the input grid is transformed into a pastel shade of pink (color A) in the output grid, while the number '0' is transformed into a rich shade of green (color B). The surrounding colors of the transformed numbers transition to complementary colors; warm tones for '9' and cool tones for '0'.",
-      "category": "Colour",
+      "description": "Objects with the same color merge into a single object with the color of the majority of the merged objects, and the value of the merged object is the sum of the values of the individual objects, both horizontally and vertically",
+      "category": "Object",
       "confidence": 0.8,
-      "evidence": "In the input grid, the number '9' is originally a light orange surrounded by yellow, and the number '0' is a dark purple surrounded by black. In the output grid, '9' appears as pastel pink with surrounding colors shifted to soft reds, and '0' is a rich green with surrounding colors shifted to shades of teal.",
+      "evidence": "In all examples, objects of the same color merge into a single object with the sum of their values, both horizontally and vertically, resulting in a new object with the color of the majority of the merged objects",
       "prior_probability": 0.15,
       "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # The number '9' in the input grid is transformed into a pastel shade of pink (color A) in the output grid, while the number '0' is transformed into a rich shade of green (color B). The surrounding colors of the transformed numbers transition to complementary colors; warm tones for '9' and cool tones for '0'.\n        if input_grid.shape != output_grid.shape:\n            return False\n        \n        # Get color sets\n        input_colors = set(input_grid.flat)\n        output_colors = set(output_grid.flat)\n        \n        # No change at all - not a color transformation\n        if input_colors == output_colors and np.array_equal(input_grid, output_grid):\n            return False\n            \n        # Check for position-preserving color changes\n        color_mapping = {}\n        for i in range(input_grid.shape[0]):\n            for j in range(input_grid.shape[1]):\n                in_color = input_grid[i, j]\n                out_color = output_grid[i, j]\n                if in_color in color_mapping:\n                    if color_mapping[in_color] != out_color:\n                        return False  # Inconsistent mapping\n                else:\n                    color_mapping[in_color] = out_color\n        \n        # At least one color must actually change\n        return any(k != v for k, v in color_mapping.items())\n    except:\n        return False\n",
-      "source": "category_specific_colour",
+      "explains_all_examples": true,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects with the same color merge into a single object\n        if input_objects is None or output_objects is None:\n            return not np.array_equal(input_grid, output_grid)\n        \n        # Object count changes\n        if len(input_objects) != len(output_objects):\n            return True\n        \n        # Object property changes\n        for i in range(min(len(input_objects), len(output_objects))):\n            if len(input_objects[i]) != len(output_objects[i]):\n                return True\n        \n        return False\n    except:\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "refined_refined_ai_contextual_object",
+      "validation_result": "tested",
+      "validation_score": 0.0,
+      "validation_success_rate": "0/3",
+      "validation_passed": false,
+      "refinement_notes": "Changed the condition for determining the color of the merged object to be based on the majority color to address the validation failures and make the hypothesis more accurate",
+      "original_description": "Objects with the same color merge into a single object with that color, and the value of the merged object is the sum of the values of the individual objects, both horizontally and vertically",
       "test_results": [
-        false,
-        false,
-        false
+        true,
+        true,
+        true
       ],
-      "complexity": 70,
-      "solomonoff_score": -0.0,
-      "passed_all": false,
-      "pass_rate": 0.0
+      "complexity": 43,
+      "solomonoff_score": 16.97495170175066,
+      "passed_all": true,
+      "pass_rate": 1.0
     },
     {
-      "description": "When a '9' object is vertically adjacent to a '3' object, a new '3' object is created in the cell below the '9' object, while the original '9' object remains in place.",
+      "description": "Objects morph into '3' if they are surrounded by '3's on all sides, otherwise they remain as '9'",
       "category": "Object",
-      "confidence": 0.85,
-      "evidence": "In the transformation from the input grid to the output grid, the '9' object in row 2 column 2 is vertically adjacent to a '3' object in row 3 column 2, resulting in the creation of a new '3' object in row 3 column 2.",
-      "prior_probability": 0.2,
+      "confidence": 0.8,
+      "evidence": "In the provided examples, '9' objects morph into '3' only when all neighboring cells contain '3'. If any neighboring cell contains '9', the object remains '9'.",
+      "prior_probability": 0.15,
       "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # When a '9' object is vertically adjacent to a '3' object, a new '3' object is created in the cell below the '9' object, while the original '9' object remains in place.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
-      "source": "category_specific_object",
+      "explains_all_examples": true,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Objects duplicate and then morph based on neighboring colors\n        if input_objects is None or output_objects is None:\n            return not np.array_equal(input_grid, output_grid)\n        \n        # Object count changes\n        if len(input_objects) != len(output_objects):\n            return True\n        \n        # Object property changes\n        for i in range(min(len(input_objects), len(output_objects))):\n            if len(input_objects[i]) != len(output_objects[i]):\n                return True\n        \n        return False\n    except:\n        return not np.array_equal(input_grid, output_grid)\n",
+      "source": "refined_refined_ai_contextual_object",
+      "validation_result": "tested",
+      "validation_score": 0.0,
+      "validation_success_rate": "0/3",
+      "validation_passed": false,
+      "refinement_notes": "Clarified the condition for morphing to '3' to be surrounded by '3's on all sides",
+      "original_description": "Objects duplicate and morph based on neighboring colors, with '9' objects morphing into '3' only if all neighboring cells contain '3'",
       "test_results": [
         true,
         true,
         true
       ],
-      "complexity": 45,
-      "solomonoff_score": 16.248294456620854,
+      "complexity": 25,
+      "solomonoff_score": 15.347982429266413,
       "passed_all": true,
       "pass_rate": 1.0
     },
     {
-      "description": "When a '9' object is horizontally adjacent to a '3' object, a new '3' object is created in the cell to the right of the '9' object, while the original '9' object remains in place.",
-      "category": "Object",
-      "confidence": 0.82,
-      "evidence": "In the transformation from the input grid to the output grid, the '9' object in row 1 column 3 is horizontally adjacent to a '3' object in row 1 column 4, resulting in the creation of a new '3' object in row 1 column 4.",
-      "prior_probability": 0.18,
-      "specificity_score": 0.88,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # When a '9' object is horizontally adjacent to a '3' object, a new '3' object is created in the cell to the right of the '9' object, while the original '9' object remains in place.\n        if input_objects is None or output_objects is None:\n            # Fallback: check for changes that might indicate object manipulation\n            if not np.array_equal(input_grid, output_grid):\n                return True\n            return False\n        \n        # Check for object-level changes\n        input_count = len(input_objects)\n        output_count = len(output_objects)\n        \n        # Object count changed - this is object manipulation\n        if input_count != output_count:\n            return True\n        \n        # Check if object properties changed\n        for i in range(min(len(input_objects), len(output_objects))):\n            in_obj = input_objects[i]\n            out_obj = output_objects[i]\n            \n            # Object size changed\n            if len(in_obj) != len(out_obj):\n                return True\n            \n            # Check colors within objects\n            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()\n            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()\n            if in_colors != out_colors:\n                return True\n        \n        return False  # No significant object changes detected\n    except:\n        # Fallback test\n        return not np.array_equal(input_grid, output_grid)\n",
-      "source": "category_specific_object",
-      "test_results": [
-        true,
-        true,
-        true
-      ],
-      "complexity": 48,
-      "solomonoff_score": 16.75799031701012,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "If a cell in the input grid contains the number '9', then the corresponding cells in the output grid are filled with the number '3'.",
+      "description": "In the output, the number of occurrences of each color in a row/column is transformed into the corresponding color code (0, 3, 9) in the input, with the count of each color being represented by the sum of the color codes, but only if the count is greater than 0.",
       "category": "Commonsense",
-      "confidence": 0.85,
-      "evidence": "The number '9' in the input grid consistently leads to '3' in the output grid.",
-      "prior_probability": 0.2,
+      "confidence": 0.8,
+      "evidence": "The refined hypothesis is supported by the fact that in the provided examples, only colors with counts greater than 0 were transformed into color codes in the output.",
+      "prior_probability": 0.15,
       "specificity_score": 0.9,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # If a cell in the input grid contains the number '9', then the corresponding cells in the output grid are filled with the number '3'.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
-      "source": "category_specific_commonsense",
+      "explains_all_examples": true,
+      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # In the output, the number of occurrences of each color in a row/column is transformed into the corresponding color code (0, 3, 9) in the input.\n        if np.array_equal(input_grid, output_grid):\n            return False\n        \n        # Commonsense if it doesn't fit simple patterns\n        # Check it's NOT simple geometric\n        is_simple_transform = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_simple_transform = True\n                    break\n        \n        # Check it's NOT simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            color_mapping = {}\n            consistent = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_c, out_c = input_grid[i, j], output_grid[i, j]\n                    if in_c in color_mapping:\n                        if color_mapping[in_c] != out_c:\n                            consistent = False\n                            break\n                    else:\n                        color_mapping[in_c] = out_c\n                if not consistent:\n                    break\n            is_simple_color = consistent and any(k != v for k, v in color_mapping.items())\n        \n        return not (is_simple_transform or is_simple_color)\n    except:\n        return True\n",
+      "source": "refined_refined_ai_contextual_commonsense",
+      "validation_result": "tested",
+      "validation_score": 0.0,
+      "validation_success_rate": "0/3",
+      "validation_passed": false,
+      "refinement_notes": "The refinement specifies that the transformation should only occur for colors with counts greater than 0, addressing the validation failures where all colors were considered for transformation regardless of count.",
+      "original_description": "In the output, the number of occurrences of each color in a row/column is transformed into the corresponding color code (0, 3, 9) in the input, with the count of each color being represented by the sum of the color codes.",
       "test_results": [
         true,
         true,
         true
       ],
-      "complexity": 29,
-      "solomonoff_score": 14.930196877264876,
-      "passed_all": true,
-      "pass_rate": 1.0
-    },
-    {
-      "description": "Cells adjacent to the number '9' in the input grid are also filled with the number '3' in the output grid.",
-      "category": "Commonsense",
-      "confidence": 0.75,
-      "evidence": "Numbers surrounding '9' in the input grid are transformed to '3' in the output grid.",
-      "prior_probability": 0.25,
-      "specificity_score": 0.85,
-      "test_code": "\ndef test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):\n    try:\n        # Cells adjacent to the number '9' in the input grid are also filled with the number '3' in the output grid.\n        # Test for pattern completion or logical reasoning\n        \n        if np.array_equal(input_grid, output_grid):\n            return False  # No transformation\n        \n        # Check if this transformation doesn't fit other categories\n        # (If it's not clearly color, movement, geometry, object, or number)\n        \n        # Check if it's NOT a simple geometric transformation\n        is_geometric = False\n        if input_grid.shape == output_grid.shape:\n            for k in range(1, 4):\n                if np.array_equal(output_grid, np.rot90(input_grid, k)):\n                    is_geometric = True\n                    break\n            if not is_geometric:\n                for flip_axis in [0, 1]:\n                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):\n                        is_geometric = True\n                        break\n        \n        # Check if it's NOT a simple color mapping\n        is_simple_color = False\n        if input_grid.shape == output_grid.shape:\n            input_colors = set(input_grid.flat)\n            output_colors = set(output_grid.flat)\n            \n            # Test for consistent color mapping\n            color_mapping = {}\n            consistent_mapping = True\n            for i in range(input_grid.shape[0]):\n                for j in range(input_grid.shape[1]):\n                    in_color = input_grid[i, j]\n                    out_color = output_grid[i, j]\n                    if in_color in color_mapping:\n                        if color_mapping[in_color] != out_color:\n                            consistent_mapping = False\n                            break\n                    else:\n                        color_mapping[in_color] = out_color\n                if not consistent_mapping:\n                    break\n            \n            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())\n        \n        # Check if it's NOT simple movement (color counts preserved)\n        is_simple_movement = False\n        if input_grid.shape == output_grid.shape:\n            input_counts = np.bincount(input_grid.flat, minlength=10)\n            output_counts = np.bincount(output_grid.flat, minlength=10)\n            is_simple_movement = np.array_equal(input_counts, output_counts)\n        \n        # Commonsense transformations are often complex, context-dependent\n        # Return True if it doesn't fit simple patterns\n        return not (is_geometric or is_simple_color or is_simple_movement)\n    except:\n        return True  # Default to commonsense for complex cases\n",
-      "source": "category_specific_commonsense",
-      "test_results": [
-        true,
-        true,
-        true
-      ],
-      "complexity": 26,
-      "solomonoff_score": 13.93316957742574,
+      "complexity": 62,
+      "solomonoff_score": 18.072750709818546,
       "passed_all": true,
       "pass_rate": 1.0
     }
   ],
+  "validation_enabled": true,
+  "validation_summary": {
+    "validated_hypotheses": 0,
+    "total_hypotheses": 3,
+    "best_validation_score": 0.0
+  },
   "expected_category": "Object"
 }

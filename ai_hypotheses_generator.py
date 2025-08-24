@@ -8,9 +8,9 @@ from pathlib import Path
 import time
 from dsl import objects, mostcolor
 
-class CategorySpecificAIGenerator:
+class ImprovedCategoryAIGenerator:
     def __init__(self, api_key: str = None):
-        """Initialize the category-specific AI hypothesis generator"""
+        """Initialize the improved category-specific AI hypothesis generator"""
         if api_key:
             self.client = OpenAI(api_key=api_key)
         else:
@@ -19,258 +19,481 @@ class CategorySpecificAIGenerator:
         self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
         self.hypothesis_cache = {}
         
-        # Category-specific prompt templates
+        # Improved category-specific prompt templates
         self.category_templates = {
             "Colour": {
-                "focus": "color changes, recoloring rules, palette swaps, color-based conditions",
-                "examples": "objects changing from blue to red, all pixels of color X become color Y, objects take color of neighboring objects",
-                "tests": "color histogram changes, specific color mappings, color-based rules"
+                "focus": "color transformations, recoloring rules, palette changes, color-based logic",
+                "examples": "red pixels become blue, objects change color based on neighbors, color swapping patterns",
+                "key_tests": "consistent color mapping, position-preserving color changes, color count preservation in swaps",
+                "avoid": "position changes, size changes, object count changes"
             },
             "Movement": {
-                "focus": "spatial translation, repositioning, shifting objects in specific directions",
-                "examples": "objects move left by 2 pixels, all objects shift down until they hit bottom, pieces slide in cardinal directions",
-                "tests": "position changes, directional movement, preservation of object shape during movement"
+                "focus": "spatial translation, shifting, repositioning of objects while preserving shape and color",
+                "examples": "objects slide left 2 pixels, pieces fall down due to gravity, objects align to edges",
+                "key_tests": "preserved object shapes and colors, changed positions, directional movement patterns",
+                "avoid": "color changes, size changes, object creation/deletion"
             },
             "Geometry": {
-                "focus": "shape transformations, rotations, reflections, scaling, cropping, resizing",
-                "examples": "grid rotated 90 degrees clockwise, objects reflected across vertical axis, shapes scaled up 2x",
-                "tests": "rotational symmetry, reflection detection, scaling factors, shape preservation"
+                "focus": "shape transformations, rotations, reflections, scaling, cropping, resizing operations",
+                "examples": "90-degree rotation, horizontal reflection, scaling up by factor of 2, cropping to center",
+                "key_tests": "rotational/reflectional symmetry, shape preservation during transformation, scaling relationships",
+                "avoid": "pure color changes without shape effects, simple position shifts"
             },
             "Object": {
-                "focus": "object manipulation, merging, splitting, duplication, creation, deletion",
-                "examples": "adjacent objects merge into one, objects split along lines, duplicate objects appear",
-                "tests": "object count changes, connectivity changes, object property modifications"
+                "focus": "object-level operations like splitting, merging, duplicating, morphing discrete entities",
+                "examples": "two objects merge into one, object splits along a line, object duplicates, shapes morph",
+                "key_tests": "object count changes, connectivity changes, object boundary modifications",
+                "avoid": "pure color/position changes that don't affect object structure"
             },
             "Number": {
-                "focus": "count-based transformations, repetitions based on numerical properties",
-                "examples": "repeat pattern N times where N is number of objects, create X copies based on color count",
-                "tests": "numerical relationships, count-based rules, mathematical operations"
+                "focus": "count-based rules, repetitions, arithmetic relationships, quantity-driven logic",
+                "examples": "repeat pattern N times based on object count, create X copies where X equals color frequency",
+                "key_tests": "mathematical relationships, count-based repetitions, numerical patterns in transformation",
+                "avoid": "transformations not driven by counting or arithmetic"
             },
             "Commonsense": {
-                "focus": "pattern completion, implicit logical reasoning, contextual understanding",
-                "examples": "complete missing parts of patterns, apply common sense rules, fill logical gaps",
-                "tests": "pattern consistency, logical completion, contextual appropriateness"
+                "focus": "pattern completion, implicit reasoning, contextual understanding, logical inference",
+                "examples": "complete missing puzzle pieces, apply learned rules from context, logical pattern extension",
+                "key_tests": "contextual appropriateness, pattern consistency, logical completion",
+                "avoid": "simple mechanical transformations that fit other categories clearly"
             }
         }
 
-    def get_likely_categories(self, input_grid: np.ndarray, output_grid: np.ndarray) -> List[str]:
-        """Use heuristics to determine which categories are most likely"""
-        likely = []
+    def get_improved_likely_categories(self, input_grid: np.ndarray, output_grid: np.ndarray, 
+                                     training_pairs: List[Tuple[np.ndarray, np.ndarray]] = None) -> List[str]:
+        """Improved heuristics using all training pairs and better logic"""
+        likely = set()
         
-        # Quick heuristics
-        if input_grid.shape != output_grid.shape:
-            likely.append("Geometry")
+        # Analyze the primary pair
+        primary_analysis = self._analyze_single_pair(input_grid, output_grid)
+        likely.update(primary_analysis)
         
-        if set(input_grid.flat) != set(output_grid.flat):
-            likely.append("Colour")
+        # If we have multiple training pairs, analyze consistency
+        if training_pairs and len(training_pairs) > 1:
+            consistent_categories = self._find_consistent_categories(training_pairs)
+            if consistent_categories:
+                likely.update(consistent_categories)
         
-        input_counts = np.bincount(input_grid.flat, minlength=10)
-        output_counts = np.bincount(output_grid.flat, minlength=10)
-        if np.array_equal(input_counts, output_counts) and not np.array_equal(input_grid, output_grid):
-            likely.append("Movement")
+        # Ensure we have reasonable candidates
+        likely_list = list(likely)
         
-        # Check for object-level changes
+        # Always include Commonsense as a fallback, but not as primary if we have good options
+        if len(likely_list) == 0:
+            likely_list = ["Commonsense", "Object", "Colour"]
+        elif len(likely_list) == 1:
+            likely_list.append("Commonsense")
+        elif "Commonsense" not in likely_list and len(likely_list) < 3:
+            likely_list.append("Commonsense")
+        
+        return likely_list[:4]  # Return top 4 categories
+
+    def _analyze_single_pair(self, input_grid: np.ndarray, output_grid: np.ndarray) -> List[str]:
+        """Analyze a single input-output pair for likely categories"""
+        categories = []
+        
+        # Shape analysis
+        shape_changed = input_grid.shape != output_grid.shape
+        if shape_changed:
+            categories.append("Geometry")
+        
+        # Color analysis
+        input_colors = set(input_grid.flat)
+        output_colors = set(output_grid.flat)
+        colors_changed = input_colors != output_colors
+        
+        # Position analysis (same shape required)
+        if not shape_changed:
+            positions_changed = not np.array_equal(input_grid, output_grid)
+            
+            # Color count analysis
+            input_counts = np.bincount(input_grid.flat, minlength=10)
+            output_counts = np.bincount(output_grid.flat, minlength=10)
+            color_counts_same = np.array_equal(input_counts, output_counts)
+            
+            # Classify based on what changed
+            if colors_changed and not color_counts_same:
+                # Colors and their counts changed - likely color transformation
+                categories.append("Colour")
+            elif positions_changed and color_counts_same:
+                # Positions changed but colors preserved - likely movement
+                categories.append("Movement")
+            elif colors_changed and color_counts_same:
+                # Colors changed but counts same - color swapping
+                categories.append("Colour")
+        
+        # Object analysis
         try:
             input_objects = objects(tuple(tuple(row) for row in input_grid), True, True, True)
             output_objects = objects(tuple(tuple(row) for row in output_grid), True, True, True)
+            
             if len(input_objects) != len(output_objects):
-                likely.append("Object")
+                categories.append("Object")
+            elif len(input_objects) > 0:
+                # Check if object properties changed
+                for i in range(min(len(input_objects), len(output_objects))):
+                    if len(input_objects[i]) != len(output_objects[i]):
+                        categories.append("Object")
+                        break
         except:
             pass
         
-        # Check for numerical patterns
+        # Numerical analysis
         input_nonzero = np.count_nonzero(input_grid)
         output_nonzero = np.count_nonzero(output_grid)
         if output_nonzero > input_nonzero:
             ratio = output_nonzero / input_nonzero
-            if ratio == int(ratio) and ratio > 1:
-                likely.append("Number")
+            if abs(ratio - round(ratio)) < 0.1 and ratio > 1:
+                categories.append("Number")
         
-        # Always include Commonsense as fallback
-        if "Commonsense" not in likely:
-            likely.append("Commonsense")
+        return categories
+
+    def _find_consistent_categories(self, training_pairs: List[Tuple[np.ndarray, np.ndarray]]) -> List[str]:
+        """Find categories that are consistent across all training pairs"""
+        if len(training_pairs) < 2:
+            return []
         
-        # If Object not detected but we have other changes, add it
-        if len(likely) < 3 and "Object" not in likely:
-            likely.append("Object")
-            
-        return likely[:3]  # Limit to 3 most likely categories
-
-    def format_grid_for_prompt(self, grid: np.ndarray) -> str:
-        """Format grid in a compact, readable way for the prompt"""
-        lines = []
-        for row in grid:
-            lines.append(" ".join(f"{cell:2d}" for cell in row))
-        return "\n".join(lines)
-
-    def analyze_transformation_by_category(self, input_grid: np.ndarray, output_grid: np.ndarray, 
-                                         target_categories: List[str]) -> Dict[str, str]:
-        """Analyze the transformation from specific categories' perspectives"""
-        input_formatted = self.format_grid_for_prompt(input_grid)
-        output_formatted = self.format_grid_for_prompt(output_grid)
+        # Analyze each pair
+        pair_categories = []
+        for inp, out in training_pairs:
+            pair_cats = self._analyze_single_pair(inp, out)
+            pair_categories.append(set(pair_cats))
         
-        # Basic change detection
-        size_changed = input_grid.shape != output_grid.shape
-        colors_changed = set(input_grid.flat) != set(output_grid.flat)
-        positions_changed = not np.array_equal(input_grid, output_grid)
+        # Find intersection - categories that appear in ALL pairs
+        consistent = set.intersection(*pair_categories) if pair_categories else set()
         
-        analyses = {}
+        return list(consistent)
+
+    def generate_task_aware_hypotheses(self, training_pairs: List[Tuple[np.ndarray, np.ndarray]], 
+                                     target_categories: List[str] = None, 
+                                     num_per_category: int = 2) -> List[Dict[str, Any]]:
+        """Generate hypotheses with full task context"""
         
-        for category in target_categories:
-            if category not in self.category_templates:
-                continue
-                
-            template = self.category_templates[category]
-            
-            category_prompt = f"""Analyze this transformation SPECIFICALLY from a {category} perspective:
-
-INPUT GRID ({input_grid.shape[0]}x{input_grid.shape[1]}):
-{input_formatted}
-
-OUTPUT GRID ({output_grid.shape[0]}x{output_grid.shape[1]}):
-{output_formatted}
-
-Focus on: {template['focus']}
-Look for patterns like: {template['examples']}
-
-Quick facts:
-- Size changed: {size_changed}
-- Colors changed: {colors_changed} 
-- Positions changed: {positions_changed}
-
-From a {category} perspective:
-1. What specific {category.lower()} changes do you observe?
-2. Can you describe a precise {category.lower()} rule that explains this transformation?
-3. How would you test if this {category.lower()} rule applies to other examples?
-
-Be very specific about {category.lower()} aspects. If this doesn't look like a {category.lower()} transformation, say so clearly."""
-
-            try:
-                response = self.client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": f"You are an expert in {category.lower()} transformations in visual puzzles. Focus ONLY on {category.lower()} aspects."},
-                        {"role": "user", "content": category_prompt}
-                    ],
-                    temperature=0.2,
-                    max_tokens=400
-                )
-                analyses[category] = response.choices[0].message.content
-                
-            except Exception as e:
-                analyses[category] = f"Analysis failed: {e}"
+        if not training_pairs:
+            return []
         
-        return analyses
-
-    def generate_category_specific_hypotheses(self, input_grid: np.ndarray, output_grid: np.ndarray, 
-                                            target_categories: List[str] = None,
-                                            num_per_category: int = 2) -> List[Dict[str, Any]]:
-        """Generate hypotheses specifically designed for target categories"""
-        
-        # Create cache key
-        cache_key = f"{hash(input_grid.tobytes())}_{hash(output_grid.tobytes())}_{'_'.join(target_categories or [])}"
-        if cache_key in self.hypothesis_cache:
-            return self.hypothesis_cache[cache_key]
-        
-        # Use heuristics to determine likely categories if not specified
+        # Use improved heuristics with all pairs
+        primary_pair = training_pairs[0]
         if target_categories is None:
-            target_categories = self.get_likely_categories(input_grid, output_grid)
+            target_categories = self.get_improved_likely_categories(
+                primary_pair[0], primary_pair[1], training_pairs
+            )
         
-        print(f"🎯 Focusing on categories: {target_categories}")
+        print(f"🎯 AI focusing on categories: {target_categories}")
         
-        # Get category-specific analyses for target categories only
-        category_analyses = self.analyze_transformation_by_category(input_grid, output_grid, target_categories)
+        # Create task context summary
+        task_summary = self._create_task_summary(training_pairs)
         
         all_hypotheses = []
         
-        for category, analysis in category_analyses.items():
-            template = self.category_templates[category]
-            
-            hypothesis_prompt = f"""Based on this {category} analysis:
+        # Generate hypotheses for each target category
+        for category in target_categories:
+            category_hypotheses = self._generate_category_hypotheses_with_context(
+                training_pairs, category, task_summary, num_per_category
+            )
+            all_hypotheses.extend(category_hypotheses)
+        
+        # CRITICAL: Add hypothesis validation step
+        validated_hypotheses = self._validate_and_improve_hypotheses(all_hypotheses, training_pairs)
+        
+        return validated_hypotheses
 
-{analysis}
+    def _create_task_summary(self, training_pairs: List[Tuple[np.ndarray, np.ndarray]]) -> str:
+        """Create a concise summary of the task for context"""
+        summary_parts = []
+        
+        summary_parts.append(f"Task has {len(training_pairs)} training examples.")
+        
+        # Analyze consistency across pairs
+        shapes = [(inp.shape, out.shape) for inp, out in training_pairs]
+        if len(set(shapes)) == 1:
+            summary_parts.append(f"All examples: input {shapes[0][0]} → output {shapes[0][1]}")
+        else:
+            summary_parts.append("Examples have varying input/output shapes.")
+        
+        # Color analysis
+        all_input_colors = set()
+        all_output_colors = set()
+        for inp, out in training_pairs:
+            all_input_colors.update(inp.flat)
+            all_output_colors.update(out.flat)
+        
+        summary_parts.append(f"Colors used: input {sorted(all_input_colors)}, output {sorted(all_output_colors)}")
+        
+        # Basic transformation consistency
+        transformations = []
+        for inp, out in training_pairs:
+            if inp.shape != out.shape:
+                transformations.append("shape_change")
+            elif not np.array_equal(inp, out):
+                if set(inp.flat) != set(out.flat):
+                    transformations.append("color_change")
+                else:
+                    transformations.append("position_change")
+            else:
+                transformations.append("no_change")
+        
+        if len(set(transformations)) == 1:
+            summary_parts.append(f"Consistent transformation type: {transformations[0]}")
+        else:
+            summary_parts.append(f"Mixed transformations: {set(transformations)}")
+        
+        return " ".join(summary_parts)
 
-Generate {num_per_category} HIGHLY SPECIFIC {category} hypotheses for this transformation.
+    def _generate_category_hypotheses_with_context(self, training_pairs: List[Tuple[np.ndarray, np.ndarray]], 
+                                                 category: str, task_summary: str, 
+                                                 num_hypotheses: int) -> List[Dict[str, Any]]:
+        """Generate hypotheses for a specific category with full task context"""
+        
+        if category not in self.category_templates:
+            return []
+        
+        template = self.category_templates[category]
+        
+        # Format examples for context
+        examples_text = ""
+        for i, (inp, out) in enumerate(training_pairs[:3]):  # Show max 3 examples
+            examples_text += f"\nExample {i+1}:\nInput ({inp.shape}): {self._grid_to_compact_string(inp)}\n"
+            examples_text += f"Output ({out.shape}): {self._grid_to_compact_string(out)}"
+        
+        hypothesis_prompt = f"""You are analyzing an ARC puzzle to generate {category} hypotheses.
 
-Requirements for {category} hypotheses:
-- Focus EXCLUSIVELY on {template['focus']}
-- Test for {template['tests']}
-- Be precise about {category.lower()} mechanisms
-- Each hypothesis should be clearly testable as a {category} transformation
-- If this is NOT a {category} transformation, create hypotheses that would FAIL the tests
+TASK CONTEXT: {task_summary}
+
+TRAINING EXAMPLES: {examples_text}
+
+Generate {num_hypotheses} specific {category} hypotheses that explain the input→output transformation.
+
+{category} FOCUS: {template['focus']}
+Look for: {template['examples']}
+Key tests: {template['key_tests']}
+Avoid: {template['avoid']}
+
+CRITICAL REQUIREMENTS:
+1. Each hypothesis must explain ALL training examples, not just one
+2. Focus specifically on {category.lower()} aspects of the transformation
+3. Be precise about the {category.lower()} mechanism involved
+4. Include specific evidence from the examples
+5. Consider the transformation relationship, not individual grids
 
 Return as JSON array:
 [
   {{
-    "description": "Precise {category.lower()}-focused description of the transformation rule",
+    "description": "Precise {category.lower()}-focused rule that explains input→output relationship",
     "category": "{category}",
     "confidence": 0.8,
-    "evidence": "Specific {category.lower()} evidence from the grids",
+    "evidence": "Specific evidence from training examples supporting this {category.lower()} rule",
     "prior_probability": 0.15,
-    "specificity_score": 0.9
+    "specificity_score": 0.9,
+    "explains_all_examples": true
   }}
-]
+]"""
 
-Make each hypothesis DISTINCTLY about {category.lower()} aspects."""
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": f"You generate precise {category} transformation hypotheses for ARC puzzles. Focus on the input→output RELATIONSHIP. Return valid JSON."},
+                    {"role": "user", "content": hypothesis_prompt}
+                ],
+                temperature=0.3,
+                max_tokens=800
+            )
+            
+            content = response.choices[0].message.content.strip()
+            json_match = re.search(r'\[.*\]', content, re.DOTALL)
+            
+            if json_match:
+                hypotheses = json.loads(json_match.group())
+                
+                # Add test code and source
+                for hyp in hypotheses:
+                    hyp['test_code'] = self._generate_improved_test_code(hyp['description'], category)
+                    hyp['source'] = f'ai_contextual_{category.lower()}'
+                
+                return hypotheses
+                
+        except Exception as e:
+            print(f"Error generating {category} hypotheses: {e}")
+            return []
+        
+        return []
+
+    def _validate_and_improve_hypotheses(self, hypotheses: List[Dict[str, Any]], 
+                                       training_pairs: List[Tuple[np.ndarray, np.ndarray]]) -> List[Dict[str, Any]]:
+        """Validate hypotheses and improve poor ones"""
+        if not hypotheses:
+            return []
+        
+        print(f"🔍 Validating {len(hypotheses)} hypotheses...")
+        
+        # Quick test all hypotheses on first example
+        first_inp, first_out = training_pairs[0]
+        try:
+            first_inp_objs = objects(tuple(tuple(row) for row in first_inp), True, True, True)
+            first_out_objs = objects(tuple(tuple(row) for row in first_out), True, True, True)
+        except:
+            first_inp_objs = first_out_objs = None
+        
+        validated = []
+        needs_improvement = []
+        
+        for hyp in hypotheses:
+            try:
+                # Test on first example
+                result = self._test_hypothesis_safe(hyp['test_code'], first_inp, first_out, 
+                                                  first_inp_objs, first_out_objs)
+                
+                if result:
+                    validated.append(hyp)
+                else:
+                    needs_improvement.append(hyp)
+                    
+            except Exception as e:
+                print(f"Error testing hypothesis: {e}")
+                needs_improvement.append(hyp)
+        
+        # Improve poor hypotheses
+        if needs_improvement:
+            print(f"🛠️ Improving {len(needs_improvement)} poor hypotheses...")
+            improved = self._improve_poor_hypotheses(needs_improvement, training_pairs)
+            validated.extend(improved)
+        
+        print(f"✅ Final hypothesis count: {len(validated)}")
+        return validated
+
+    def _improve_poor_hypotheses(self, poor_hypotheses: List[Dict[str, Any]], 
+                               training_pairs: List[Tuple[np.ndarray, np.ndarray]]) -> List[Dict[str, Any]]:
+        """Improve hypotheses that failed initial validation"""
+        
+        if not poor_hypotheses:
+            return []
+        
+        # Group by category for batch improvement
+        by_category = {}
+        for hyp in poor_hypotheses:
+            cat = hyp['category']
+            if cat not in by_category:
+                by_category[cat] = []
+            by_category[cat].append(hyp)
+        
+        improved_hypotheses = []
+        
+        for category, cat_hyps in by_category.items():
+            template = self.category_templates.get(category, {})
+            
+            # Create improvement prompt
+            failed_descriptions = [hyp['description'] for hyp in cat_hyps]
+            examples_text = self._format_examples_for_improvement(training_pairs)
+            
+            improvement_prompt = f"""These {category} hypotheses FAILED to explain the ARC transformation:
+
+FAILED HYPOTHESES:
+{chr(10).join(f"{i+1}. {desc}" for i, desc in enumerate(failed_descriptions))}
+
+ACTUAL TRAINING EXAMPLES:
+{examples_text}
+
+Generate {len(cat_hyps)} CORRECTED {category} hypotheses that actually work.
+
+{category} REQUIREMENTS:
+- Focus: {template.get('focus', 'category-specific transformations')}
+- Must explain: {template.get('key_tests', 'the actual transformation pattern')}
+- Avoid: {template.get('avoid', 'irrelevant aspects')}
+
+CRITICAL: The new hypotheses must actually explain the input→output transformation shown in the examples.
+
+Return as JSON array with corrected hypotheses:
+[
+  {{
+    "description": "Corrected {category.lower()} rule that actually explains the examples",
+    "category": "{category}",
+    "confidence": 0.7,
+    "evidence": "Specific evidence showing why this explains the transformation",
+    "prior_probability": 0.12,
+    "corrected": true
+  }}
+]"""
 
             try:
                 response = self.client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
-                        {"role": "system", "content": f"Generate ONLY {category} hypotheses. Be extremely specific about {category.lower()} transformations. Return valid JSON."},
-                        {"role": "user", "content": hypothesis_prompt}
+                        {"role": "system", "content": f"Fix {category} hypotheses that failed. Generate working alternatives."},
+                        {"role": "user", "content": improvement_prompt}
                     ],
-                    temperature=0.3,
-                    max_tokens=800
+                    temperature=0.4,
+                    max_tokens=700
                 )
                 
                 content = response.choices[0].message.content.strip()
-                
-                # Extract JSON
                 json_match = re.search(r'\[.*\]', content, re.DOTALL)
+                
                 if json_match:
-                    hypotheses = json.loads(json_match.group())
+                    corrected = json.loads(json_match.group())
                     
-                    # Generate category-specific test code
-                    for hyp in hypotheses:
-                        hyp['test_code'] = self.generate_category_specific_test_code(
-                            hyp['description'], category, input_grid, output_grid
-                        )
-                        hyp['source'] = f'category_specific_{category.lower()}'
+                    for hyp in corrected:
+                        hyp['test_code'] = self._generate_improved_test_code(hyp['description'], category)
+                        hyp['source'] = f'ai_corrected_{category.lower()}'
                     
-                    all_hypotheses.extend(hypotheses)
+                    improved_hypotheses.extend(corrected)
                     
             except Exception as e:
-                print(f"Error generating {category} hypotheses: {e}")
-                # Add fallback hypothesis for this category
-                fallback = self.create_category_fallback_hypothesis(category, input_grid, output_grid)
-                all_hypotheses.append(fallback)
+                print(f"Error improving {category} hypotheses: {e}")
+                # Keep original as fallback
+                improved_hypotheses.extend(cat_hyps)
         
-        # Cache and return
-        self.hypothesis_cache[cache_key] = all_hypotheses
-        return all_hypotheses
+        return improved_hypotheses
 
-    def generate_category_specific_test_code(self, description: str, category: str, 
-                                           input_grid: np.ndarray, output_grid: np.ndarray) -> str:
-        """Generate highly specific test code for each category with improved logic"""
+    def _format_examples_for_improvement(self, training_pairs: List[Tuple[np.ndarray, np.ndarray]]) -> str:
+        """Format training examples clearly for hypothesis improvement"""
+        examples_text = ""
+        for i, (inp, out) in enumerate(training_pairs[:2]):  # Max 2 examples for brevity
+            examples_text += f"\nExample {i+1}:"
+            examples_text += f"\n  Input:  {self._grid_to_compact_string(inp)}"
+            examples_text += f"\n  Output: {self._grid_to_compact_string(out)}"
+        return examples_text
+
+    def _grid_to_compact_string(self, grid: np.ndarray) -> str:
+        """Convert grid to compact string representation"""
+        if grid.size > 25:  # For large grids, show summary
+            return f"[{grid.shape} grid with colors {sorted(set(grid.flat))}]"
+        else:
+            # Show actual grid for small grids
+            rows = []
+            for row in grid:
+                rows.append("".join(str(cell) for cell in row))
+            return "[" + "|".join(rows) + "]"
+
+    def _test_hypothesis_safe(self, test_code: str, input_grid: np.ndarray, output_grid: np.ndarray,
+                            input_objects=None, output_objects=None) -> bool:
+        """Safely test a hypothesis"""
+        try:
+            namespace = {
+                'np': np, 'input_grid': input_grid, 'output_grid': output_grid,
+                'input_objects': input_objects, 'output_objects': output_objects,
+                'objects': objects, 'len': len, 'set': set, 'any': any, 'all': all,
+                'max': max, 'min': min, 'abs': abs
+            }
+            
+            exec(test_code, namespace)
+            result = namespace['test_hypothesis'](input_grid, output_grid, input_objects, output_objects)
+            return bool(result)
+            
+        except Exception:
+            return False
+
+    def _generate_improved_test_code(self, description: str, category: str) -> str:
+        """Generate more robust test code for each category"""
         
         if category == "Colour":
-            return f"""
+            return f'''
 def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):
     try:
         # {description}
         if input_grid.shape != output_grid.shape:
             return False
         
-        # Get color sets
-        input_colors = set(input_grid.flat)
-        output_colors = set(output_grid.flat)
-        
-        # No change at all - not a color transformation
-        if input_colors == output_colors and np.array_equal(input_grid, output_grid):
-            return False
-            
-        # Check for position-preserving color changes
+        # Get color mappings and check consistency
         color_mapping = {{}}
         for i in range(input_grid.shape[0]):
             for j in range(input_grid.shape[1]):
@@ -278,77 +501,71 @@ def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=
                 out_color = output_grid[i, j]
                 if in_color in color_mapping:
                     if color_mapping[in_color] != out_color:
-                        return False  # Inconsistent mapping
+                        return False
                 else:
                     color_mapping[in_color] = out_color
         
-        # At least one color must actually change
-        return any(k != v for k, v in color_mapping.items())
+        # Must have at least one actual color change
+        has_color_change = any(k != v for k, v in color_mapping.items())
+        
+        # Check it's not just a position change (movement/geometry)
+        input_counts = np.bincount(input_grid.flat, minlength=10)
+        output_counts = np.bincount(output_grid.flat, minlength=10)
+        
+        return has_color_change
     except:
         return False
-"""
-        
+'''
+
         elif category == "Movement":
-            return f"""
+            return f'''
 def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):
     try:
         # {description}
         if input_grid.shape != output_grid.shape:
             return False
         
-        # Check if colors are preserved (movement doesn't change colors)
+        # Colors must be preserved for pure movement
         input_counts = np.bincount(input_grid.flat, minlength=10)
         output_counts = np.bincount(output_grid.flat, minlength=10)
-        
         if not np.array_equal(input_counts, output_counts):
-            return False  # Colors changed, not pure movement
-        
-        if np.array_equal(input_grid, output_grid):
-            return False  # No movement occurred
-        
-        # Check if this looks like a movement pattern
-        # (pixels moved but overall structure preserved)
-        non_zero_input = np.count_nonzero(input_grid)
-        non_zero_output = np.count_nonzero(output_grid)
-        
-        # Must preserve non-zero pixel count for movement
-        if non_zero_input != non_zero_output:
             return False
-            
-        # Additional check: see if we can find a simple translation
-        # that explains the transformation
-        for dy in range(-3, 4):
-            for dx in range(-3, 4):
+        
+        # Positions must change
+        if np.array_equal(input_grid, output_grid):
+            return False
+        
+        # Check for simple translation pattern
+        for dy in range(-2, 3):
+            for dx in range(-2, 3):
                 if dy == 0 and dx == 0:
                     continue
-                # Test if shifting by (dy, dx) produces the output
                 shifted = np.zeros_like(input_grid)
                 for i in range(input_grid.shape[0]):
                     for j in range(input_grid.shape[1]):
                         new_i, new_j = i + dy, j + dx
                         if 0 <= new_i < shifted.shape[0] and 0 <= new_j < shifted.shape[1]:
                             shifted[new_i, new_j] = input_grid[i, j]
-                
                 if np.array_equal(shifted, output_grid):
                     return True
         
-        return True  # Default to movement if colors preserved and positions changed
+        # Allow for more complex movement patterns
+        return True
     except:
         return False
-"""
-        
+'''
+
         elif category == "Geometry":
-            return f"""
+            return f'''
 def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):
     try:
         # {description}
         
-        # Size change is geometric
+        # Size changes are geometric
         if input_grid.shape != output_grid.shape:
             return True
         
-        # Check standard geometric transformations
-        # Rotations
+        # Check standard transformations
         for k in range(1, 4):
             if np.array_equal(output_grid, np.rot90(input_grid, k)):
                 return True
@@ -358,253 +575,171 @@ def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=
             np.array_equal(output_grid, np.flip(input_grid, axis=1))):
             return True
         
-        # Transpose
-        if np.array_equal(output_grid, input_grid.T):
-            return True
-        
-        # Check if colors are preserved (geometric transforms preserve colors)
+        # Color preservation check for geometric transforms
         input_counts = np.bincount(input_grid.flat, minlength=10)
         output_counts = np.bincount(output_grid.flat, minlength=10)
         
-        # If colors preserved but positions changed, might be geometric
-        if np.array_equal(input_counts, output_counts) and not np.array_equal(input_grid, output_grid):
-            return True
-            
-        return False
+        return np.array_equal(input_counts, output_counts) and not np.array_equal(input_grid, output_grid)
     except:
         return False
-"""
-        
+'''
+
         elif category == "Object":
-            return f"""
+            return f'''
 def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):
     try:
         # {description}
         if input_objects is None or output_objects is None:
-            # Fallback: check for changes that might indicate object manipulation
-            if not np.array_equal(input_grid, output_grid):
-                return True
-            return False
+            return not np.array_equal(input_grid, output_grid)
         
-        # Check for object-level changes
-        input_count = len(input_objects)
-        output_count = len(output_objects)
-        
-        # Object count changed - this is object manipulation
-        if input_count != output_count:
+        # Object count changes
+        if len(input_objects) != len(output_objects):
             return True
         
-        # Check if object properties changed
+        # Object property changes
         for i in range(min(len(input_objects), len(output_objects))):
-            in_obj = input_objects[i]
-            out_obj = output_objects[i]
-            
-            # Object size changed
-            if len(in_obj) != len(out_obj):
-                return True
-            
-            # Check colors within objects
-            in_colors = set(color for color, pos in in_obj) if hasattr(in_obj[0], '__iter__') and len(in_obj[0]) == 2 else set()
-            out_colors = set(color for color, pos in out_obj) if hasattr(out_obj[0], '__iter__') and len(out_obj[0]) == 2 else set()
-            if in_colors != out_colors:
+            if len(input_objects[i]) != len(output_objects[i]):
                 return True
         
-        return False  # No significant object changes detected
+        return False
     except:
-        # Fallback test
         return not np.array_equal(input_grid, output_grid)
-"""
-        
+'''
+
         elif category == "Number":
-            return f"""
+            return f'''
 def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):
     try:
         # {description}
-        # Look for numerical patterns and relationships
-        
         input_nonzero = np.count_nonzero(input_grid)
         output_nonzero = np.count_nonzero(output_grid)
         
-        # Check for multiplication/repetition patterns
+        # Check for numerical multiplication patterns
         if output_nonzero > input_nonzero:
             ratio = output_nonzero / input_nonzero
-            if abs(ratio - round(ratio)) < 0.1:  # Close to integer ratio
+            if abs(ratio - round(ratio)) < 0.2 and ratio > 1:
                 return True
         
-        # Check if transformation involves counting
+        # Object count patterns
         if input_objects and output_objects:
-            input_obj_count = len(input_objects)
-            output_obj_count = len(output_objects)
-            
-            # Numerical relationship between object counts
-            if output_obj_count > input_obj_count:
-                ratio = output_obj_count / input_obj_count
-                if abs(ratio - round(ratio)) < 0.1 and ratio > 1:
+            input_count = len(input_objects)
+            output_count = len(output_objects)
+            if output_count > input_count:
+                ratio = output_count / input_count
+                if abs(ratio - round(ratio)) < 0.2:
                     return True
-        
-        # Check for grid size relationships
-        input_size = input_grid.shape[0] * input_grid.shape[1]
-        output_size = output_grid.shape[0] * output_grid.shape[1]
-        
-        if output_size != input_size:
-            ratio = output_size / input_size
-            if abs(ratio - round(ratio)) < 0.1:
-                return True
-        
-        # Check for repeating patterns
-        if input_grid.shape == output_grid.shape:
-            # See if output contains multiple copies of input pattern
-            h, w = input_grid.shape
-            for scale in [2, 3, 4]:
-                if output_grid.shape[0] % scale == 0 and output_grid.shape[1] % scale == 0:
-                    sub_h, sub_w = h // scale, w // scale
-                    if sub_h > 0 and sub_w > 0:
-                        # Check if pattern repeats
-                        pattern = input_grid[:sub_h, :sub_w]
-                        matches = 0
-                        for i in range(0, h, sub_h):
-                            for j in range(0, w, sub_w):
-                                if np.array_equal(output_grid[i:i+sub_h, j:j+sub_w], pattern):
-                                    matches += 1
-                        if matches >= scale:
-                            return True
         
         return False
     except:
         return False
-"""
-        
+'''
+
         else:  # Commonsense
-            return f"""
+            return f'''
 def test_hypothesis(input_grid, output_grid, input_objects=None, output_objects=None):
     try:
         # {description}
-        # Test for pattern completion or logical reasoning
-        
         if np.array_equal(input_grid, output_grid):
-            return False  # No transformation
+            return False
         
-        # Check if this transformation doesn't fit other categories
-        # (If it's not clearly color, movement, geometry, object, or number)
-        
-        # Check if it's NOT a simple geometric transformation
-        is_geometric = False
+        # Commonsense if it doesn't fit simple patterns
+        # Check it's NOT simple geometric
+        is_simple_transform = False
         if input_grid.shape == output_grid.shape:
             for k in range(1, 4):
                 if np.array_equal(output_grid, np.rot90(input_grid, k)):
-                    is_geometric = True
+                    is_simple_transform = True
                     break
-            if not is_geometric:
-                for flip_axis in [0, 1]:
-                    if np.array_equal(output_grid, np.flip(input_grid, axis=flip_axis)):
-                        is_geometric = True
-                        break
         
-        # Check if it's NOT a simple color mapping
+        # Check it's NOT simple color mapping
         is_simple_color = False
         if input_grid.shape == output_grid.shape:
-            input_colors = set(input_grid.flat)
-            output_colors = set(output_grid.flat)
-            
-            # Test for consistent color mapping
             color_mapping = {{}}
-            consistent_mapping = True
+            consistent = True
             for i in range(input_grid.shape[0]):
                 for j in range(input_grid.shape[1]):
-                    in_color = input_grid[i, j]
-                    out_color = output_grid[i, j]
-                    if in_color in color_mapping:
-                        if color_mapping[in_color] != out_color:
-                            consistent_mapping = False
+                    in_c, out_c = input_grid[i, j], output_grid[i, j]
+                    if in_c in color_mapping:
+                        if color_mapping[in_c] != out_c:
+                            consistent = False
                             break
                     else:
-                        color_mapping[in_color] = out_color
-                if not consistent_mapping:
+                        color_mapping[in_c] = out_c
+                if not consistent:
                     break
-            
-            is_simple_color = consistent_mapping and any(k != v for k, v in color_mapping.items())
+            is_simple_color = consistent and any(k != v for k, v in color_mapping.items())
         
-        # Check if it's NOT simple movement (color counts preserved)
-        is_simple_movement = False
-        if input_grid.shape == output_grid.shape:
-            input_counts = np.bincount(input_grid.flat, minlength=10)
-            output_counts = np.bincount(output_grid.flat, minlength=10)
-            is_simple_movement = np.array_equal(input_counts, output_counts)
-        
-        # Commonsense transformations are often complex, context-dependent
-        # Return True if it doesn't fit simple patterns
-        return not (is_geometric or is_simple_color or is_simple_movement)
+        return not (is_simple_transform or is_simple_color)
     except:
-        return True  # Default to commonsense for complex cases
-"""
-
-    def create_category_fallback_hypothesis(self, category: str, input_grid: np.ndarray, output_grid: np.ndarray) -> Dict[str, Any]:
-        """Create a fallback hypothesis for a specific category"""
-        
-        fallback_descriptions = {
-            "Colour": "Objects change color according to a systematic color mapping rule",
-            "Movement": "Objects translate spatially while preserving their shape and color",
-            "Geometry": "The grid undergoes a geometric transformation like rotation or reflection",
-            "Object": "Objects in the scene are modified, merged, split, or duplicated",
-            "Number": "The transformation follows a numerical pattern based on counts or repetitions",
-            "Commonsense": "The transformation completes a logical pattern or applies contextual reasoning"
-        }
-        
-        return {
-            "description": fallback_descriptions[category],
-            "category": category,
-            "confidence": 0.3,
-            "evidence": f"Fallback hypothesis for {category} category",
-            "prior_probability": 0.1,
-            "source": f"fallback_{category.lower()}",
-            "test_code": self.generate_category_specific_test_code(
-                fallback_descriptions[category], category, input_grid, output_grid
-            )
-        }
+        return True
+'''
 
     def rule_complexity(self, rule_description: str) -> int:
         """Calculate complexity based on token count"""
         tokens = self.tokenizer.encode(rule_description)
         return max(len(tokens), 1)
 
-# Integration wrapper to replace your existing AIHypothesisGenerator
-class AIHypothesisGenerator(CategorySpecificAIGenerator):
+
+class AIHypothesisGenerator(ImprovedCategoryAIGenerator):
+    """Main interface - backwards compatible with existing code"""
+    
     def __init__(self, api_key: str = None):
         super().__init__(api_key)
+        self.batch_mode = True  # Enable batching for efficiency
     
     def generate_smart_hypotheses(self, input_grid: np.ndarray, output_grid: np.ndarray, 
-                                num_hypotheses: int = 6) -> List[Dict[str, Any]]:
-        """Generate category-specific hypotheses using heuristics for efficiency"""
+                                num_hypotheses: int = 12, training_pairs: List[Tuple[np.ndarray, np.ndarray]] = None) -> List[Dict[str, Any]]:
+        """
+        Generate smart hypotheses with improved accuracy and context awareness
         
-        # Use heuristics to focus on likely categories
-        likely_categories = self.get_likely_categories(input_grid, output_grid)
+        Args:
+            input_grid: First training example input
+            output_grid: First training example output  
+            num_hypotheses: Target number of hypotheses
+            training_pairs: All training pairs for better context (NEW)
+        """
         
-        # Calculate how many per category (ensuring we get diverse hypotheses)
-        base_per_category = max(1, num_hypotheses // len(likely_categories))
+        # Prepare training pairs - use provided or create from single example
+        if training_pairs is None:
+            training_pairs = [(input_grid, output_grid)]
         
-        hypotheses = self.generate_category_specific_hypotheses(
-            input_grid, output_grid, 
-            target_categories=likely_categories,
-            num_per_category=base_per_category
+        # Generate with full context
+        hypotheses = self.generate_task_aware_hypotheses(
+            training_pairs=training_pairs,
+            target_categories=None,  # Let heuristics decide
+            num_per_category=max(1, num_hypotheses // 4)
         )
         
-        # If we have too many, select the best ones from each category
-        if len(hypotheses) > num_hypotheses:
-            # Group by category and select top ones from each
-            by_category = {}
-            for hyp in hypotheses:
-                cat = hyp['category']
-                if cat not in by_category:
-                    by_category[cat] = []
-                by_category[cat].append(hyp)
-            
-            # Select best from each category
-            selected = []
-            for cat_hyps in by_category.values():
-                # Sort by confidence and take top ones
-                cat_hyps.sort(key=lambda x: -x.get('confidence', 0))
-                selected.extend(cat_hyps[:base_per_category])
-            
-            hypotheses = selected[:num_hypotheses]
+        # Ensure we have enough hypotheses
+        if len(hypotheses) < num_hypotheses:
+            # Add fallback hypotheses if needed
+            fallback_categories = ["Commonsense", "Object", "Colour", "Movement"]
+            for cat in fallback_categories:
+                if len(hypotheses) >= num_hypotheses:
+                    break
+                    
+                fallback = self._create_fallback_hypothesis(cat, input_grid, output_grid)
+                hypotheses.append(fallback)
         
-        return hypotheses
+        return hypotheses[:num_hypotheses]
+    
+    def _create_fallback_hypothesis(self, category: str, input_grid: np.ndarray, output_grid: np.ndarray) -> Dict[str, Any]:
+        """Create a fallback hypothesis"""
+        descriptions = {
+            "Colour": "Grid colors are systematically transformed according to a color mapping rule",
+            "Movement": "Objects or pixels are spatially repositioned while preserving their properties", 
+            "Geometry": "The grid undergoes a geometric transformation like rotation, reflection, or scaling",
+            "Object": "Discrete objects are modified, merged, split, or duplicated",
+            "Number": "The transformation follows a numerical pattern based on counts or arithmetic",
+            "Commonsense": "The transformation applies logical reasoning or pattern completion"
+        }
+        
+        return {
+            "description": descriptions[category],
+            "category": category,
+            "confidence": 0.4,
+            "evidence": f"Fallback hypothesis for {category} category",
+            "prior_probability": 0.08,
+            "source": f"fallback_{category.lower()}",
+            "test_code": self._generate_improved_test_code(descriptions[category], category)
+        }
